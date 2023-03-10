@@ -37,6 +37,7 @@ const NavWrap = styled.div`
   top: 0;
   background-color: wheat;
   opacity: 0.8;
+  z-index:5;
 `;
 
 const NavTitle = styled.div`

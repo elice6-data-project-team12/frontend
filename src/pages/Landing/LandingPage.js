@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BarChart from './components/BarChart';
 import Chart from './components/TwoChart';
 import { BarData } from './Data/data.js';
 import styled from 'styled-components';
 import DoughnutChart from './components/DoughnutChart';
+import useScrollFadeIn from '../../hooks/useScrollFadeIn.js';
 
 const LandingPage = () => {
   const [fakeData, setFakeData] = useState({
@@ -25,6 +26,12 @@ const LandingPage = () => {
     ],
   });
 
+  const animatedItem = {
+    0: useScrollFadeIn('up', 1, 0),
+    1: useScrollFadeIn('up', 1, 0.2),
+    2: useScrollFadeIn('up', 1, 0.3),
+  };
+
   return (
     <Wrap>
       <ContentWrap>
@@ -36,7 +43,7 @@ const LandingPage = () => {
             </h1>
             <p>1인가구 증가~ 외로움 증가</p>
           </Title>
-          <ChartWrap>
+          <ChartWrap {...animatedItem[0]}>
             <div>
               <BarChart chartData={fakeData} />
             </div>
@@ -50,7 +57,7 @@ const LandingPage = () => {
             <h1 className="title-header">특히 높은 중~장년층 세대의 비율</h1>
             <p>사회적 접촉이 40대 이후 지속적 감소~~~ 해결책~~~~ </p>
           </Title>
-          <div className="content-chart-age">
+          <div className="content-chart-age" {...animatedItem[1]}>
             <Chart />
           </div>
         </Content>
@@ -102,6 +109,7 @@ const Content = styled.div`
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+    opacity: 0;
   }
 `;
 
