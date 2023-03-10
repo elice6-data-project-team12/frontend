@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import NavTitleIcon from './images/navTitle.png';
 
 const Nav = () => {
   return (
     <NavWrap>
       <NavTitle>
         <span>HYODORI</span>
+        <img src={NavTitleIcon} alt="NavTitle" />
       </NavTitle>
       <NavItems>
         <NavItem>
@@ -31,6 +33,10 @@ const NavWrap = styled.div`
   border-bottom: 10px solid #f2be5b;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  top: 0;
+  background-color: wheat;
+  opacity: 0.8;
 `;
 
 const NavTitle = styled.div`
@@ -38,9 +44,19 @@ const NavTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   span {
     font-size: 30px;
     font-weight: 700;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    position: absolute;
+    right: 10%;
+    top: 10%;
   }
 `;
 
@@ -59,7 +75,7 @@ const NavItem = styled.div`
 
 const Item = styled.span`
   font-size: 20px;
-  font-weight:700
-`
+  font-weight: 700;
+`;
 
 export default Nav;
