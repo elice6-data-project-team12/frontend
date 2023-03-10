@@ -146,15 +146,13 @@ const options = {
 
 const Chart = () => {
   return (
-    <Container>
-      <Line type="line" data={data} options={options} />
-    </Container>
+    // <Container>
+    <Line type="line" data={data} options={options} />
   );
 };
 
 export default Chart;
 
-const Container = styled.div`
-  width: 90vw;
-  max-width: 900px;
-`;
+// const Container = styled.div`
+//   width: 90vw;
+// `;
