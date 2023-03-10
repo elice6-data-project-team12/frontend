@@ -3,6 +3,7 @@ import BarChart from './components/BarChart';
 import Chart from './components/TwoChart';
 import { BarData } from './Data/data.js';
 import styled from 'styled-components';
+import DoughnutChart from './components/DoughnutChart';
 
 const LandingPage = () => {
   const [fakeData, setFakeData] = useState({
@@ -36,7 +37,7 @@ const LandingPage = () => {
               <BarChart chartData={fakeData} />
             </div>
             <div>
-              <BarChart chartData={fakeData} />
+              <DoughnutChart />
             </div>
           </ChartWrap>
         </Content>
