@@ -6,7 +6,8 @@ const Footer = () => {
 
 const Wrap = styled.div`
   height: 20%;
-  background-color: #f2be5b;
+  background-color: #4f4b4b;
+  opacity: 0.9;
 `;
 
 export default Footer;
