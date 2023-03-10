@@ -28,9 +28,13 @@ const LandingPage = () => {
   return (
     <Wrap>
       <ContentWrap>
+        <Block />
         <Content>
           <Title>
-            <span>1인가구 증가로 인해 심화되는 사회적 고립</span>
+            <h1 className="title-header">
+              1인가구 증가로 인해 심화되는 사회적 고립
+            </h1>
+            <p>1인가구 증가~ 외로움 증가</p>
           </Title>
           <ChartWrap>
             <div>
@@ -43,7 +47,8 @@ const LandingPage = () => {
         </Content>
         <Content>
           <Title>
-            <span>특히 높은 중~장년층 세대의 비율</span>
+            <h1 className="title-header">특히 높은 중~장년층 세대의 비율</h1>
+            <p>사회적 접촉이 40대 이후 지속적 감소~~~ 해결책~~~~ </p>
           </Title>
           <div className="content-chart-age">
             <Chart />
@@ -51,7 +56,9 @@ const LandingPage = () => {
         </Content>
         <Content>
           <Title>
-            <span>이제,부모님이 외롭지 않게 도와주세요.</span>
+            <h1 className="title-header">
+              이제,부모님이 외롭지 않게 도와주세요.
+            </h1>
             <p>중장년층을 위한 문화여가시설 지도를 통해 외출을 장려하고</p>
             <p>커뮤니케이션을 통해 정보를 공유하세요!</p>
           </Title>
@@ -70,11 +77,16 @@ const LandingPage = () => {
 const Wrap = styled.div`
   height: 300vh;
   width: 100%;
-  border: 1px solid red;
+`;
+
+const Block = styled.div`
+  height: 5%;
+  width: 100%;
 `;
 
 const ContentWrap = styled.div`
-  height: 90%;
+  display: block;
+  height: 100%;
 `;
 
 const Content = styled.div`
@@ -84,26 +96,31 @@ const Content = styled.div`
   justify-content: center;
 
   .content-chart-age {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    margin: 0 auto;
   }
 `;
 
 const Title = styled.div`
   height: 30%;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .title-header {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 5%;
+  }
 `;
 
 const ChartWrap = styled.div`
   height: 70%;
-  border: 1px dotted red;
   display: flex;
   align-items: center;
 
@@ -126,13 +143,11 @@ const ChartWrap = styled.div`
 `;
 
 const ImgWrap = styled.div`
-  height: 70%;
-  border: 1px dotted red;
+  height: 40%;
   display: flex;
   justify-content: center;
   background-image: url('images/MaskGroup.png');
   background-size: 100% 100%;
-  opacity: 0.7;
 
   div {
     display: flex;
@@ -143,13 +158,29 @@ const ImgWrap = styled.div`
 `;
 
 const Btn = styled.button`
-  height: 40px;
-  width: 200px;
-  background-color: #f2be5b;
+  margin: 0;
   border: none;
-  border-radius: 10px;
-  margin: 50px;
-  z-index: 5;
-  opacity: 1;
+  cursor: pointer;
+  width: 300px;
+  margin-bottom: 100px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: var(--button-font-size, 1rem);
+  padding: var(--button-padding, 12px 16px);
+  border-radius: var(--button-radius, 8px);
+  background: var(--button-bg-color, #f2be5b);
+  color: var(--button-color, black);
+  font-weight: 700;
+
+  &:active,
+  &:hover,
+  &:focus {
+    background: var(--button-hover-bg-color, #bc8721);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+    background: var(--button-bg-color, #bc8721);
+  }
 `;
 export default LandingPage;
