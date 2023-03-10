@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
   body{
+    height:100%;
   }
 `;
 

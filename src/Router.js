@@ -1,19 +1,22 @@
-import { Provider } from "react-redux";
-import store from './store.js'
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './layout/Header';
-
-function Router(){
-    return (
-          <Provider store={store}>
-            <Header />
-            {/* <BrowserRouter>
-              <Routes>
-                <Route path="/" element={< />} />
-              </Routes>
-            </BrowserRouter> */}
-          </Provider>
-    )
+import { Provider } from 'react-redux';
+import store from './store.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Nav from './layout/Nav.js';
+import Landing from './pages/Landing/LandingPage';
+import Chart from './pages/Landing/components/TwoChart.js';
+import Footer from './layout/Footer.js';
+function Router() {
+  return (
+    <Provider store={store}>
+      <Nav />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+        </Routes>
+      </BrowserRouter>
+      <Footer />
+    </Provider>
+  );
 }
 
 export default Router;
