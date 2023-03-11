@@ -56,15 +56,16 @@ const Header = styled.div`
 const MapWrap = styled.div`
   height: 70%;
   border: 5px solid orange;
+  padding: 20px;
   display: flex;
 `;
 const MapInfo = styled.div`
-  width: 30%;
+  width: 40%;
   border: 5px solid blue;
 `;
 
 const Map = styled.div`
-  width: 70%;
+  width: 60%;
   border: 5px solid green;
   display: flex;
 `;
