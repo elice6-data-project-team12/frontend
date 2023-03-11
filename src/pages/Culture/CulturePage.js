@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import CultureMap from './components/CultureMap';
 const CulturePage = () => {
   return (
     <Wrap>
@@ -13,7 +13,9 @@ const CulturePage = () => {
       </Header>
       <MapWrap>
         <MapInfo></MapInfo>
-        <Map></Map>
+        <Map>
+          <CultureMap />
+        </Map>
       </MapWrap>
     </Wrap>
   );
@@ -54,7 +56,7 @@ const Header = styled.div`
 const MapWrap = styled.div`
   height: 70%;
   border: 5px solid orange;
-  display:flex;
+  display: flex;
 `;
 const MapInfo = styled.div`
   width: 30%;
@@ -64,7 +66,7 @@ const MapInfo = styled.div`
 const Map = styled.div`
   width: 70%;
   border: 5px solid green;
-  display:flex;
+  display: flex;
 `;
 
 const Block = styled.div`
