@@ -1,26 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
 import NavTitleIcon from './images/navTitle.png';
+import { NavLink } from 'react-router-dom';
 
 const Nav = () => {
   return (
     <NavWrap>
       <NavTitle>
-        <span>HYODORI</span>
+        <NavLink to="/">
+          <Link>HYODORI</Link>
+        </NavLink>
         <img src={NavTitleIcon} alt="NavTitle" />
       </NavTitle>
       <NavItems>
         <NavItem>
-          <Item>소개</Item>
+          <NavLink to="/">
+            <Link>소개</Link>
+          </NavLink>
         </NavItem>
         <NavItem>
-          <Item>문화여가시설찾기</Item>
+          <NavLink to="culutre">
+            <Link>문화여가시설 찾기</Link>
+          </NavLink>
         </NavItem>
         <NavItem>
-          <Item>효도채널</Item>
+          <NavLink to="/">
+            <Link>효도채널</Link>
+          </NavLink>
         </NavItem>
         <NavItem>
-          <Item>사람</Item>
+          <NavLink to="/">
+            <Link>효도채널</Link>
+          </NavLink>
         </NavItem>
       </NavItems>
     </NavWrap>
@@ -37,7 +48,7 @@ const NavWrap = styled.div`
   top: 0;
   background-color: wheat;
   opacity: 0.8;
-  z-index:5;
+  z-index: 5;
 `;
 
 const NavTitle = styled.div`
@@ -74,9 +85,16 @@ const NavItem = styled.div`
   align-items: center;
 `;
 
-const Item = styled.span`
-  font-size: 20px;
-  font-weight: 700;
+const Link = styled.span`
+  font-weight: bold;
+  padding: 4px 8px;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    color: #f2be5b;
+  }
 `;
 
 export default Nav;

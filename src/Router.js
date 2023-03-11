@@ -7,10 +7,11 @@ import Footer from './layout/Footer.js';
 function Router() {
   return (
     <Provider store={store}>
-      <Nav />
       <BrowserRouter>
+        <Nav />
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/culutre" element={<div>문화</div>} />
         </Routes>
       </BrowserRouter>
       <Footer />
