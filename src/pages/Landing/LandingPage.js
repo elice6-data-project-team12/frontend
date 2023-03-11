@@ -67,6 +67,8 @@ const LandingPage = () => {
 const Wrap = styled.div`
   height: 300vh;
   width: 100%;
+  min-height: 100%;
+  padding-bottom: 10%;
 `;
 
 const Block = styled.div`
