@@ -19,7 +19,7 @@ const Nav = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="culutre">
+          <NavLink to="culture">
             <Link>문화여가시설 찾기</Link>
           </NavLink>
         </NavItem>
