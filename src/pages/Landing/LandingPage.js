@@ -1,31 +1,11 @@
 import { useState, useEffect } from 'react';
-import BarChart from './components/BarChart';
-import Chart from './components/TwoChart';
-import { BarData } from './Data/data.js';
+import BarChart from './components/charts/BarChart';
+import TwoChart from './components/charts/TwoChart';
 import styled from 'styled-components';
-import DoughnutChart from './components/DoughnutChart';
+import DoughnutChart from './components/charts/DoughnutChart';
 import useScrollFadeIn from '../../hooks/useScrollFadeIn.js';
 
 const LandingPage = () => {
-  const [fakeData, setFakeData] = useState({
-    labels: BarData.map(data => data.year),
-    datasets: [
-      {
-        label: 'Users Gained',
-        data: BarData.map(data => data.userGain),
-        backgroundColor: [
-          'rgba(75,192,192,1)',
-          '#ecf0f1',
-          '#50AF95',
-          '#f3ba2f',
-          '#2a71d0',
-        ],
-        borderColor: 'black',
-        borderWidth: 2,
-      },
-    ],
-  });
-
   const animatedItem = {
     0: useScrollFadeIn('up', 1, 0),
     1: useScrollFadeIn('up', 1, 0.2),
@@ -45,7 +25,7 @@ const LandingPage = () => {
           </Title>
           <ChartWrap {...animatedItem[0]}>
             <div>
-              <BarChart chartData={fakeData} />
+              <BarChart />
             </div>
             <div>
               <DoughnutChart />
@@ -58,7 +38,7 @@ const LandingPage = () => {
             <p>사회적 접촉이 40대 이후 지속적 감소~~~ 해결책~~~~ </p>
           </Title>
           <div className="content-chart-age" {...animatedItem[1]}>
-            <Chart />
+            <TwoChart />
           </div>
         </Content>
         <Content>
@@ -66,8 +46,11 @@ const LandingPage = () => {
             <h1 className="title-header">
               이제,부모님이 외롭지 않게 도와주세요.
             </h1>
-            <p>중장년층을 위한 문화여가시설 지도를 통해 외출을 장려하고</p>
-            <p>커뮤니케이션을 통해 정보를 공유하세요!</p>
+            <p>
+              중장년층을 위한 문화여가시설 지도를 통해 외출을 장려하고
+              <br />
+              커뮤니케이션을 통해 정보를 공유하세요!
+            </p>
           </Title>
           <ImgWrap>
             <div>
@@ -146,6 +129,9 @@ const ChartWrap = styled.div`
     &:nth-child(2) {
       background-color: #d9d9d9;
       border-top-right-radius: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 `;

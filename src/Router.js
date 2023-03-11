@@ -3,7 +3,6 @@ import store from './store.js';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Nav from './layout/Nav.js';
 import Landing from './pages/Landing/LandingPage';
-import Chart from './pages/Landing/components/TwoChart.js';
 import Footer from './layout/Footer.js';
 function Router() {
   return (
