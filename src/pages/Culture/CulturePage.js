@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const CulturePage = () => {
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
   const selectList = [
     '문화원',
     '공연장',
@@ -18,7 +20,7 @@ const CulturePage = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8000/DATA')
+      .get(`${SERVER_URL}/DATA`)
       .then(Response => {
         setMapData(Response.data);
       })
@@ -30,6 +32,7 @@ const CulturePage = () => {
   const handleSelect = e => {
     setSelected(e.target.value);
   };
+
   return (
     <Wrap>
       <Block />

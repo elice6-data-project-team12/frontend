@@ -137,4 +137,4 @@ dist
 .DS_Store
 
 # json-server 버전관리에서 제외
-.db.json
+db.json
