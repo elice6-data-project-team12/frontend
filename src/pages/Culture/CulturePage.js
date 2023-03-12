@@ -1,6 +1,35 @@
 import styled from 'styled-components';
 import CultureMap from './components/CultureMap';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 const CulturePage = () => {
+  const selectList = [
+    '문화원',
+    '공연장',
+    '도서관',
+    '문화예술회관',
+    '미술관',
+    '박물관/기념관',
+    '기타',
+  ];
+  const [selected, setSelected] = useState('');
+  const [mapData, setMapData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8000/DATA')
+      .then(Response => {
+        setMapData(Response.data);
+      })
+      .catch(Error => {
+        console.log(Error);
+      });
+  }, []);
+
+  const handleSelect = e => {
+    setSelected(e.target.value);
+  };
   return (
     <Wrap>
       <Block />
@@ -12,9 +41,25 @@ const CulturePage = () => {
         </p>
       </Header>
       <MapWrap>
-        <MapInfo></MapInfo>
+        <MapInfo>
+          <Filter>
+            <div className="filter-addr">
+              <select onChange={handleSelect} value={selected}>
+                {selectList.map(item => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              <hr />
+              <p>
+                Selected: <b>{selected}</b>
+              </p>
+            </div>
+          </Filter>
+        </MapInfo>
         <Map>
-          <CultureMap />
+          <CultureMap mapData={mapData} selected={selected} />
         </Map>
       </MapWrap>
     </Wrap>
@@ -62,6 +107,19 @@ const MapWrap = styled.div`
 const MapInfo = styled.div`
   width: 40%;
   border: 5px solid blue;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const Filter = styled.div`
+  width: 70%;
+  height: 100%;
+  border: 2px dotted purple;
+
+  .filter-addr {
+    width: 70%;
+    height: 100%;
+  }
 `;
 
 const Map = styled.div`

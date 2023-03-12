@@ -1,28 +1,12 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { Map, MapMarker, useMap } from 'react-kakao-maps-sdk';
 
-import axios from 'axios';
-
-const CultureMap = () => {
-  const [mapData, setMapData] = useState([]);
-  // 인포윈도우 Open 여부를 저장하는 state 입니다.
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:8000/DATA')
-      .then(Response => {
-        setMapData(Response.data);
-      })
-      .catch(Error => {
-        console.log(Error);
-      });
-  }, []);
+const CultureMap = ({ mapData, selected }) => {
+  const [filter, setFilter] = useState([]);
 
   const EventMarkerContainer = ({ position, content }) => {
     const map = useMap();
     const [isVisible, setIsVisible] = useState(false);
-    console.log(mapData);
     return (
       <MapMarker
         position={position} // 마커를 표시할 위치
@@ -35,6 +19,12 @@ const CultureMap = () => {
       </MapMarker>
     );
   };
+  useEffect(() => {
+    const newArr = [...mapData];
+    const x = newArr.filter(data => data.subjcode === selected);
+
+    setFilter(x);
+  }, [selected]);
 
   return (
     <Map // 지도를 표시할 Container
@@ -45,12 +35,12 @@ const CultureMap = () => {
       }}
       style={{
         // 지도의 크기
-        width: '100%',
-        height: '450px',
+        width: '70%',
+        height: '100%',
       }}
       level={8} // 지도의 확대 레벨
     >
-      {mapData.map(value => (
+      {filter.map(value => (
         <EventMarkerContainer
           key={`EventMarkerContainer-${value.x_coord}-${value.y_coord}`}
           position={{ lat: value.x_coord, lng: value.y_coord }}
