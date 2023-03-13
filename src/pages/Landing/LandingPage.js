@@ -65,7 +65,7 @@ const LandingPage = () => {
 };
 
 const Wrap = styled.div`
-  height: 300vh;
+  height: 3000px;
   width: 100%;
   min-height: 100%;
   padding-bottom: 10%;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Line } from 'react-chartjs-2';
-import { outing, communication } from '../../Data/chartData';
+import { outing, communication } from 'pages/Landing/Data/chartData.js';
 
 const data = {
   labels: outing.map(data => data.age + '대'),
@@ -55,12 +55,12 @@ const options = {
       usePointStyle: true,
       filter: item => item.parsed.y !== null,
       callbacks: {
-        title: context => context[0].label + '💙',
+        title: context => `${context[0].label}💙`,
         label: context => {
-          let label = context.dataset.label + '' || '';
+          let label = `${context.dataset.label}||`;
 
           return context.parsed.y !== null
-            ? label + ': ' + context.parsed.y + '배'
+            ? `${label}: ${context.parsed.y}'배'`
             : null;
         },
       },
@@ -74,7 +74,7 @@ const options = {
         const newTicks = ticks.map(tick => {
           return {
             ...tick,
-            label: tick.label + '🎵',
+            label: `${tick.label}🎵`,
           };
         });
 

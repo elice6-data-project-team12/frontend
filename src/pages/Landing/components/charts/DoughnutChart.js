@@ -1,9 +1,28 @@
 import { Doughnut } from 'react-chartjs-2';
-import { useState } from 'react';
-import { outing } from '../../Data/chartData';
+import { useEffect, useState } from 'react';
+import { outing } from 'pages/Landing/Data/chartData.js';
 const DoughnutChart = () => {
-  const [chartData, setChartDate] = useState({
-    labels: outing.map(data => data.age),
+  const [chartData, setChartData] = useState(getChartData(outing));
+
+  return (
+    <Doughnut
+      options={{
+        legend: {
+          display: true,
+          position: 'left',
+        },
+      }}
+      data={chartData}
+      height={120}
+    />
+  );
+};
+
+export default DoughnutChart;
+
+export const getChartData = datas => {
+  return {
+    labels: datas.map(data => data.age),
     datasets: [
       {
         label: 'Test',
@@ -24,20 +43,5 @@ const DoughnutChart = () => {
         fill: true,
       },
     ],
-  });
-
-  return (
-    <Doughnut
-      options={{
-        legend: {
-          display: true,
-          position: 'left',
-        },
-      }}
-      data={chartData}
-      height={120}
-    />
-  );
+  };
 };
-
-export default DoughnutChart;
