@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import CultureMap from './components/CultureMap';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const CulturePage = () => {
   const selectList = [
@@ -13,8 +13,6 @@ const CulturePage = () => {
     '기타',
   ];
   const [selected, setSelected] = useState('');
-  const [mapData, setMapData] = useState([]);
-
 
   const handleSelect = e => {
     setSelected(e.target.value);
@@ -49,7 +47,7 @@ const CulturePage = () => {
           </Filter>
         </MapInfo>
         <Map>
-          <CultureMap mapData={mapData} selected={selected} />
+          <CultureMap selected={selected} />
         </Map>
       </MapWrap>
     </Wrap>

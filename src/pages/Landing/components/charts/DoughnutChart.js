@@ -2,7 +2,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
 import { outing } from 'pages/Landing/Data/chartData.js';
 const DoughnutChart = () => {
-  const [chartData, setChartData] = useState(getChartData(outing));
+  const [chartData, setChartData] = useState({});
 
   return (
     <Doughnut

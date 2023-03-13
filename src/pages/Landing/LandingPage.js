@@ -4,7 +4,7 @@ import TwoChart from './components/charts/TwoChart';
 import styled from 'styled-components';
 import DoughnutChart from './components/charts/DoughnutChart';
 import useScrollFadeIn from '../../hooks/useScrollFadeIn.js';
-
+import MapChart from './components/charts/MapChart';
 const LandingPage = () => {
   const animatedItem = {
     0: useScrollFadeIn('up', 1, 0),
@@ -24,11 +24,11 @@ const LandingPage = () => {
             <p>1인가구 증가~ 외로움 증가</p>
           </Title>
           <ChartWrap {...animatedItem[0]}>
-            <div>
+            <div className="bar-wrap">
               <BarChart />
             </div>
-            <div>
-              <DoughnutChart />
+            <div className="map-wrap">
+              <MapChart />
             </div>
           </ChartWrap>
         </Content>
@@ -117,16 +117,15 @@ const ChartWrap = styled.div`
   display: flex;
   align-items: center;
 
-  div {
-    height: 80%;
+  .bar-wrap,
+  .map-wrap {
+    height:100%;
     width: 50%;
     display: flex;
     align-items: center;
     padding: 5%;
 
     &:nth-child(1) {
-      background-color: #f16565;
-      border-bottom-left-radius: 20%;
     }
     &:nth-child(2) {
       background-color: #d9d9d9;
