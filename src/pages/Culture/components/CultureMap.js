@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react';
 import { Map, MapMarker, useMap } from 'react-kakao-maps-sdk';
-
-const CultureMap = ({ mapData, selected }) => {
+import { useSelector, useDispatch } from 'react-redux';
+import { updateData } from 'store';
+import API from 'API.js';
+const CultureMap = ({ selected }) => {
   const [filter, setFilter] = useState([]);
+  const dispatch = useDispatch();
+  const mapData = useSelector(state => {
+    return state;
+  });
 
-  const EventMarkerContainer = ({ position, content }) => {
-    const map = useMap();
-    const [isVisible, setIsVisible] = useState(false);
-    return (
-      <MapMarker
-        position={position} // 마커를 표시할 위치
-        // @ts-ignore
-        onClick={marker => map.panTo(marker.getPosition())}
-        onMouseOver={() => setIsVisible(true)}
-        onMouseOut={() => setIsVisible(false)}
-      >
-        {isVisible && content}
-      </MapMarker>
-    );
-  };
   useEffect(() => {
-    const newArr = [...mapData];
-    const x = newArr.filter(data => data.subjcode === selected);
+    API.get('/DATA')
+      .then(Response => {
+        dispatch(updateData(Response.data));
+      })
+      .catch(Error => {
+        console.log(Error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const x = mapData.cultureSpace.filter(data => data.subjcode === selected);
 
     setFilter(x);
   }, [selected]);
@@ -48,6 +48,21 @@ const CultureMap = ({ mapData, selected }) => {
         />
       ))}
     </Map>
+  );
+};
+
+export const EventMarkerContainer = ({ position, content }) => {
+  const map = useMap();
+  const [isVisible, setIsVisible] = useState(false);
+  return (
+    <MapMarker
+      position={position} // 마커를 표시할 위치
+      onClick={marker => map.panTo(marker.getPosition())}
+      onMouseOver={() => setIsVisible(true)}
+      onMouseOut={() => setIsVisible(false)}
+    >
+      {isVisible && content}
+    </MapMarker>
   );
 };
 
