@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import CultureMap from './components/CultureMap';
 import { useState } from 'react';
-
+import { seoul } from 'pages/Landing/Data/map/valueData';
 const CulturePage = () => {
+
+  // 주제 분류 리스트
   const selectList = [
     '문화원',
     '공연장',
@@ -12,10 +14,61 @@ const CulturePage = () => {
     '박물관/기념관',
     '기타',
   ];
+
+  // 서울 자치구 리스트
+  const addrList = seoul.map(data => data.name);
+
   const [selected, setSelected] = useState('');
 
-  const handleSelect = e => {
-    setSelected(e.target.value);
+  // filter 적용할 객체 state
+  const [filterObj, setFilterObj] = useState({
+    reset: false,
+    all: false,
+    filterState: {
+      addr: '',
+      subject: '',
+    },
+  });
+  // select 필터 함수
+  const handleFilterSelect = e => {
+    const name = e.target.value;
+    const tag = e.target.id;
+    setSelected(name);
+    e.preventDefault();
+    return setFilterObj({
+      reset: false,
+      all: false,
+      filterState: {
+        ...filterObj.filterState,
+        [tag]: name,
+      },
+    });
+  };
+
+  // 초기화 필터 버튼 함수
+  const handleFilterReset = e => {
+    e.preventDefault();
+    return setFilterObj({
+      reset: true,
+      all: false,
+      filterState: {
+        addr: '',
+        subject: '',
+      },
+    });
+  };
+
+  //전체보기 필터 버튼 함수
+  const handleFilterShowAll = e => {
+    e.preventDefault();
+    return setFilterObj({
+      reset: false,
+      all: true,
+      filterState: {
+        addr: '',
+        subject: '',
+      },
+    });
   };
 
   return (
@@ -31,8 +84,8 @@ const CulturePage = () => {
       <MapWrap>
         <MapInfo>
           <Filter>
-            <div className="filter-addr">
-              <select onChange={handleSelect} value={selected}>
+            <div className="filter-subject">
+              <select id="subject" onChange={handleFilterSelect} value={selected}>
                 {selectList.map(item => (
                   <option value={item} key={item}>
                     {item}
@@ -40,14 +93,31 @@ const CulturePage = () => {
                 ))}
               </select>
               <hr />
-              <p>
-                Selected: <b>{selected}</b>
-              </p>
             </div>
+            <div className="filter-subject">
+              <select
+                id="addr" 
+                onChange={handleFilterSelect}
+                value={selected}
+              >
+                {addrList.map(item => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              <hr />
+            </div>
+            <button id="all" onMouseDown={handleFilterShowAll}>
+              전체보기
+            </button>
+            <button id="reset" onMouseDown={handleFilterReset}>
+              초기화
+            </button>
           </Filter>
         </MapInfo>
         <Map>
-          <CultureMap selected={selected} />
+          <CultureMap filterObj={filterObj} />
         </Map>
       </MapWrap>
     </Wrap>
@@ -104,9 +174,9 @@ const Filter = styled.div`
   height: 100%;
   border: 2px dotted purple;
 
-  .filter-addr {
+  .filter-subject {
     width: 70%;
-    height: 100%;
+    height: 70px;
   }
 `;
 
