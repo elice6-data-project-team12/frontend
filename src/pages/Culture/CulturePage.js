@@ -2,8 +2,17 @@ import styled from 'styled-components';
 import CultureMap from './components/CultureMap';
 import { useState } from 'react';
 import { seoul } from 'pages/Landing/Data/map/valueData';
-const CulturePage = () => {
+import {
+  ico_picker01_on,
+  ico_picker02_on,
+  ico_picker03_on,
+  ico_picker04_on,
+  ico_picker05_on,
+  ico_picker06_on,
+  ico_picker07_on,
+} from 'assets/images/index.js';
 
+const CulturePage = () => {
   // 주제 분류 리스트
   const selectList = [
     '문화원',
@@ -15,10 +24,20 @@ const CulturePage = () => {
     '기타',
   ];
 
-  // 서울 자치구 리스트
   const addrList = seoul.map(data => data.name);
 
   const [selected, setSelected] = useState('');
+
+  // 지도 아이콘
+  const [icons, setIcons] = useState([
+    { img: ico_picker01_on, value: '공연장' },
+    { img: ico_picker02_on, value: '미술관' },
+    { img: ico_picker03_on, value: '박물관/기념관' },
+    { img: ico_picker04_on, value: '도서관' },
+    { img: ico_picker05_on, value: '문화예술회관' },
+    { img: ico_picker06_on, value: '문화원' },
+    { img: ico_picker07_on, value: '기타' },
+  ]);
 
   // filter 적용할 객체 state
   const [filterObj, setFilterObj] = useState({
@@ -85,7 +104,11 @@ const CulturePage = () => {
         <MapInfo>
           <Filter>
             <div className="filter-subject">
-              <select id="subject" onChange={handleFilterSelect} value={selected}>
+              <select
+                id="subject"
+                onChange={handleFilterSelect}
+                value={selected}
+              >
                 {selectList.map(item => (
                   <option value={item} key={item}>
                     {item}
@@ -95,11 +118,7 @@ const CulturePage = () => {
               <hr />
             </div>
             <div className="filter-subject">
-              <select
-                id="addr" 
-                onChange={handleFilterSelect}
-                value={selected}
-              >
+              <select id="addr" onChange={handleFilterSelect} value={selected}>
                 {addrList.map(item => (
                   <option value={item} key={item}>
                     {item}
@@ -111,9 +130,19 @@ const CulturePage = () => {
             <button id="all" onMouseDown={handleFilterShowAll}>
               전체보기
             </button>
+            <hr />
+            <input placeholder="이름 검색" />
             <button id="reset" onMouseDown={handleFilterReset}>
               초기화
             </button>
+            <IconWrap>
+              {icons.map(i => (
+                <div className="icon" key={i.value}>
+                  <img src={i.img} alt={i.value} />
+                  <span className="icon-title">{i.value}</span>
+                </div>
+              ))}
+            </IconWrap>
           </Filter>
         </MapInfo>
         <Map>
@@ -177,6 +206,28 @@ const Filter = styled.div`
   .filter-subject {
     width: 70%;
     height: 70px;
+  }
+`;
+const IconWrap = styled.div`
+  height: 283px;
+  width: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  .icon {
+    height: 100px;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .icon-title {
+      margin-top: 10px;
+      font-size: 10px;
+      font-weight: 700;
+    }
   }
 `;
 
