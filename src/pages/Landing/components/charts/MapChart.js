@@ -26,7 +26,6 @@ const MapChart = () => {
 
   const [modal, setModal] = useState('none');
   // 모달종류 : pw, chk, deny, pw_delete, pw_update, none
-  console.log(seoulMap);
 
   return <Map currentState={currentState} />;
 };
