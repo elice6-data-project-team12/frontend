@@ -232,7 +232,7 @@ const IconWrap = styled.div`
 `;
 
 const Map = styled.div`
-  width: 60%;
+  width: 100%;
   border: 5px solid green;
   display: flex;
 `;
