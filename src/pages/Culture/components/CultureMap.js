@@ -2,6 +2,17 @@ import { useEffect, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import API from 'API.js';
 import styled from 'styled-components';
+
+// MUI icons
+import SvgIcon from '@mui/material/SvgIcon';
+import { SvgIconComponent } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
+import CallIcon from '@mui/icons-material/Call';
+import HomeIcon from '@mui/icons-material/Home';
+import MapIcon from '@mui/icons-material/Map';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+
 const CultureMap = ({ filterObj, icons }) => {
   const [list, setList] = useState([]); // 원본데이터 저장할 state
   const [filteredList, setFilteredList] = useState([]); // filter 적용된 리스트 state
@@ -85,6 +96,7 @@ const CultureMap = ({ filterObj, icons }) => {
           name={value.fac_name}
           addr={value.addr}
           phone={value.phne}
+          homepage={value.homepage}
           icons={icons}
           onClick={() => setSeleteMarker(idx)}
           subject={value.subjcode}
@@ -105,6 +117,7 @@ export const EventMarkerContainer = ({
   subject,
   name,
   addr,
+  homepage,
   phone,
   onClick,
   isClicked,
@@ -144,15 +157,40 @@ export const EventMarkerContainer = ({
     >
       {isClicked && isOpen && (
         <CustomOverlayWrap>
-          <div className="info">
-            <div className="close" onClick={() => setIsOpen(false)}>
-              닫기
+          <div className="header">
+            <div className="title">
+              <span>{name}</span>
             </div>
-            <div className="title">{name}</div>
-            <div className="body">
-              <div className="desc">
-                <div className="ellipsis">{addr}</div>
-                <div className="phone">{phone}</div>
+            <div className="close" onClick={() => setIsOpen(false)}>
+              <CloseIcon sx={{ fontSize: 15 }} style={{ cursor: 'pointer' }} />
+            </div>
+          </div>
+
+          <div className="body">
+            <div className="desc">
+              <div className="desc-icon">
+                <ReadMoreIcon sx={{ fontSize: 15 }} color="action" />
+                <span>상세보기</span>
+              </div>
+              <div className="desc-icon">
+                <MapIcon sx={{ fontSize: 15 }} color="action" />
+                <span>{addr}</span>
+              </div>
+              <div className="desc-icon">
+                <CallIcon sx={{ fontSize: 15 }} color="action" />
+                <span>{phone}</span>
+              </div>
+              <div className="desc-icon">
+                <a href={homepage}>
+                  <HomeIcon sx={{ fontSize: 15 }} color="action" />
+                  <span>공식 홈페이지</span>
+                </a>
+              </div>
+              <div className="desc-icon">
+                <a href={homepage}>
+                  <BookmarkIcon sx={{ fontSize: 15 }} color="action" />
+                  <span>저장하기</span>
+                </a>
               </div>
             </div>
           </div>
@@ -161,29 +199,57 @@ export const EventMarkerContainer = ({
     </MapMarker>
   );
 };
-
 const CustomOverlayWrap = styled.div`
-  height: 100px;
-  width: 200px;
-  padding: 16px 16px 16px 16px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 8px;
   position: relative;
+  padding: 10px;
+  .header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .title {
     font-size: 15px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    span {
+      vertical-align: middle;
+    }
+    /* display: flex;
+    flex-wrap: nowrap; */
   }
 
   .close {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+    align-self: flex-end;
   }
 
-  .ellipsis {
-    padding: 10px 0;
+  .desc-icon {
+    height: 20px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    span {
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+    }
   }
 `;
 export default CultureMap;
