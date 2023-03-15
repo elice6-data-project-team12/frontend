@@ -28,7 +28,7 @@ const CulturePage = () => {
 
   const [selected, setSelected] = useState('');
 
-  // 지도 아이콘
+  // 지도 아이콘 state
   const [icons, setIcons] = useState([
     { img: ico_picker01_on, value: '공연장' },
     { img: ico_picker02_on, value: '미술관' },
@@ -48,7 +48,7 @@ const CulturePage = () => {
       subject: '',
     },
   });
-  // select 필터 함수
+  // 필터 정보 저장 함수 (select)
   const handleFilterSelect = e => {
     const name = e.target.value;
     const tag = e.target.id;
@@ -64,7 +64,7 @@ const CulturePage = () => {
     });
   };
 
-  // 초기화 필터 버튼 함수
+  // 필터 정보 저장 함수 (초기화 Btn)
   const handleFilterReset = e => {
     e.preventDefault();
     return setFilterObj({
@@ -77,7 +77,7 @@ const CulturePage = () => {
     });
   };
 
-  //전체보기 필터 버튼 함수
+  // 필터 정보 저장 함수 (전체보기 Btn)
   const handleFilterShowAll = e => {
     e.preventDefault();
     return setFilterObj({
@@ -146,7 +146,7 @@ const CulturePage = () => {
           </Filter>
         </MapInfo>
         <Map>
-          <CultureMap filterObj={filterObj} />
+          <CultureMap filterObj={filterObj} icons={icons} />
         </Map>
       </MapWrap>
     </Wrap>

@@ -1,26 +1,23 @@
 import { useEffect, useState } from 'react';
 import { Map, MapMarker, useMap } from 'react-kakao-maps-sdk';
 import API from 'API.js';
-const CultureMap = ({ filterObj }) => {
-  // 원본데이터 저장할 state
-  const [list, setList] = useState([]);
-  // filter 적용된 리스트 state
-  const [filteredList, setFilteredList] = useState([]);
+const CultureMap = ({ filterObj, icons }) => {
+  const [list, setList] = useState([]); // 원본데이터 저장할 state
+  const [filteredList, setFilteredList] = useState([]); // filter 적용된 리스트 state
 
-  //전체 데이터에 필터 걸기
   const filterData = () => {
     const { addr, subject } = filterObj.filterState;
     const { reset, all } = filterObj;
 
-    let x = [];
+    let filted = []; // 해당 필터에 따라 선택된 리스트들 저장
 
     // 전체보기
     if (all) {
-      x = [...list];
+      filted = [...list];
     }
     // 자치구(addr)만 보기
     else if (addr.length > 0 && !subject) {
-      x = [
+      filted = [
         ...list.filter(data => {
           // data.addr의 null 값처리
           if (data.addr) {
@@ -31,7 +28,7 @@ const CultureMap = ({ filterObj }) => {
     }
     // 주제분류(subject)만 보기
     else if (!addr && subject.length > 0) {
-      x = [
+      filted = [
         ...list.filter(data => {
           return data.subjcode === subject;
         }),
@@ -39,7 +36,7 @@ const CultureMap = ({ filterObj }) => {
     }
     // 자치구, 주제분류 합쳐서 보기
     else if (addr.length > 0 && subject.length > 0) {
-      x = [
+      filted = [
         ...list.filter(data => {
           // data.addr의 null 값처리
           if (data.addr) {
@@ -48,30 +45,25 @@ const CultureMap = ({ filterObj }) => {
         }),
       ];
     } else if (reset) {
-      x = [];
+      filted = [];
     }
 
-    return x;
+    return filted;
   };
 
-  // 원본 데이터 불러오기
   useEffect(() => {
     API.get('/DATA')
       .then(Response => {
-        setList(Response.data);
+        setList(Response.data); // 원본데이터 불러오기
       })
       .catch(Error => {
         console.log(Error);
       });
   }, []);
 
-  // 원본데이터에 필터링
   useEffect(() => {
-    setFilteredList(filterData);
+    setFilteredList(filterData); // 원본데이터에 필터링
   }, [filterObj]);
-
-  console.log(filterObj);
-  console.log(filteredList);
 
   return (
     <Map // 지도를 표시할 Container
@@ -89,6 +81,8 @@ const CultureMap = ({ filterObj }) => {
     >
       {filteredList.map(value => (
         <EventMarkerContainer
+          icons={icons}
+          subject={value.subjcode}
           key={`EventMarkerContainer-${value.num}`}
           position={{ lat: value.x_coord, lng: value.y_coord }}
           content={<div style={{ color: '#000' }}>{value.fac_name}</div>}
@@ -98,15 +92,38 @@ const CultureMap = ({ filterObj }) => {
   );
 };
 
-export const EventMarkerContainer = ({ position, content }) => {
-  const map = useMap();
+// 지도에 나타나는 marker 컴포넌트
+export const EventMarkerContainer = ({ position, content, icons, subject }) => {
+  const [iconImg, setIconImg] = useState('');
   const [isVisible, setIsVisible] = useState(false);
+
+  const map = useMap();
+
+  // 주제분류에 해당하는 아이콘 이미지 설정
+  const selectedIconImg = icons.find(data => data.value === subject);
+  useEffect(() => {
+    setIconImg(selectedIconImg.img);
+  }, []);
+
   return (
     <MapMarker
       position={position} // 마커를 표시할 위치
       onClick={marker => map.panTo(marker.getPosition())}
       onMouseOver={() => setIsVisible(true)}
       onMouseOut={() => setIsVisible(false)}
+      image={{
+        src: iconImg, // 마커이미지의 주소입니다
+        size: {
+          width: 20,
+          height: 20,
+        }, // 마커이미지의 크기입니다
+        options: {
+          offset: {
+            x: 12,
+            y: 69,
+          }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+        },
+      }}
     >
       {isVisible && content}
     </MapMarker>
