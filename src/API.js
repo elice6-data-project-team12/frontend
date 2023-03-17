@@ -1,9 +1,9 @@
 //API 인스턴스 작성
 
 import axios from 'axios';
-
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 const API = axios.create({
-  baseURL: '#',
+  baseURL: serverUrl,
 });
 
 API.interceptors.request.use(req => {

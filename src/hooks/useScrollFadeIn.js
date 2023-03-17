@@ -1,5 +1,16 @@
 import { useRef, useEffect, useCallback } from 'react';
 
+/**
+ * 스크롤 시 특정 방향에서 Fade In 하면서 나오는 애니메이션
+ * direction(string): 엘리먼트가 나오는 방향 (up, down, left, right) default value = 'up'
+ * duration(number): 애니메이션의 총 동작 시간. second 단위 default value = 1
+ * delay(number): 애니메이션 지연 시간. second 단위 default value = 0
+ *
+ * @example
+ * 컴포넌트가 아래에서 윗 방향으로 0초 후, 1초만에 이동함
+ * <Component {...useScrollFadeIn('up', 1, 0)} />
+ **/
+
 const useScrollFadeIn = (direction = 'up', duration = 1, delay = 0) => {
   const element = useRef();
 

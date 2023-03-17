@@ -5,7 +5,7 @@ const Footer = () => {
 };
 
 const Wrap = styled.div`
-  height: 10%;
+  height: 100px;
   background-color: #f2be5b;
   opacity: 0.9;
   position : relative;

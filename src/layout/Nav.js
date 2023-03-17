@@ -1,65 +1,119 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import PersonIcon from '@mui/icons-material/Person';
 import NavTitleIcon from './images/navTitle.png';
 import { NavLink } from 'react-router-dom';
 
-const Nav = () => {
+function Dropdown() {
   return (
-    <NavWrap>
-      <NavTitle>
-        <NavLink to="/">
-          <Link>HYODORI</Link>
-        </NavLink>
-        <img src={NavTitleIcon} alt="NavTitle" />
-      </NavTitle>
-      <NavItems>
-        <NavItem>
+    <DropdownBox className="dropMenu">
+      <NavLink to="/">
+        <li>효도챌린지</li>
+        <li>효도템</li>
+      </NavLink>
+    </DropdownBox>
+  );
+}
+
+const Nav = () => {
+  const [selectedId, setSelectedId] = useState('');
+  const [view, setView] = useState(false);
+
+  const menuClick = e => {
+    setSelectedId(e.target.id);
+  };
+
+  const menuDrop = e => {
+    setView(!view);
+  };
+
+  return (
+    <div>
+      <NavWrap>
+        <NavTitle>
           <NavLink to="/">
-            <Link>소개</Link>
+            <p
+              id="logo"
+              onClick={menuClick}
+            >
+              HYODORI
+            </p>
           </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink to="culture">
-            <Link>문화여가시설 찾기</Link>
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink to="/">
-            <Link>효도채널</Link>
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink to="/">
-            <Link>효도채널</Link>
-          </NavLink>
-        </NavItem>
-      </NavItems>
-    </NavWrap>
+          <img src={NavTitleIcon} alt="NavTitle" />
+        </NavTitle>
+        <NavItems>
+          <NavItem>
+            <NavLink to="/">
+              <Link
+                id="intro"
+                onClick={menuClick}
+                className={selectedId === 'intro' ? 'activated' : ''}
+              >
+                소개
+              </Link>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="culture">
+              <Link
+                id="find"
+                onClick={menuClick}
+                className={selectedId === 'find' ? 'activated' : ''}
+              >
+                문화여가시설 찾기
+              </Link>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/">
+              <Link
+                id="channel"
+                onClick={menuClick}
+                onMouseOver={menuDrop}
+                onMouseOut={menuDrop}
+                className={selectedId === 'channel' ? 'activated' : ''}
+              >
+                효도채널
+                {view && <Dropdown />}
+              </Link>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/">
+              <PersonIcon id="profile" onClick={menuClick} fontSize="large" />
+            </NavLink>
+          </NavItem>
+        </NavItems>
+      </NavWrap>
+    </div>
   );
 };
 
 const NavWrap = styled.div`
   width: 100%;
-  height: 10%;
-  border-bottom: 10px solid #f2be5b;
+  height: 15%;
   display: flex;
   justify-content: space-between;
   position: fixed;
   top: 0;
-  background-color: wheat;
+  background-color: lightgray;
   opacity: 0.8;
   z-index: 5;
+
+  .activated {
+    color: rgba(188, 135, 33, 1);
+  }
 `;
 
 const NavTitle = styled.div`
-  width: 10%;
+  width: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  span {
-    font-size: 30px;
-    font-weight: 700;
+  p {
+    font-size: 4.5vh;
+    font-weight: bold;
   }
 
   img {
@@ -68,7 +122,7 @@ const NavTitle = styled.div`
     object-fit: cover;
     position: absolute;
     right: 10%;
-    top: 10%;
+    top: 15%;
   }
 `;
 
@@ -86,15 +140,37 @@ const NavItem = styled.div`
 `;
 
 const Link = styled.span`
-  font-weight: bold;
+  font-size: 2.3vh;
   padding: 4px 8px;
   margin: 0 auto;
   text-align: center;
   cursor: pointer;
 
   &:hover {
-    color: #f2be5b;
+    color: rgba(188, 135, 33, 1);
+    transition: 0.5s;
+    font-weight: bold;
+
+    .dropMenu {
+      display: flex;
+      color: black;
+    }
   }
+`;
+
+const DropdownBox = styled.div`
+  width: 15vmin;
+  height: 15vmin;
+  background-color: rgba(188, 135, 33, 1);
+  /* margin: 2vmin 0 0 77%; */
+  margin: 0 0 0 0;
+  position: fixed;
+  z-index: 999;
+  opacity: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
 `;
 
 export default Nav;
