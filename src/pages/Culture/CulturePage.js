@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CultureMap from './components/CultureMap';
+import CultureMap from './components/map/CultureMap';
 import { useState } from 'react';
 import { seoul } from 'pages/Landing/Data/map/valueData';
 import {
@@ -12,9 +12,10 @@ import {
   ico_picker07_on,
 } from 'assets/images/index.js';
 
-import CultureTable from './components/CultureTable';
+import CultureTable from './components/table/CultureTable';
 
 const CulturePage = () => {
+  
   // 주제 분류 리스트
   const selectList = [
     '문화원',
@@ -102,7 +103,7 @@ const CulturePage = () => {
             <div className="title-area">
               <h1 className="title-h1">
                 문화여가 · 단체
-                <span class="txt">
+                <span className="txt">
                   지역별 다양한 문화관련 시설들을 공유합니다
                 </span>
               </h1>
@@ -167,7 +168,7 @@ const CulturePage = () => {
         <SectionFacilityResult>
           <div className="section-inner">
             <AreaUtil></AreaUtil>
-            <CultureTable/>
+            <CultureTable />
           </div>
         </SectionFacilityResult>
       </ContentInner>
@@ -236,9 +237,7 @@ const SectionHeader = styled.div`
 
 // 문화여가시설 필터와 지도 영역
 const SectionMap = styled.div`
-
   .section-inner {
-    
   }
 `;
 const AreaFacility = styled.div`
@@ -246,7 +245,7 @@ const AreaFacility = styled.div`
   width: 100%;
   display: flex;
   margin-top: 20px;
-  display:flex;
+  display: flex;
   justify-content: center;
   overflow: hidden;
   border: 2px solid black;
@@ -300,7 +299,7 @@ const FacilityMap = styled.div`
 // 필터링된 리스트 결과 테이블
 const SectionFacilityResult = styled.div`
   margin-top: 100px;
-  display:flex;
+  display: flex;
   justify-content: center;
   .section-inner {
     width: 1280px;
@@ -316,7 +315,6 @@ const AreaUtil = styled.div`
 const AreaTable = styled.div`
   height: 740px;
   border: 1px solid green;
-
 `;
 
 // 공간 차지용 div
