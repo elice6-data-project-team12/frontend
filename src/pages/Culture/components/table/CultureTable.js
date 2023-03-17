@@ -45,7 +45,8 @@ const CultureTable = () => {
   useEffect(() => {
     // TODO: CultureMap 부분의 백앤드 API 완성되면 API인스턴스로 수정하기
     axios
-      .get(`http://localhost:4000/api/facility${index}`)
+      .get(`http://localhost:4000/api/facility${index}`) // 백앤드 API (정상작동)
+      // .get(`http://localhost:8000/facility${index}`)  // 목업데이터인데, 제대로 되진않음 형식만 참고
       .then(res => {
         setLoadPageData(res.data.data);
       })
