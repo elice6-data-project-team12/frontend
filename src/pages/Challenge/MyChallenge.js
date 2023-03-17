@@ -17,17 +17,27 @@ const MyChallenge = () => {
   const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
-    const fetchChallenges = async () => {
-      try {
-        const response = await axios.get(`/api/challenge/posts`);
-        setChallenges(response.data);
-        console.log('Data selecting detail:', response.data);
-      } catch (error) {
-        console.log('Error selecting data:', error);
-      }
-    };
-    fetchChallenges();
+    API.get('/challenge')
+      .then(Response => {
+        setChallenges(Response.data);
+      })
+      .catch(Error => {
+        console.log(Error);
+      });
   }, []);
+
+  // useEffect(() => {
+  //   const fetchChallenges = async () => {
+  //     try {
+  //       const response = await axios.get(`/api/challenge/posts`);
+  //       setChallenges(response.data);
+  //       console.log('Data selecting detail:', response.data);
+  //     } catch (error) {
+  //       console.log('Error selecting data:', error);
+  //     }
+  //   };
+  //   fetchChallenges();
+  // }, []);
 
   return (
     <div>

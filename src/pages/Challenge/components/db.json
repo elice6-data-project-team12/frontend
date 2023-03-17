@@ -14,7 +14,7 @@
     "START_DATE": "참여시작일",
     "END_DATE": "참여종료일"
   },
-  "challenge": [
+  "DATA": [
     {
       "challenge_id": 1,
       "title": "새로운 동네 구경하는 산책챌린지",

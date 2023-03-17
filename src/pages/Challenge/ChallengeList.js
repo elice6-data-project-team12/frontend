@@ -20,20 +20,30 @@ const ChallengeList = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          '/api/challenge/post',
-          challengeStatus
-        );
-        setChallenges(response.data);
-        console.log('Data selected:', response.data);
-      } catch (error) {
-        console.log('Error selecting data:', error);
-      }
-    };
-    fetchData();
-  }, [challengeStatus]);
+    API.get('/challenge')
+      .then(Response => {
+        setChallenges(Response.data);
+      })
+      .catch(Error => {
+        console.log(Error);
+      });
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         '/api/challenge/post',
+  //         challengeStatus
+  //       );
+  //       setChallenges(response.data);
+  //       console.log('Data selected:', response.data);
+  //     } catch (error) {
+  //       console.log('Error selecting data:', error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [challengeStatus]);
 
   return (
     <div>
