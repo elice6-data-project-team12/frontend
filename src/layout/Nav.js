@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Link, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
 import NavTitleIcon from './images/navTitle.png';
+
 import { NavLink } from 'react-router-dom';
 
-function Dropdown() {
+export const Dropdown = () => {
   return (
     <DropdownBox className="dropMenu">
-      <NavLink to="/">
+      <NavLink to="/challenge">
         <li>효도챌린지</li>
-        <li>효도템</li>
       </NavLink>
     </DropdownBox>
   );
-}
+};
 
 const Nav = () => {
   const [selectedId, setSelectedId] = useState('');
@@ -24,6 +24,7 @@ const Nav = () => {
   };
 
   const menuDrop = e => {
+    e.stopPropagation();
     setView(!view);
   };
 
@@ -32,10 +33,7 @@ const Nav = () => {
       <NavWrap>
         <NavTitle>
           <NavLink to="/">
-            <p
-              id="logo"
-              onClick={menuClick}
-            >
+            <p id="logo" onClick={menuClick}>
               HYODORI
             </p>
           </NavLink>
@@ -44,38 +42,38 @@ const Nav = () => {
         <NavItems>
           <NavItem>
             <NavLink to="/">
-              <Link
+              <LinkStyle
                 id="intro"
                 onClick={menuClick}
                 className={selectedId === 'intro' ? 'activated' : ''}
               >
                 소개
-              </Link>
+              </LinkStyle>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="culture">
-              <Link
+              <LinkStyle
                 id="find"
                 onClick={menuClick}
                 className={selectedId === 'find' ? 'activated' : ''}
               >
                 문화여가시설 찾기
-              </Link>
+              </LinkStyle>
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="/">
-              <Link
+              <LinkStyle
                 id="channel"
                 onClick={menuClick}
-                onMouseOver={menuDrop}
-                onMouseOut={menuDrop}
+                onMouseEnter={menuDrop}
+                onMouseLeave={menuDrop}
                 className={selectedId === 'channel' ? 'activated' : ''}
               >
                 효도채널
                 {view && <Dropdown />}
-              </Link>
+              </LinkStyle>
             </NavLink>
           </NavItem>
           <NavItem>
@@ -139,7 +137,7 @@ const NavItem = styled.div`
   align-items: center;
 `;
 
-const Link = styled.span`
+const LinkStyle = styled.span`
   font-size: 2.3vh;
   padding: 4px 8px;
   margin: 0 auto;

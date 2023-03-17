@@ -13,7 +13,6 @@ import LoginPage from './pages/Login/LoginPage';
 import ItemPage from './pages/Board/ItemPage';
 import MyPage from './pages/User/MyPage';
 
-
 function Router() {
   return (
     <Provider store={store}>
@@ -25,9 +24,12 @@ function Router() {
           <Route path="/challenge/create" element={<ChallengeCreatePage />} />
           <Route path="/challenge" element={<Challenge />} />
           <Route
+            path="/challenge/detail/:id"
             element={<ChallengeDetailPage />}
           />
+
           <Route path="/user/signup" element={<SignupPage />} />
+          <Route path="/user/login" element={<LoginPage />} />
           <Route path="/item" element={<ItemPage />} />
           <Route path="/user" element={<MyPage />} />
         </Routes>
