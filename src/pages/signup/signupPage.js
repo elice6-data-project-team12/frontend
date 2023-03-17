@@ -79,7 +79,7 @@ const UserInputBox = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 4px groove red;
+      
        .form-field {
         width: 70%;
          input {

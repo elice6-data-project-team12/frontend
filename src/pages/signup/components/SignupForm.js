@@ -66,11 +66,11 @@ function SignupForm() {
         phone: phone,
       })
         .then(res => {
-          alert(res.data.message);
+          alert('가입완료!');
           navigate('/user/login');
         })
         .catch(error => {
-          console.log(error.response.data.message);
+          console.log(error.response.data.err);
         });
     };
   

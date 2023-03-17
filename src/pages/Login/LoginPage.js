@@ -22,21 +22,22 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await API.post('/api/user/login', {
-        email,
-        password,
+      const res = await API.post('http://localhost:4000/api/user/login', {
+        email: email,
+        password: password,
       });
       const user = res.data;
       const jwtToken = user.token;
       localStorage.setItem('userToken', jwtToken);
       const decodedJwt = jwt_decode(jwtToken);
+      console.log(decodedJwt);
       localStorage.setItem('userData', JSON.stringify(decodedJwt));
       if (!localStorage.getItem('userData')){
         navigate('/signup')
       }
       navigate('/');
     } catch (err) {
-      alert(err.response.data.message);
+      alert('err.response.data.message');
     }
   };
 
@@ -106,28 +107,6 @@ const LoginBox = styled.div`
   flex-direction: column;
   align-items: center;
   border: 4px groove red;
-/* 
-  form {
-    height: 60%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-     div {
-      width: 80%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-       .form-field {
-        width: 70%;
-         input {
-          width: 100%;
-          background-color: inherit;
-        }
-      }
-    }
-  } */
 `;
 
 const LoginForm = styled.form`

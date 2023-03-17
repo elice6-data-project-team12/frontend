@@ -6,8 +6,10 @@ import Footer from './layout/Footer.js';
 import Landing from './pages/Landing/LandingPage';
 import Culture from './pages/Culture/CulturePage.js';
 import SignupPage from './pages/signup/SignupPage';
-import LoginPage from './pages/Login/LoginPage'
-import ItemPage from './pages/Board/ItemPage'
+import LoginPage from './pages/Login/LoginPage';
+import ItemPage from './pages/Board/ItemPage';
+import MyPage from './pages/User/MyPage';
+
 
 function Router() {
   return (
@@ -20,6 +22,7 @@ function Router() {
           <Route path="/user/signup" element={<SignupPage />} />
           <Route path="/user/login" element={<LoginPage />} />
           <Route path="/item" element={<ItemPage />} />
+          <Route path="/user" element={<MyPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
