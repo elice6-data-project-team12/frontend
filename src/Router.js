@@ -8,6 +8,11 @@ import Culture from './pages/Culture/CulturePage.js';
 import Challenge from './pages/Challenge/ChallengePage.js';
 import ChallengeDetailPage from './pages/Challenge/ChallengeDetailPage.js';
 import ChallengeCreatePage from 'pages/Challenge/ChallengeCreatePage.js';
+import SignupPage from './pages/signup/signupPage';
+import LoginPage from './pages/Login/LoginPage';
+import ItemPage from './pages/Board/ItemPage';
+import MyPage from './pages/User/MyPage';
+
 
 function Router() {
   return (
@@ -20,9 +25,11 @@ function Router() {
           <Route path="/challenge/create" element={<ChallengeCreatePage />} />
           <Route path="/challenge" element={<Challenge />} />
           <Route
-            path="/challenge/detail/:id"
             element={<ChallengeDetailPage />}
           />
+          <Route path="/user/signup" element={<SignupPage />} />
+          <Route path="/item" element={<ItemPage />} />
+          <Route path="/user" element={<MyPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

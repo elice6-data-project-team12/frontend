@@ -4,8 +4,6 @@ import API from 'API.js';
 import styled from 'styled-components';
 
 // MUI icons
-import SvgIcon from '@mui/material/SvgIcon';
-import { SvgIconComponent } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import CallIcon from '@mui/icons-material/Call';
 import HomeIcon from '@mui/icons-material/Home';
@@ -21,6 +19,7 @@ const CultureMap = ({ filterObj, icons }) => {
     const { addr, subject } = filterObj.filterState;
     const { reset, all } = filterObj;
 
+    // TODO: 문화시설 필터를 백앤드에서 처리할 예정 API 완성되면 다시 작성
     let filted = []; // 해당 필터에 따라 선택된 리스트들 저장
 
     // 전체보기
@@ -134,13 +133,10 @@ export const EventMarkerContainer = ({
   return (
     <MapMarker
       position={position} // 마커를 표시할 위치
-      // onClick={marker => map.panTo(marker.getPosition())}
       onClick={() => {
         onClick();
         setIsOpen(!isOpen);
       }}
-      // onMouseOver={() => setIsVisible(true)}
-      // onMouseOut={() => setIsVisible(false)}
       image={{
         src: iconImg, // 마커이미지의 주소입니다
         size: {
@@ -228,8 +224,6 @@ const CustomOverlayWrap = styled.div`
     span {
       vertical-align: middle;
     }
-    /* display: flex;
-    flex-wrap: nowrap; */
   }
 
   .close {
