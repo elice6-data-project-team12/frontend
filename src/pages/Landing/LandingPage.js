@@ -138,7 +138,7 @@ const ChartWrap = styled.div`
 `;
 
 const ImgWrap = styled.div`
-  height: 40%;
+  height: 400px;
   display: flex;
   justify-content: center;
   background-image: url('images/MaskGroup.png');
