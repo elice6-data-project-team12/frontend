@@ -4,8 +4,7 @@ import API from 'API.js';
 import styled from 'styled-components';
 
 // MUI icons
-import SvgIcon from '@mui/material/SvgIcon';
-import { SvgIconComponent } from '@mui/icons-material';
+
 import CloseIcon from '@mui/icons-material/Close';
 import CallIcon from '@mui/icons-material/Call';
 import HomeIcon from '@mui/icons-material/Home';
