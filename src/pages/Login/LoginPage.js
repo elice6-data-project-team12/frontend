@@ -26,18 +26,19 @@ function LoginPage() {
         email: email,
         password: password,
       });
-      const user = res.data;
-      const jwtToken = user.token;
-      localStorage.setItem('userToken', jwtToken);
-      const decodedJwt = jwt_decode(jwtToken);
-      console.log(decodedJwt);
-      localStorage.setItem('userData', JSON.stringify(decodedJwt));
-      if (!localStorage.getItem('userData')){
-        navigate('/signup')
+      const user = res.data.data;
+
+      const jwtToken = jwt_decode(user);
+
+      console.log(jwtToken, 'jwt');
+
+      localStorage.setItem('userToken', jwtToken.userId);
+      if (!localStorage.getItem('userToken')) {
+        navigate('/signup');
       }
       navigate('/');
     } catch (err) {
-      alert('err.response.data.message');
+      alert(err.response.data.message);
     }
   };
 
@@ -48,27 +49,27 @@ function LoginPage() {
         <LoginForm onSubmit={handleSubmit}>
           <div>
             <label>이메일</label>
-              <div className="form-field">
-                <Input
-                  type="email"
-                  placeholder="EMAIL"
-                  onChange={onEmailHandler}
-                  />
-              </div>
+            <div className="form-field">
+              <Input
+                type="email"
+                placeholder="EMAIL"
+                onChange={onEmailHandler}
+              />
+            </div>
           </div>
           <div>
             <label>패스워드</label>
-              <div className="form-field">
-                <Input
-                  type="password"
-                  placeholder="PASSWORD"
-                  onChange={onPasswordHandler}
-                  />
-              </div>
+            <div className="form-field">
+              <Input
+                type="password"
+                placeholder="PASSWORD"
+                onChange={onPasswordHandler}
+              />
+            </div>
           </div>
-            <button title="로그인" type="submit" padding="100px">
-              로그인
-            </button>
+          <button title="로그인" type="submit" padding="100px">
+            로그인
+          </button>
         </LoginForm>
       </LoginBox>
     </Container>
@@ -95,7 +96,6 @@ const MainTitle = styled.div`
   border: 4px groove red;
 `;
 
-
 const LoginBox = styled.div`
   background-color: rgba(217, 217, 217, 1);
   height: 50vh;
@@ -110,27 +110,27 @@ const LoginBox = styled.div`
 `;
 
 const LoginForm = styled.form`
-    height: 60%;
-    width: 100%;
+  height: 60%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 4px groove blue;
+  div {
+    width: 80%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    border: 4px groove blue;
-     div {
+    border: 4px groove red;
+    .form-field {
       width: 80%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border: 4px groove red;
-       .form-field {
-        width: 80%;
-         input {
-          width: 100%;
-          background-color: inherit;
-        }
+      input {
+        width: 100%;
+        background-color: inherit;
       }
     }
+  }
 `;
 
 const Input = styled.input`
