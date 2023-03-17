@@ -24,7 +24,7 @@ const Nav = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/">
+          <NavLink to="challenge">
             <Link>효도채널</Link>
           </NavLink>
         </NavItem>
