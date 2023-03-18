@@ -2,8 +2,9 @@ import { useEffect, useMemo, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Table from './Table';
+import CultureDetailModal from '../modal/CultureDetailModal';
 
-const CultureTable = () => {
+const CultureTable = ({ showModal, setShowModal }) => {
   // 컬럼명과 컬럼명에 해당하는 값들 연결
   const columns = useMemo(
     () => [
@@ -27,8 +28,8 @@ const CultureTable = () => {
             accessor: 'phne',
           },
           {
-            Header: '공식홈페이지',
-            accessor: 'homepage',
+            Header: '상세정보',
+            accessor: '자세히 보기',
           },
         ],
       },
@@ -72,6 +73,8 @@ const CultureTable = () => {
         fetchData={fetchData}
         pageCount={pageCount}
         setIndex={setIndex}
+        showModal={showModal}
+        setShowModal={setShowModal}
       />
     </Styles>
   );

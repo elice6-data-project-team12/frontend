@@ -1,13 +1,15 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useTable, usePagination } from 'react-table';
-
+import CultureDetailModal from '../modal/CultureDetailModal';
 const Table = ({
   columns,
   data,
   fetchData,
   pageCount: controlledPageCount,
   setIndex,
+  showModal,
+  setShowModal,
 }) => {
   const {
     getTableProps,
@@ -46,8 +48,18 @@ const Table = ({
   useEffect(() => {
     fetchData({ pageSize, pageIndex });
   }, [fetchData, pageSize, pageIndex]);
+
+  const handleDetailShow = e => {
+    const { id } = e.target;
+
+    if (id === 'detail-show') {
+      setShowModal(!showModal);
+    }
+  };
+
   return (
     <>
+      <CultureDetailModal setShowModal={setShowModal} showModal={showModal} />
       <pre>
         <code>
           {JSON.stringify(
@@ -88,6 +100,15 @@ const Table = ({
             return (
               <tr key={idx} {...row.getRowProps()}>
                 {row.cells.map((cell, idx) => {
+                  if (idx === 4) {
+                    return (
+                      <td key={idx}>
+                        <button id="detail-show" onClick={handleDetailShow}>
+                          자세히보기
+                        </button>
+                      </td>
+                    );
+                  }
                   return (
                     <td key={idx} {...cell.getCellProps()}>
                       {cell.render('Cell')}

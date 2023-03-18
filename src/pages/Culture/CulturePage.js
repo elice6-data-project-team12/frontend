@@ -37,6 +37,9 @@ const CulturePage = () => {
     { img: ico_picker07_on, value: '기타' },
   ]);
 
+  // 상세정보 모달 state
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <Content>
       <Block />
@@ -66,7 +69,7 @@ const CulturePage = () => {
         </SectionMap>
         <SectionShowAllTable>
           <AreaUtil></AreaUtil>
-          <CultureTable />
+          <CultureTable showModal={showModal} setShowModal={setShowModal} />
         </SectionShowAllTable>
       </ContentInner>
     </Content>
