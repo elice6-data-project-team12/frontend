@@ -44,8 +44,8 @@ const Table = ({
 
   // 쿼리 변경 후 불러온 데이터를 저장하여 pageSize만큼 보여주기
   useEffect(() => {
-    fetchData({ pageSize,pageIndex });
-  }, [fetchData, pageSize,pageIndex]);
+    fetchData({ pageSize, pageIndex });
+  }, [fetchData, pageSize, pageIndex]);
   return (
     <>
       <pre>

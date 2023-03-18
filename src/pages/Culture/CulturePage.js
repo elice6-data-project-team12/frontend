@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import CultureMap from './components/map/CultureMap';
-import { useState } from 'react';
-import { seoul } from 'pages/Landing/Data/map/valueData';
+import SelectedFilter from './components/filter/SelectedFilter';
+import CultureTable from './components/table/CultureTable';
+
+//주제분류 아이콘
 import {
   ico_picker01_on,
   ico_picker02_on,
@@ -12,23 +15,16 @@ import {
   ico_picker07_on,
 } from 'assets/images/index.js';
 
-import CultureTable from './components/table/CultureTable';
-
 const CulturePage = () => {
-  // 주제 분류 리스트
-  const selectList = [
-    '문화원',
-    '공연장',
-    '도서관',
-    '문화예술회관',
-    '미술관',
-    '박물관/기념관',
-    '기타',
-  ];
-
-  const addrList = seoul.map(data => data.name);
-
-  const [selected, setSelected] = useState('');
+  // filter 적용할 객체 state
+  const [filterObj, setFilterObj] = useState({
+    reset: false,
+    all: false,
+    filterState: {
+      addr: '',
+      subject: '',
+    },
+  });
 
   // 지도 아이콘 state
   const [icons, setIcons] = useState([
@@ -40,57 +36,6 @@ const CulturePage = () => {
     { img: ico_picker06_on, value: '문화원' },
     { img: ico_picker07_on, value: '기타' },
   ]);
-
-  // filter 적용할 객체 state
-  const [filterObj, setFilterObj] = useState({
-    reset: false,
-    all: false,
-    filterState: {
-      addr: '',
-      subject: '',
-    },
-  });
-  // 필터 정보 저장 함수 (select)
-  const handleFilterSelect = e => {
-    const name = e.target.value;
-    const tag = e.target.id;
-    setSelected(name);
-    e.preventDefault();
-    return setFilterObj({
-      reset: false,
-      all: false,
-      filterState: {
-        ...filterObj.filterState,
-        [tag]: name,
-      },
-    });
-  };
-
-  // 필터 정보 저장 함수 (초기화 Btn)
-  const handleFilterReset = e => {
-    e.preventDefault();
-    return setFilterObj({
-      reset: true,
-      all: false,
-      filterState: {
-        addr: '',
-        subject: '',
-      },
-    });
-  };
-
-  // 필터 정보 저장 함수 (전체보기 Btn)
-  const handleFilterShowAll = e => {
-    e.preventDefault();
-    return setFilterObj({
-      reset: false,
-      all: true,
-      filterState: {
-        addr: '',
-        subject: '',
-      },
-    });
-  };
 
   return (
     <Content>
@@ -111,70 +56,24 @@ const CulturePage = () => {
         </SectionHeader>
         <SectionMap>
           <AreaFacility>
-            <FacilityFilter>
-              <Filter>
-                <div className="filter-subject">
-                  <select
-                    id="subject"
-                    onChange={handleFilterSelect}
-                    value={selected}
-                  >
-                    {selectList.map(item => (
-                      <option value={item} key={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                  <hr />
-                </div>
-                <div className="filter-subject">
-                  <select
-                    id="addr"
-                    onChange={handleFilterSelect}
-                    value={selected}
-                  >
-                    {addrList.map(item => (
-                      <option value={item} key={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                  <hr />
-                </div>
-                <button id="all" onMouseDown={handleFilterShowAll}>
-                  전체보기
-                </button>
-                <hr />
-                <input placeholder="이름 검색" />
-                <button id="reset" onMouseDown={handleFilterReset}>
-                  초기화
-                </button>
-                <IconWrap>
-                  {icons.map(i => (
-                    <div className="icon" key={i.value}>
-                      <img src={i.img} alt={i.value} />
-                      <span className="icon-title">{i.value}</span>
-                    </div>
-                  ))}
-                </IconWrap>
-              </Filter>
-            </FacilityFilter>
-            <FacilityMap>
-              <CultureMap filterObj={filterObj} icons={icons} />
-            </FacilityMap>
+            <SelectedFilter
+              filterObj={filterObj}
+              setFilterObj={setFilterObj}
+              icons={icons}
+            />
+            <CultureMap filterObj={filterObj} icons={icons} />
           </AreaFacility>
         </SectionMap>
-        <SectionFacilityResult>
+        <SectionShowAllTable>
           <AreaUtil></AreaUtil>
           <CultureTable />
-        </SectionFacilityResult>
+        </SectionShowAllTable>
       </ContentInner>
     </Content>
   );
 };
 // 문화여가시설 찾기 페이지 전체영역
 const Content = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -183,16 +82,14 @@ const Content = styled.div`
 // 소개 페이지 기준 현재 페이지 상대 위치
 const Location = styled.div`
   height: 84px;
-  width: 1380px;
-  margin: 0 148px;
+  width: 1280px;
   padding: 32px 0;
-  max-width: 1280px;
 `;
 
 // Main, Map, Table 담기는 영역
 const ContentInner = styled.div`
   /* height: 1100px; */
-  width: 1380px;
+  width: 1280px;
 `;
 
 // content의 header
@@ -231,87 +128,30 @@ const SectionHeader = styled.div`
   }
 `;
 
-// 문화여가시설 필터와 지도 영역
-const SectionMap = styled.div`
-  .section-inner {
-  }
-`;
+// 문화여가시설
+const SectionMap = styled.div``;
+
 const AreaFacility = styled.div`
   height: 600px;
-  width: 100%;
   display: flex;
   margin-top: 20px;
   display: flex;
   justify-content: center;
-  overflow: hidden;
   border: 2px solid black;
-
-  .wrap-facility-menu {
-  }
-`;
-const FacilityFilter = styled.div`
-  width: 40%;
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const Filter = styled.div`
-  width: 100%;
-
-  .filter-subject {
-    height: 70px;
-  }
-`;
-
-const IconWrap = styled.div`
-  height: 283px;
-  width: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  .icon {
-    height: 100px;
-    width: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .icon-title {
-      margin-top: 10px;
-      font-size: 10px;
-      font-weight: 700;
-    }
-  }
-`;
-
-const FacilityMap = styled.div`
-  width: 50%;
-  height: 660px;
-  display: flex;
 `;
 
 // 필터링된 리스트 결과 테이블
-const SectionFacilityResult = styled.div`
+const SectionShowAllTable = styled.div`
   margin-top: 100px;
   display: flex;
   justify-content: center;
-  .section-inner {
-    width: 1280px;
-    border: 1px solid red;
-    overflow: visible;
-  }
+  width: 1280px;
+  border: 1px solid red;
 `;
 
 const AreaUtil = styled.div`
   height: 40px;
   border: 1px solid black;
-`;
-
-const AreaTable = styled.div`
-  height: 740px;
-  border: 1px solid green;
 `;
 
 // 공간 차지용 div

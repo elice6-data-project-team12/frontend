@@ -78,12 +78,10 @@ const CultureTable = () => {
 };
 
 const Styles = styled.div`
-  padding: 1rem;
-
   table {
     border-spacing: 0;
     border: 1px solid black;
-    width: 100%;
+    width: 1270px;
     tr {
       :last-child {
         td {
