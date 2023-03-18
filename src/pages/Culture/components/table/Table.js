@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTable, usePagination } from 'react-table';
 const Table = ({
   columns,
@@ -11,6 +11,7 @@ const Table = ({
   setShowModal,
   setPageSize,
   pageSize,
+  setInfoModal,
 }) => {
   const {
     getTableProps,
@@ -49,12 +50,13 @@ const Table = ({
     fetchData({ pageSize, pageIndex });
   }, [fetchData, pageSize, pageIndex]);
 
-  const handleDetailShow = e => {
+  const openModal = e => {
     const { id } = e.target;
 
     if (id === 'detail-show') {
       setShowModal(!showModal);
     }
+    setShowModal(true);
   };
 
   return (
@@ -102,7 +104,13 @@ const Table = ({
                   if (idx === 4) {
                     return (
                       <td key={idx}>
-                        <button id="detail-show" onClick={handleDetailShow}>
+                        <button
+                          id="detail-show"
+                          onClick={e => {
+                            setInfoModal(cell);
+                            openModal(e);
+                          }}
+                        >
                           자세히보기
                         </button>
                       </td>

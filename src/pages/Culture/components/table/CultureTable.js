@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Table from './Table';
 
-const CultureTable = ({ showModal, setShowModal }) => {
+const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
   // 컬럼명과 컬럼명에 해당하는 값들 연결
   const columns = useMemo(
     () => [
@@ -78,6 +78,7 @@ const CultureTable = ({ showModal, setShowModal }) => {
         setShowModal={setShowModal}
         setPageSize={setPageSize}
         pageSize={pageSize}
+        setInfoModal={setInfoModal}
       />
     </Styles>
   );

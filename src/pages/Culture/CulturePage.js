@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CultureMap from './components/map/CultureMap';
 import SelectedFilter from './components/filter/SelectedFilter';
 import CultureTable from './components/table/CultureTable';
-
+import CultureDetailModal from './components/modal/CultureDetailModal';
 //주제분류 아이콘
 import {
   ico_picker01_on,
@@ -37,14 +37,30 @@ const CulturePage = () => {
     { img: ico_picker07_on, value: '기타' },
   ]);
 
-  // 상세정보 모달 state
+  // 상세정보 모달 show state
   const [showModal, setShowModal] = useState(false);
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  // 상세정보 모달 info state
+  const [infoModal, setInfoModal] = useState(null);
 
   return (
     <Content>
       <Block />
       <Location>소개-&gt; 문화여가시설 찾기</Location>
       <ContentInner>
+        {showModal && (
+          <CultureDetailModal
+            showModal={showModal}
+            closable={true}
+            maskClosable={true}
+            infoModal={infoModal}
+            onClose={closeModal}
+          />
+        )}
         <SectionHeader>
           <div className="section-inner">
             <div className="title-area">
@@ -69,7 +85,11 @@ const CulturePage = () => {
         </SectionMap>
         <SectionShowAllTable>
           <AreaUtil></AreaUtil>
-          <CultureTable showModal={showModal} setShowModal={setShowModal} />
+          <CultureTable
+            showModal={showModal}
+            setShowModal={setShowModal}
+            setInfoModal={setInfoModal}
+          />
         </SectionShowAllTable>
       </ContentInner>
     </Content>
