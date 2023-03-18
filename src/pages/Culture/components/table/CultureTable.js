@@ -2,7 +2,6 @@ import { useEffect, useMemo, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Table from './Table';
-import CultureDetailModal from '../modal/CultureDetailModal';
 
 const CultureTable = ({ showModal, setShowModal }) => {
   // 컬럼명과 컬럼명에 해당하는 값들 연결
@@ -39,28 +38,30 @@ const CultureTable = ({ showModal, setShowModal }) => {
 
   const [data, setData] = useState([]); //
   const [pageCount, setPageCount] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [maxPage, setMaxPage] = useState(1);
   const [index, setIndex] = useState('');
   const [loadPageData, setLoadPageData] = useState([]);
-
   // 페이지번호가 바뀔때마다 문화시설 데이터를 10개씩 불러옴
   useEffect(() => {
     // TODO: CultureMap 부분의 백앤드 API 완성되면 API인스턴스로 수정하기
     axios
-      .get(`http://localhost:4000/api/facility${index}`) // 백앤드 API (정상작동)
+      .get(`http://localhost:4000/api/facility${index}&pageSize=${pageSize}`) // 백앤드 API (정상작동)
       // .get(`http://localhost:8000/facility${index}`)  // 목업데이터인데, 제대로 되진않음 형식만 참고
       .then(res => {
+        setMaxPage(res.data.maxPage);
         setLoadPageData(res.data.data);
       })
       .catch(err => {
         console.log(err);
       });
-  }, [index]);
+  }, [index, pageSize]);
 
   // 10개씩 불러온 데이터를 200ms 지연시간을 두고 저장
-  const fetchData = useCallback(({ pageSize }) => {
+  const fetchData = useCallback(() => {
     setTimeout(() => {
       setData(loadPageData);
-      setPageCount(Math.ceil(650 / pageSize));
+      setPageCount(maxPage);
       // }
     }, 200);
   });
@@ -75,6 +76,8 @@ const CultureTable = ({ showModal, setShowModal }) => {
         setIndex={setIndex}
         showModal={showModal}
         setShowModal={setShowModal}
+        setPageSize={setPageSize}
+        pageSize={pageSize}
       />
     </Styles>
   );

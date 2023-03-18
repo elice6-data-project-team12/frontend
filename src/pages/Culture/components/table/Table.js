@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useTable, usePagination } from 'react-table';
-import CultureDetailModal from '../modal/CultureDetailModal';
 const Table = ({
   columns,
   data,
@@ -10,6 +9,8 @@ const Table = ({
   setIndex,
   showModal,
   setShowModal,
+  setPageSize,
+  pageSize,
 }) => {
   const {
     getTableProps,
@@ -24,10 +25,9 @@ const Table = ({
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
 
     // Get the state from the instance
-    state: { pageIndex, pageSize },
+    state: { pageIndex },
   } = useTable(
     {
       columns,
@@ -59,7 +59,6 @@ const Table = ({
 
   return (
     <>
-      <CultureDetailModal setShowModal={setShowModal} showModal={showModal} />
       <pre>
         <code>
           {JSON.stringify(
