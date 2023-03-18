@@ -15,7 +15,6 @@ import {
 import CultureTable from './components/table/CultureTable';
 
 const CulturePage = () => {
-  
   // 주제 분류 리스트
   const selectList = [
     '문화원',
@@ -166,10 +165,8 @@ const CulturePage = () => {
           </AreaFacility>
         </SectionMap>
         <SectionFacilityResult>
-          <div className="section-inner">
-            <AreaUtil></AreaUtil>
-            <CultureTable />
-          </div>
+          <AreaUtil></AreaUtil>
+          <CultureTable />
         </SectionFacilityResult>
       </ContentInner>
     </Content>
@@ -194,7 +191,7 @@ const Location = styled.div`
 
 // Main, Map, Table 담기는 영역
 const ContentInner = styled.div`
-  height: 1100px;
+  /* height: 1100px; */
   width: 1380px;
 `;
 
@@ -203,7 +200,6 @@ const SectionHeader = styled.div`
   height: 95px;
   .section-inner {
     padding: 0 23px;
-
     margin: 0 auto;
     position: relative;
     vertical-align: top;
@@ -304,6 +300,7 @@ const SectionFacilityResult = styled.div`
   .section-inner {
     width: 1280px;
     border: 1px solid red;
+    overflow: visible;
   }
 `;
 
