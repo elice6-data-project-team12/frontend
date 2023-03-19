@@ -28,13 +28,24 @@ export const EventMarkerContainer = ({
 }) => {
   const [iconImg, setIconImg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  // 주제분류에 해당하는 아이콘 이미지 설정
 
+  // 주제분류에 해당하는 아이콘 이미지 설정
   const selectedIconImg = icons.find(data => data.value === subject);
+
+  // 북마크에 저장할 데이터
+  const [bookmarks, setBookmarks] = useState([]);
+  const [bookmarkStatus, SetBookmarkStatus] = useState('북마크 추가');
+
+  // 컴포넌트가 마운트될 때, 로컬 스토리지에서 북마크 목록, 아이콘 이미지를 불러오기
   useEffect(() => {
     setIconImg(selectedIconImg.img);
-  }, []);
 
+    const storedBookmarks = localStorage.getItem('bookmarks');
+    if (storedBookmarks) {
+      setBookmarks(JSON.parse(storedBookmarks));
+    }
+  }, []);
+  // 상세모달 열기 함수
   const openModal = e => {
     const { id } = e.target;
 
@@ -43,6 +54,26 @@ export const EventMarkerContainer = ({
     }
     setShowModal(true);
   };
+
+  // 북마크 추가/제거 함수
+  function toggleBookmark() {
+    const index = bookmarks.findIndex(
+      bookmark => bookmark.name === name && bookmark.subject === subject
+    );
+
+    if (index === -1) {
+      const newBookmarks = [...bookmarks, { name: name, subject: subject }];
+      SetBookmarkStatus('북마크 제거');
+      setBookmarks(newBookmarks);
+      localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
+    } else {
+      const newBookmarks = [...bookmarks];
+      SetBookmarkStatus('북마크 추가');
+      newBookmarks.splice(index, 1);
+      setBookmarks(newBookmarks);
+      localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
+    }
+  }
 
   return (
     <FacilityMap>
@@ -109,10 +140,8 @@ export const EventMarkerContainer = ({
                   </a>
                 </div>
                 <div className="desc-icon">
-                  <a href={homepage}>
-                    <BookmarkIcon sx={{ fontSize: 15 }} color="action" />
-                    <span>저장하기</span>
-                  </a>
+                  <BookmarkIcon sx={{ fontSize: 15 }} color="action" />
+                  <button onClick={toggleBookmark}>{bookmarkStatus}</button>
                 </div>
               </div>
             </div>
