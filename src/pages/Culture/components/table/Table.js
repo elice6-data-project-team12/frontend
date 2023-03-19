@@ -107,7 +107,7 @@ const Table = ({
                         <button
                           id="detail-show"
                           onClick={e => {
-                            setInfoModal(cell);
+                            setInfoModal(cell.row.original.facility_id);
                             openModal(e);
                           }}
                         >

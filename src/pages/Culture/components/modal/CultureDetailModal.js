@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-
+import API from 'API';
 const CultureDetailModal = ({
   infoModal,
   showModal,
@@ -13,8 +13,13 @@ const CultureDetailModal = ({
   const [selectedModalInfo, setSelectedModalInfo] = useState({});
 
   useEffect(() => {
-    // setSelectedModalInfo(infoModal.row.original);
-    setSelectedModalInfo(infoModal);
+    API.get(`/api/facility/${infoModal}`)
+      .then(Response => {
+        setSelectedModalInfo(Response.data.data);
+      })
+      .catch(Error => {
+        console.log(Error);
+      });
   }, [infoModal]);
 
   const onMaskClick = e => {
@@ -28,6 +33,7 @@ const CultureDetailModal = ({
       onClose(e);
     }
   };
+
   return (
     <>
       <ModalOverlay visible={showModal} />
@@ -38,7 +44,16 @@ const CultureDetailModal = ({
         visible={showModal}
       >
         <ModalInner tabIndex="0" className="modal-inner">
-          {closable && <div className="info">success</div>}
+          {closable && (
+            <div className="info">
+              {selectedModalInfo.fac_name}
+              <br></br>
+              {selectedModalInfo.fac_desc}
+              <br></br>
+
+              <img src={selectedModalInfo.main_img} alt="main-img" />
+            </div>
+          )}
           {children}
         </ModalInner>
       </ModalWrapper>

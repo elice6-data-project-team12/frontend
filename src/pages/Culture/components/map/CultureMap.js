@@ -62,7 +62,7 @@ const CultureMap = ({
           onClick={() => setSeleteMarker(idx)}
           subject={value.subjcode}
           key={`EventMarkerContainer-${value.facility_id}`}
-          id={value.facility_id}
+          facilityId={value.facility_id}
           position={{ lat: value.x_coord, lng: value.y_coord }}
           content={<div style={{ color: '#000' }}>{value.fac_name}</div>}
           isClicked={selectedMarker === idx}
