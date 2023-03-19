@@ -74,10 +74,10 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
         fetchData={fetchData}
         pageCount={pageCount}
         setIndex={setIndex}
-        showModal={showModal}
-        setShowModal={setShowModal}
         setPageSize={setPageSize}
         pageSize={pageSize}
+        showModal={showModal}
+        setShowModal={setShowModal}
         setInfoModal={setInfoModal}
       />
     </Styles>

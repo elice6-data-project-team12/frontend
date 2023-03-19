@@ -7,10 +7,10 @@ const Table = ({
   fetchData,
   pageCount: controlledPageCount,
   setIndex,
+  pageSize,
+  setPageSize,
   showModal,
   setShowModal,
-  setPageSize,
-  pageSize,
   setInfoModal,
 }) => {
   const {

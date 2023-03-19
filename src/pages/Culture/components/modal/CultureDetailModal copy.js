@@ -13,8 +13,7 @@ const CultureDetailModal = ({
   const [selectedModalInfo, setSelectedModalInfo] = useState({});
 
   useEffect(() => {
-    // setSelectedModalInfo(infoModal.row.original);
-    setSelectedModalInfo(infoModal);
+    setSelectedModalInfo(infoModal.row.original);
   }, [infoModal]);
 
   const onMaskClick = e => {
@@ -28,6 +27,7 @@ const CultureDetailModal = ({
       onClose(e);
     }
   };
+  console.log(selectedModalInfo);
   return (
     <>
       <ModalOverlay visible={showModal} />
@@ -38,7 +38,23 @@ const CultureDetailModal = ({
         visible={showModal}
       >
         <ModalInner tabIndex="0" className="modal-inner">
-          {closable && <div className="info">success</div>}
+          {closable && (
+            <div className="info">
+              <div>시설명:{selectedModalInfo.fac_name}</div>
+              <div>주제분류:{selectedModalInfo.subjcode}</div>
+              <div>이미지 X</div>
+              <div>
+                주소:
+                {`서울특별시 ${selectedModalInfo.district} ${selectedModalInfo.addr}`}
+              </div>
+              <div>전화번호: {selectedModalInfo.phne}</div>
+              <div>홈페이지: {selectedModalInfo.homepage}</div>
+              <div>소개: X</div>
+              <button className="modal-close" onClick={close}>
+                닫기
+              </button>
+            </div>
+          )}
           {children}
         </ModalInner>
       </ModalWrapper>

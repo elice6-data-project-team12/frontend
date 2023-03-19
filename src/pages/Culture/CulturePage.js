@@ -81,7 +81,13 @@ const CulturePage = () => {
               setFilterObj={setFilterObj}
               icons={icons}
             />
-            <CultureMap filterObj={filterObj} icons={icons} />
+            <CultureMap
+              filterObj={filterObj}
+              icons={icons}
+              showModal={showModal}
+              setShowModal={setShowModal}
+              setInfoModal={setInfoModal}
+            />
           </AreaFacility>
         </SectionMap>
         <SectionShowAllTable>

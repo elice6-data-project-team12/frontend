@@ -3,7 +3,13 @@ import { Map } from 'react-kakao-maps-sdk';
 import API from 'API.js';
 import EventMarkerContainer from './EventMarkerContainer';
 
-const CultureMap = ({ filterObj, icons }) => {
+const CultureMap = ({
+  filterObj,
+  icons,
+  showModal,
+  setShowModal,
+  setInfoModal,
+}) => {
   const [filteredList, setFilteredList] = useState([]); // filter 적용된 리스트 state
   const [selectedMarker, setSeleteMarker] = useState(); // 마커를 하나만 선택하기 위한 state
 
@@ -56,9 +62,13 @@ const CultureMap = ({ filterObj, icons }) => {
           onClick={() => setSeleteMarker(idx)}
           subject={value.subjcode}
           key={`EventMarkerContainer-${value.facility_id}`}
+          id={value.facility_id}
           position={{ lat: value.x_coord, lng: value.y_coord }}
           content={<div style={{ color: '#000' }}>{value.fac_name}</div>}
           isClicked={selectedMarker === idx}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          setInfoModal={setInfoModal}
         />
       ))}
     </Map>

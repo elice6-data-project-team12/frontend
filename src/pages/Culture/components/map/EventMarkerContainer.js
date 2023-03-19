@@ -9,6 +9,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import MapIcon from '@mui/icons-material/Map';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import API from 'API.js';
 
 // 지도에 나타나는 marker 컴포넌트
 export const EventMarkerContainer = ({
@@ -21,15 +22,36 @@ export const EventMarkerContainer = ({
   phone,
   onClick,
   isClicked,
+  id,
+  showModal,
+  setShowModal,
+  setInfoModal,
 }) => {
   const [iconImg, setIconImg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [detailInfo, setDetailInfo] = useState([]);
   // 주제분류에 해당하는 아이콘 이미지 설정
 
   const selectedIconImg = icons.find(data => data.value === subject);
   useEffect(() => {
     setIconImg(selectedIconImg.img);
+    API.get(`/api/facility/${id}`)
+      .then(Response => {
+        setDetailInfo(Response.data.data);
+      })
+      .catch(Error => {
+        console.log(Error);
+      });
   }, []);
+
+  const openModal = e => {
+    const { id } = e.target;
+
+    if (id === 'detail-show') {
+      setShowModal(!showModal);
+    }
+    setShowModal(true);
+  };
 
   return (
     <FacilityMap>
@@ -71,7 +93,15 @@ export const EventMarkerContainer = ({
               <div className="desc">
                 <div className="desc-icon">
                   <ReadMoreIcon sx={{ fontSize: 15 }} color="action" />
-                  <span>상세보기</span>
+                  <button
+                    id="detail-show"
+                    onClick={e => {
+                      setInfoModal(detailInfo);
+                      openModal(e);
+                    }}
+                  >
+                    자세히보기
+                  </button>
                 </div>
                 <div className="desc-icon">
                   <MapIcon sx={{ fontSize: 15 }} color="action" />
