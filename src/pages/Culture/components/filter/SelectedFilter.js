@@ -17,7 +17,7 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
   const addrList = seoul.map(data => data.name);
 
   const [selected, setSelected] = useState('');
-
+  const [searchName, setSearchName] = useState('');
   // 필터 정보 저장 함수 (select)
   const handleFilterSelect = e => {
     const name = e.target.value;
@@ -27,6 +27,7 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
     return setFilterObj({
       reset: false,
       all: false,
+      searchName: '',
       filterState: {
         ...filterObj.filterState,
         [tag]: name,
@@ -40,6 +41,7 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
     return setFilterObj({
       reset: true,
       all: false,
+      searchName: '',
       filterState: {
         addr: '',
         subject: '',
@@ -53,6 +55,20 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
     return setFilterObj({
       reset: false,
       all: true,
+      searchName: '',
+      filterState: {
+        addr: '',
+        subject: '',
+      },
+    });
+  };
+  const handleFilterNameSearch = e => {
+    e.preventDefault();
+
+    return setFilterObj({
+      reset: false,
+      all: false,
+      searchName: searchName,
       filterState: {
         addr: '',
         subject: '',
@@ -86,7 +102,22 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
           전체보기
         </button>
         <hr />
-        <input placeholder="이름 검색" />
+        <input
+          placeholder="이름 검색"
+          onChange={e => {
+            setSearchName(e.target.value);
+          }}
+          value={searchName}
+        />
+        <button
+          id="name"
+          onMouseDown={e => {
+            handleFilterNameSearch(e);
+            setSearchName('');
+          }}
+        >
+          검색
+        </button>
         <button id="reset" onMouseDown={handleFilterReset}>
           초기화
         </button>

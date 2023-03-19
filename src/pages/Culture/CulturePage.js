@@ -20,6 +20,7 @@ const CulturePage = () => {
   const [filterObj, setFilterObj] = useState({
     reset: false,
     all: false,
+    searchName: '',
     filterState: {
       addr: '',
       subject: '',
