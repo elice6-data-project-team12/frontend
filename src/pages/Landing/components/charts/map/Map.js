@@ -7,10 +7,8 @@ import {
   Marker,
 } from 'react-simple-maps';
 import { scaleQuantize } from 'd3-scale';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
-
-import styled from 'styled-components';
 
 //data
 import { mwColor, noiseColor } from 'pages/Landing/Data/map/mapColor';
@@ -28,9 +26,6 @@ const mapColor = currentState => {
 
 const Map = ({ currentState }) => {
   const [tooltipName, setTooltipName] = useState('');
-  const [tooltipPopulation, setTooltipPopulation] = useState('');
-
-  console.log(populationRegion);
 
   return (
     <>

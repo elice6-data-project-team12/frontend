@@ -24,9 +24,6 @@ const MapChart = () => {
     center: [126.986, 37.561],
   });
 
-  const [modal, setModal] = useState('none');
-  // 모달종류 : pw, chk, deny, pw_delete, pw_update, none
-  console.log(currentState);
   return (
     <>
       <Map currentState={currentState} />;
