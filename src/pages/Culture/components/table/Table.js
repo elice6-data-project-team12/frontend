@@ -4,7 +4,7 @@ import { useTable, usePagination } from 'react-table';
 const Table = ({
   columns,
   data,
-  fetchData,
+  // fetchData,
   pageCount: controlledPageCount,
   setIndex,
   pageSize,
@@ -45,11 +45,6 @@ const Table = ({
     setIndex(`?page=${pageIndex + 1}`);
   }, [pageIndex]);
 
-  // 쿼리 변경 후 불러온 데이터를 저장하여 pageSize만큼 보여주기
-  useEffect(() => {
-    fetchData({ pageSize, pageIndex });
-  }, [fetchData, pageSize, pageIndex]);
-
   const openModal = e => {
     const { id } = e.target;
 
@@ -87,7 +82,6 @@ const Table = ({
         setBookmarks(newBookmarks);
         localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
         alert('북마크 추가');
-
       } else {
         const newBookmarks = [...bookmarks];
         newBookmarks.splice(index, 1);
