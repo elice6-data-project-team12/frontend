@@ -9,7 +9,8 @@ const Wrap = styled.div`
   background-color: #f2be5b;
   opacity: 0.9;
   position : relative;
-  transform : translateY(-100%);
+  /* bottom:0; */
+  /* transform : translateY(400%); */
 `;
 
 export default Footer;

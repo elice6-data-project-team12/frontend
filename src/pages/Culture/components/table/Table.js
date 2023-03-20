@@ -1,13 +1,17 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTable, usePagination } from 'react-table';
-
 const Table = ({
   columns,
   data,
   fetchData,
   pageCount: controlledPageCount,
   setIndex,
+  pageSize,
+  setPageSize,
+  showModal,
+  setShowModal,
+  setInfoModal,
 }) => {
   const {
     getTableProps,
@@ -22,10 +26,9 @@ const Table = ({
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
 
     // Get the state from the instance
-    state: { pageIndex, pageSize },
+    state: { pageIndex },
   } = useTable(
     {
       columns,
@@ -44,8 +47,57 @@ const Table = ({
 
   // 쿼리 변경 후 불러온 데이터를 저장하여 pageSize만큼 보여주기
   useEffect(() => {
-    fetchData({ pageSize,pageIndex });
-  }, [fetchData, pageSize,pageIndex]);
+    fetchData({ pageSize, pageIndex });
+  }, [fetchData, pageSize, pageIndex]);
+
+  const openModal = e => {
+    const { id } = e.target;
+
+    if (id === 'detail-show') {
+      setShowModal(!showModal);
+    }
+    setShowModal(true);
+  };
+
+  // 북마크에 저장할 데이터
+  const [bookmarks, setBookmarks] = useState([]);
+
+  // 컴포넌트가 마운트될 때, 로컬 스토리지에서 북마크 목록, 아이콘 이미지를 불러오기
+  useEffect(() => {
+    const storedBookmarks = localStorage.getItem('bookmarks');
+    if (storedBookmarks) {
+      setBookmarks(JSON.parse(storedBookmarks));
+    }
+  }, []);
+
+  // 북마크 추가/제거 함수
+  function toggleBookmark(info, e) {
+    const index = bookmarks.findIndex(bookmark => {
+      return (
+        bookmark.name === info.fac_name && bookmark.subject === info.subjcode
+      );
+    });
+
+    if (info.facility_id === Number(e.target.id)) {
+      if (index === -1) {
+        const newBookmarks = [
+          ...bookmarks,
+          { name: info.fac_name, subject: info.subjcode },
+        ];
+        setBookmarks(newBookmarks);
+        localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
+        alert('북마크 추가');
+
+      } else {
+        const newBookmarks = [...bookmarks];
+        newBookmarks.splice(index, 1);
+        setBookmarks(newBookmarks);
+        localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
+        alert('북마크 제거');
+      }
+    }
+  }
+
   return (
     <>
       <pre>
@@ -88,6 +140,29 @@ const Table = ({
             return (
               <tr key={idx} {...row.getRowProps()}>
                 {row.cells.map((cell, idx) => {
+                  if (idx === 4) {
+                    return (
+                      <td key={idx}>
+                        <button
+                          id="detail-show"
+                          onClick={e => {
+                            setInfoModal(cell.row.original.facility_id);
+                            openModal(e);
+                          }}
+                        >
+                          자세히보기.
+                        </button>
+                        <button
+                          id={cell.row.original.facility_id}
+                          onClick={e => {
+                            toggleBookmark(cell.row.original, e);
+                          }}
+                        >
+                          북마크
+                        </button>
+                      </td>
+                    );
+                  }
                   return (
                     <td key={idx} {...cell.getCellProps()}>
                       {cell.render('Cell')}
