@@ -26,14 +26,24 @@ function LoginPage() {
         email: email,
         password: password,
       });
-      const user = res.data.data;
+      const token = res.data.data;
+      localStorage.setItem('userToken', token);
 
-      const jwtToken = jwt_decode(user);
+      console.log(token);
 
-      console.log(jwtToken, 'jwt');
 
-      localStorage.setItem('userToken', jwtToken.userId);
-      if (!localStorage.getItem('userToken')) {
+      const decodedToken = jwt_decode(token);
+      localStorage.setItem('decodedToken', JSON.stringify(decodedToken));
+
+      console.log(decodedToken);
+      console.log(localStorage.getItem('decodedToken'));
+
+
+      localStorage.setItem('userId', decodedToken.userId);
+
+      console.log(decodedToken.userId);
+
+      if (!localStorage.getItem('userId')) {
         navigate('/signup');
       }
       navigate('/');
