@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 function BookMarkButton({ info }) {
   const [isClicked, setIsClicked] = useState(false);
-
+  console.log(info);
   // 북마크 추가/제거 함수
   function toggleBookmark(info) {
     API.post(`/api/user/facility/${info}`)

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useTable, usePagination } from 'react-table';
-import BookMarkButton from './BookMarkButton';
+import BookMarkButton from 'common/BookMarkButton';
 const Table = ({
   columns,
   data,
@@ -55,17 +55,6 @@ const Table = ({
     }
     setShowModal(true);
   };
-
-  // 북마크에 저장할 데이터
-  const [bookmarks, setBookmarks] = useState([]);
-
-  // 컴포넌트가 마운트될 때, 로컬 스토리지에서 북마크 목록, 아이콘 이미지를 불러오기
-  useEffect(() => {
-    const storedBookmarks = localStorage.getItem('bookmarks');
-    if (storedBookmarks) {
-      setBookmarks(JSON.parse(storedBookmarks));
-    }
-  }, []);
 
   return (
     <>
@@ -122,12 +111,7 @@ const Table = ({
                           자세히보기.
                         </button>
 
-                        <BookMarkButton
-                          bookmarks={bookmarks}
-                          setBookmarks={setBookmarks}
-                          color="green"
-                          info={cell.row.original}
-                        />
+                        <BookMarkButton info={cell.row.original.facility_id} />
                       </td>
                     );
                   }
