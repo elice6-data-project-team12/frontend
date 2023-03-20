@@ -33,7 +33,6 @@ function BookMarkButton({ bookmarks, setBookmarks, color, info }) {
     toggleBookmark(info);
   };
 
-  console.log(info);
   return (
     <button
       style={{ backgroundColor: isClicked ? 'red' : color }}

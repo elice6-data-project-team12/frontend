@@ -13,6 +13,7 @@ const Table = ({
   showModal,
   setShowModal,
   setInfoModal,
+  nameSearch,
 }) => {
   const {
     getTableProps,
@@ -43,8 +44,8 @@ const Table = ({
 
   // 페이지번호가 바뀔때마다 쿼리를 변경
   useEffect(() => {
-    setIndex(`?page=${pageIndex + 1}`);
-  }, [pageIndex]);
+    setIndex(`page=${pageIndex + 1}`);
+  }, [pageIndex, nameSearch]);
 
   const openModal = e => {
     const { id } = e.target;
