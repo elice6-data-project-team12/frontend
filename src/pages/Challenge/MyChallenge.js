@@ -46,20 +46,24 @@ const MyChallenge = () => {
           <Title>진행중 챌린지</Title>
         </ColumnTitle>
       </RowContainer>
-      <SliderChallenge data={challenges} />
+      <SliderChallenge joinedChallenge={challenges} />
     </div>
   );
 };
 
 // Slider 컴포넌트
-const SliderChallenge = ({ data }) => {
+// const SliderChallenge = ({ data }) => {
+const SliderChallenge = ({ joinedChallenge }) => {
+  //코드리뷰 20230319
   return (
     <StyledSlider {...sliderSettings}>
-      {data.map((item, index) => (
+      {joinedChallenge.map((item, index) => (
         <SlideContainer key={index}>
           <ImageWrapper>
             <Link to={`/challenge/detail/${item.challenge_id}`}>
-              <Image src={item.image} alt="" />
+              {/* <Image src={item.image} alt="" /> */}
+              <Image src={item.image} alt={item.title} />
+              {/*코드리뷰 20230319 */}
               <Overlay>
                 <ImgTitle>{item.title}</ImgTitle>
                 <Subtitle>
@@ -80,12 +84,12 @@ const sliderSettings = {
   speed: 500,
   infinite: true,
   slidesToShow: 3,
-  slidesToScroll: 3,
+  //slidesToScroll: 3, 코드리뷰 20230319
   slidesMargin: 10,
   centerMode: true,
   responsive: [
     { breakpoint: 1024, settings: { slidesToShow: 3 } },
-    { breakpoint: 600, settings: { slidesToShow: 2 } },
+    { breakpoint: 600, settings: { slidesToShow: 1 } },
     { breakpoint: 480, settings: { slidesToShow: 1 } },
   ],
 };
