@@ -17,7 +17,16 @@ const CultureMap = ({
   useEffect(() => {
     const { addr, subject } = filterObj.filterState;
     const { searchName, all, reset } = filterObj;
-    if (reset) {
+
+    if (all) {
+      API.get(`/api/facility/filter`)
+        .then(Response => {
+          setFilteredList(Response.data.data);
+        })
+        .catch(Error => {
+          console.log(Error);
+        });
+    } else if (reset) {
       setFilteredList([]);
     } else if (searchName) {
       API.get(`/api/facility/search?query=${searchName}`)
@@ -47,7 +56,7 @@ const CultureMap = ({
       }}
       style={{
         // 지도의 크기
-        width: '90%',
+        width: '100%',
         height: '100%',
       }}
       level={8} // 지도의 확대 레벨

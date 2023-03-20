@@ -7,7 +7,7 @@ import {
   Marker,
 } from 'react-simple-maps';
 import { scaleQuantize } from 'd3-scale';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 
 //data
@@ -20,13 +20,12 @@ const mapColor = currentState => {
   if (currentState.rankingTab == 'mw') {
     return scaleQuantize().domain([1000, 7500]).range(mwColor);
   } else if (currentState.rankingTab == 'noise') {
-    return scaleQuantize().domain([50, 68]).range(noiseColor);
+    return scaleQuantize().domain([100000, 700000]).range(noiseColor);
   }
 };
 
 const Map = ({ currentState }) => {
   const [tooltipName, setTooltipName] = useState('');
-  const [tooltipPopulation, setTooltipPopulation] = useState('');
 
   return (
     <>
@@ -35,7 +34,7 @@ const Map = ({ currentState }) => {
       </ReactTooltip>
       <ComposableMap
         projection="geoMercator"
-        projectionConfig={{ rotate: [-60, 0, 5], scale: 38000 }}
+        projectionConfig={{ rotate: [-60, 0, 5], scale: 45000 }}
         data-tip=""
       >
         <ZoomableGroup
@@ -54,7 +53,6 @@ const Map = ({ currentState }) => {
 
                 return (
                   <Geography
-                    className="tansition my-anchor-element"
                     fill={
                       currentState.currentView !== 'ranking'
                         ? null
@@ -64,7 +62,12 @@ const Map = ({ currentState }) => {
                     stroke="#FFF"
                     onMouseEnter={() => {
                       const { name } = geo.properties;
-                      setTooltipName(name);
+                      const population = populationRegion.find(
+                        data => data.region === name
+                      );
+                      setTooltipName(
+                        `${name} 1인 가구수: ${population.population}명`
+                      );
                     }}
                     onMouseLeave={() => {
                       setTooltipName('');
@@ -72,13 +75,22 @@ const Map = ({ currentState }) => {
                     key={geo.rsmKey}
                     geography={geo}
                     style={{
-                      hover: { fill: '#04D' },
+                      hover: { fill: 'rgba(245, 80, 115, 1)' },
                     }}
                   />
                 );
               })
             }
           </Geographies>
+          {populationRegion.map((data, idx) => {
+            return (
+              <Marker key={idx} coordinates={[data.long, data.lat]} fill="#777">
+                <text fontSize="7px" textAnchor="middle" fill="black">
+                  {data.region}
+                </text>
+              </Marker>
+            );
+          })}
         </ZoomableGroup>
       </ComposableMap>
     </>
