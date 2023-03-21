@@ -10,6 +10,8 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
+
+import SearchNameInput from 'pages/Culture/components/filter/SearchNameInput';
 const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
   // 주제 분류 리스트
   const selectList = [
@@ -92,7 +94,10 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
   };
 
   return (
-    <Box className="container" sx={{ width: '40%', padding: '50px', borderRight:"5px solid #F2BE5B" }}>
+    <Box
+      className="container"
+      sx={{ width: '40%', padding: '50px', borderRight: '5px solid #F2BE5B' }}
+    >
       <Box className="filter" sx={{ height: '55%' }}>
         <Stack direction="row" spacing={1}>
           <Chip
@@ -150,35 +155,11 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
         <Box
           sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}
         >
-          <Stack sx={{ mb: '20px' }} direction="row">
-            <TextField
-              id="standard-basic"
-              label="시설명"
-              xs={{}}
-              variant="standard"
-              onChange={e => {
-                setSearchName(e.target.value);
-              }}
-              value={searchName}
-            />
-
-            <Box xs={{ position: 'relative' }}>
-              <SearchIcon
-                sx={{
-                  fontSize: '35px',
-                  cursor: 'pointer',
-                  position: 'absolute',
-                  top: 15,
-                }}
-                name="name"
-                variant="outlined"
-                onClick={e => {
-                  handleFilterNameSearch(e);
-                  setSearchName('');
-                }}
-              />
-            </Box>
-          </Stack>
+          <SearchNameInput
+            setSearchName={setSearchName}
+            handleFilterNameSearch={handleFilterNameSearch}
+            searchName={searchName}
+          />
         </Box>
       </Box>
       <Box className="icons">

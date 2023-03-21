@@ -6,7 +6,7 @@ import CultureTable from './components/table/CultureTable';
 import CultureDetailModal from './components/modal/CultureDetailModal';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-
+import Paper from '@mui/material/Paper';
 //주제분류 아이콘
 import {
   ico_picker01_on,
@@ -72,14 +72,26 @@ const CulturePage = () => {
               <h1 className="title-h1">
                 문화여가 · 시설
                 <span className="txt">
-                  지역별 다양한 문화관련 시설들을 공유합니다
+                  서울시 자역별 다양한 문화관련 시설들을 공유합니다
                 </span>
               </h1>
             </div>
           </div>
         </SectionHeader>
         <SectionMap>
-          <AreaFacility>
+          {/* <AreaFacility> */}
+          <Paper
+            elevation={3}
+            sx={{
+              height: '600px',
+              display: 'flex',
+              marginTop: '20px',
+              justifyContent: 'center',
+              border: '5px solid #f2be5b',
+              overflow: 'hidden',
+              borderRadius: '70px',
+            }}
+          >
             <SelectedFilter
               filterObj={filterObj}
               setFilterObj={setFilterObj}
@@ -92,10 +104,11 @@ const CulturePage = () => {
               setShowModal={setShowModal}
               setInfoModal={setInfoModal}
             />
-          </AreaFacility>
+          </Paper>
+          {/* </AreaFacility> */}
         </SectionMap>
       </Box>
-      <Box>
+      <Box sx={{ mt: '50px' }}>
         <CultureTable
           showModal={showModal}
           setShowModal={setShowModal}
