@@ -4,7 +4,7 @@ import { InputLabel, TextField, Button } from '@mui/material';
 // import DatePicker from "react-datepicker";
 import { Link } from 'react-router-dom';
 import ImageUpload from './ImageUpload';
-import axios from 'axios';
+import API from 'API';
 
 // onCreate, onUpdate, onDelete, challenge (챌린지정보) props
 const ChallengeForm = ({ actionType }) => {
@@ -51,12 +51,9 @@ const ChallengeForm = ({ actionType }) => {
         'Content-Type': 'multipart/form-data',
       };
       console.log('Challenge object:', challenge);
-      const response = await axios.post(
-        'http://localhost:5000/api/challenge/create',
-        // '/api/challenge/create',
-        challenge,
-        { headers }
-      );
+      const response = await API.post('/api/challenge/', challenge, {
+        headers,
+      });
       console.log('Data created:', response.data);
     } catch (error) {
       console.log('Error creating data:', error);

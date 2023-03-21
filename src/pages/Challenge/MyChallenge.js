@@ -16,31 +16,16 @@ import API from 'API';
 const MyChallenge = () => {
   const [challenges, setChallenges] = useState([]);
 
-  // //코드리뷰 수정예정
-  // useEffect(() => {
-  //   API.get('/challenge')
-  //     .then(response => {
-  //       setChallenges(response.data);
-  //     })
-  //     .catch(Error => {
-  //       console.log(Error);
-  //     });
-  // }, []);
-
   useEffect(() => {
     //userid
     //challenge_id
     const requestData = {
       //userid: 123,
-      challenge_id: 123,
     };
     const fetchChallenges = async () => {
       try {
-        const response = await API.get(
-          `/api/challenge/participation`,
-          requestData
-        );
-        setChallenges(response.data);
+        const response = await API.get(`/api/challenge/participation`);
+        setChallenges(response.data.data);
         console.log('MyData selecting data :', response.data);
       } catch (error) {
         console.log('Error MyData selecting data:', error);
@@ -48,6 +33,7 @@ const MyChallenge = () => {
     };
     fetchChallenges();
   }, []);
+  console.log(challenges);
 
   return (
     <div>
