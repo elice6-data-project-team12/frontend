@@ -14,15 +14,8 @@ const ChallengeDetail = challenge => {
   return (
     <div>
       <div>상세챌린지페이지</div>
-
-      {/* <ChallengeItem {...challenge} /> */}
       <ChallengeItem {...challenge} />
-
-      {/* <ChallengeIsJoin campaignId={props.campaignId} /> */}
       <ChallengeIsJoin />
-      {/* <div>
-        <ChallengeForm actionType="update" />
-      </div> */}
     </div>
   );
 };

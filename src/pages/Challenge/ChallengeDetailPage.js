@@ -17,11 +17,7 @@ const ChallengeDetailPage = () => {
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
-        console.log('ChallengeDetailPage Start...');
-        // const response = await API.get('/challenge', { challenge_id: id });
-        const response = await axios.get(
-          `http://localhost:5000/api/challenge/${id}`
-        );
+        const response = await API.get(`/api/challenge/${id}`);
         setChallenge(response.data.data[0]);
         console.log('DataPage selecting detail:', response.data);
       } catch (error) {
