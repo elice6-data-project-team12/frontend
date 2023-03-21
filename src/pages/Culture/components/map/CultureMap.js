@@ -46,7 +46,7 @@ const CultureMap = ({
         });
     }
   }, [filterObj]);
-
+  console.log(filteredList);
   return (
     <Box sx={{ width: '60%' }}>
       <Map // 지도를 표시할 Container
@@ -67,6 +67,7 @@ const CultureMap = ({
             name={value.fac_name}
             addr={value.addr}
             phone={value.phne}
+            subjcode={value.subjcode}
             homepage={value.homepage}
             icons={icons}
             onClick={() => setSeleteMarker(idx)}
