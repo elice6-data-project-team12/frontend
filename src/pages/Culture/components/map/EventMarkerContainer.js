@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MapMarker } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
+import BookMarkButton from 'common/BookMarkButton';
 
 // MUI icons
 import CloseIcon from '@mui/icons-material/Close';
@@ -141,7 +142,7 @@ export const EventMarkerContainer = ({
                 </div>
                 <div className="desc-icon">
                   <BookmarkIcon sx={{ fontSize: 15 }} color="action" />
-                  <button onClick={toggleBookmark}>{bookmarkStatus}</button>
+                  <BookMarkButton info={facilityId} />
                 </div>
               </div>
             </div>

@@ -4,6 +4,7 @@ import CultureMap from './components/map/CultureMap';
 import SelectedFilter from './components/filter/SelectedFilter';
 import CultureTable from './components/table/CultureTable';
 import CultureDetailModal from './components/modal/CultureDetailModal';
+import Button from '@mui/material/Button';
 //주제분류 아이콘
 import {
   ico_picker01_on,
@@ -99,6 +100,7 @@ const CulturePage = () => {
           />
         </SectionShowAllTable>
       </ContentInner>
+      <Button variant="outlined">Outlined</Button>
     </Content>
   );
 };
