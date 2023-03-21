@@ -22,10 +22,10 @@ const ChallengeIsJoin = () => {
   };
 
   useEffect(() => {
-    const apiUrl = `http://localhost:5000/api/challenge/join`;
+    const apiUrl = `http://localhost:5000/api/challenge/participation`;
     const requestData = {
-      isJoined,
-      userid: 123,
+      // isJoined,
+      // userid: 123,
       chellengeid: id,
     };
 

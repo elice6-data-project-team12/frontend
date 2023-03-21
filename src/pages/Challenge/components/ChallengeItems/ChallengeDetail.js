@@ -10,6 +10,7 @@ import ChallengeForm from './ChallengeForm';
 
 const ChallengeDetail = challenge => {
   console.log('ChallengeDetail challenge', challenge);
+
   return (
     <div>
       <div>상세챌린지페이지</div>

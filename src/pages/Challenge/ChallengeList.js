@@ -13,37 +13,32 @@ import API from 'API.js';
 
 const ChallengeList = () => {
   const [challenges, setChallenges] = useState([]);
-  const [challengeStatus, setchallengeStatus] = useState('progress');
+  const [challengeStatus, setchallengeStatus] = useState('progressing');
 
-  const handleClick = selectedchallengeStatus => {
-    setchallengeStatus(selectedchallengeStatus);
+  const handleClick = selectedStatus => {
+    setchallengeStatus(selectedStatus);
   };
 
   useEffect(() => {
-    API.get('/challenge')
-      .then(Response => {
-        setChallenges(Response.data);
-      })
-      .catch(Error => {
-        console.log(Error);
-      });
-  }, []);
+    console.log('challengeStatus :', challengeStatus);
+    const fetchChallenges = async () => {
+      try {
+        const response = await API.get(
+          `api/challenge/status?status=${challengeStatus}`
+        );
+        console.log(response);
+        setChallenges(response.data.data);
+        console.log('challengeStatus selecting data :', response.data);
+      } catch (error) {
+        console.log('Error challengeStatus selecting data', error);
+      }
+    };
+    fetchChallenges();
+  }, [challengeStatus]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         '/api/challenge/post',
-  //         challengeStatus
-  //       );
-  //       setChallenges(response.data);
-  //       console.log('Data selected:', response.data);
-  //     } catch (error) {
-  //       console.log('Error selecting data:', error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, [challengeStatus]);
+  // challenge 객체가 정의되어 있는지 확인
+  // if (!challenge) return <div>Loading...</div>;
+  if (challenges === null) return <div>Loading...</div>;
 
   return (
     <div>
@@ -55,7 +50,7 @@ const ChallengeList = () => {
           <Button
             color="primary"
             variant={challengeStatus === 'progress' ? 'contained' : 'outlined'}
-            onClick={() => handleClick('progress')}
+            onClick={() => handleClick('progressing')}
           >
             진행중
           </Button>
@@ -75,7 +70,7 @@ const ChallengeList = () => {
           <Button
             color="primary"
             variant={challengeStatus === 'completed' ? 'contained' : 'outlined'}
-            onClick={() => handleClick('completed')}
+            onClick={() => handleClick('ended')}
           >
             완료
           </Button>
@@ -97,8 +92,8 @@ const ChallengeList = () => {
           recruit_start={data.recruit_start}
           recruit_end={data.recruit_end}
           challengeStatus={data.delete}
-          start_date={data.start_date}
-          end_date={data.end_date}
+          progress_start={data.progress_start}
+          progress_end={data.progress_end}
         />
       ))}
     </div>
@@ -114,8 +109,8 @@ const ChallengeItem = ({
   recruit_start,
   recruit_end,
   challengeStatus,
-  start_date,
-  end_date,
+  progress_start,
+  progress_end,
 }) => {
   return (
     <RowContainer>
@@ -134,7 +129,7 @@ const ChallengeItem = ({
           </div>
           <div>모집인원 : {recruitment_personnel}</div>
           <div>
-            참여기간: {start_date} ~ {end_date}
+            참여기간: {progress_start} ~ {progress_end}
           </div>
         </Link>
       </ColumnList>
@@ -190,17 +185,5 @@ const Title = styled.h2`
   color: #333;
   margin-bottom: 20px;
 `;
-
-// const handlechallengeStatus = async e => {
-//   e.preventDefault();
-//   try {
-//     //const response = await axios.get('/api/challenge/post/');
-//     const response = await axios.get('/api/challenge/', challengeStatus);
-//     console.log('Data selected list:', response.data);
-//   } catch (error) {
-//     console.error('Error selecting data:', error);
-//     console.log('Error selecting data:', error);
-//   }
-// };
 
 export default ChallengeList;
