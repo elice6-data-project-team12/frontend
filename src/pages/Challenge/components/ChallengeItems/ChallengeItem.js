@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { InputLabel, TextField, Button } from '@mui/material';
+import { InputLabel, Button } from '@mui/material';
 // import DatePicker from "react-datepicker";
 import { Link } from 'react-router-dom';
-import ImageUpload from './ImageUpload';
-import axios from 'axios';
 
 // const ChallengeItem = ({
 //   id,
@@ -18,8 +16,8 @@ import axios from 'axios';
 //   deleteYN,
 //   created_at,
 //   updated_at,
-//   start_date,
-//   end_date,
+//   progress_start,
+//   progress_end,
 // }) => {
 const ChallengeItem = challenge => {
   console.log('ChallengeItem challenge', challenge);
@@ -31,15 +29,15 @@ const ChallengeItem = challenge => {
     title,
     description,
     content,
-    imageUrl,
+    image,
     recruitment_personnel,
     recruit_start,
     recruit_end,
     deleteYN,
     created_at,
     updated_at,
-    start_date,
-    end_date,
+    progress_start,
+    progress_end,
   } = challenge || {};
 
   // 화면 렌더링
@@ -65,7 +63,7 @@ const ChallengeItem = challenge => {
               >
                 <div>
                   <img
-                    src={imageUrl}
+                    src={image}
                     alt="{title}"
                     style={{ maxWidth: '100%', maxHeight: '100%' }}
                   />
@@ -94,7 +92,7 @@ const ChallengeItem = challenge => {
             <br />
             <RowWrapper>
               <div>
-                참여기간 : {start_date} ~ {end_date}
+                참여기간 : {progress_start} ~ {progress_end}
               </div>
             </RowWrapper>
             <br />
