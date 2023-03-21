@@ -11,7 +11,7 @@ const MapChart = () => {
   const [currentState, setCurrentState] = useState({
     currentView: 'ranking',
     //'ranking', 'gu', 'dong', 'info'
-    rankingTab: 'noise',
+    rankingTab: 'population',
     //'mw' or 'noise'
 
     zoom: 2,

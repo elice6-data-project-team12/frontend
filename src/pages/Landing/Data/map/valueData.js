@@ -25,7 +25,7 @@ export const MW_OBJ = [
   { name: '송파구', VALUE: 2099 },
   { name: '강동구', VALUE: 4327 },
 ];
-export const NOISE_OBJ = [
+export const population_OBJ = [
   { name: '광진구', VALUE: 351527 },
   { name: '강남구', VALUE: 394557 },
   { name: '강동구', VALUE: 275054 },

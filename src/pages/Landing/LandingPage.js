@@ -42,6 +42,7 @@ const LandingPage = () => {
           </div>
         </Content>
         <Content>
+        <MapChart />
           <Title>
             <h1 className="title-header">
               이제,부모님이 외롭지 않게 도와주세요.
@@ -119,7 +120,7 @@ const ChartWrap = styled.div`
 
   .bar-wrap,
   .map-wrap {
-    height:100%;
+    height:500px;
     width: 50%;
     display: flex;
     align-items: center;
