@@ -1,10 +1,11 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useTable, usePagination } from 'react-table';
+import BookMarkButton from 'common/BookMarkButton';
 const Table = ({
   columns,
   data,
-  fetchData,
+  // fetchData,
   pageCount: controlledPageCount,
   setIndex,
   pageSize,
@@ -12,6 +13,7 @@ const Table = ({
   showModal,
   setShowModal,
   setInfoModal,
+  nameSearch,
 }) => {
   const {
     getTableProps,
@@ -42,13 +44,8 @@ const Table = ({
 
   // 페이지번호가 바뀔때마다 쿼리를 변경
   useEffect(() => {
-    setIndex(`?page=${pageIndex + 1}`);
-  }, [pageIndex]);
-
-  // 쿼리 변경 후 불러온 데이터를 저장하여 pageSize만큼 보여주기
-  useEffect(() => {
-    fetchData({ pageSize, pageIndex });
-  }, [fetchData, pageSize, pageIndex]);
+    setIndex(`page=${pageIndex + 1}`);
+  }, [pageIndex, nameSearch]);
 
   const openModal = e => {
     const { id } = e.target;
@@ -58,45 +55,6 @@ const Table = ({
     }
     setShowModal(true);
   };
-
-  // 북마크에 저장할 데이터
-  const [bookmarks, setBookmarks] = useState([]);
-
-  // 컴포넌트가 마운트될 때, 로컬 스토리지에서 북마크 목록, 아이콘 이미지를 불러오기
-  useEffect(() => {
-    const storedBookmarks = localStorage.getItem('bookmarks');
-    if (storedBookmarks) {
-      setBookmarks(JSON.parse(storedBookmarks));
-    }
-  }, []);
-
-  // 북마크 추가/제거 함수
-  function toggleBookmark(info, e) {
-    const index = bookmarks.findIndex(bookmark => {
-      return (
-        bookmark.name === info.fac_name && bookmark.subject === info.subjcode
-      );
-    });
-
-    if (info.facility_id === Number(e.target.id)) {
-      if (index === -1) {
-        const newBookmarks = [
-          ...bookmarks,
-          { name: info.fac_name, subject: info.subjcode },
-        ];
-        setBookmarks(newBookmarks);
-        localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
-        alert('북마크 추가');
-
-      } else {
-        const newBookmarks = [...bookmarks];
-        newBookmarks.splice(index, 1);
-        setBookmarks(newBookmarks);
-        localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
-        alert('북마크 제거');
-      }
-    }
-  }
 
   return (
     <>
@@ -152,14 +110,8 @@ const Table = ({
                         >
                           자세히보기.
                         </button>
-                        <button
-                          id={cell.row.original.facility_id}
-                          onClick={e => {
-                            toggleBookmark(cell.row.original, e);
-                          }}
-                        >
-                          북마크
-                        </button>
+
+                        <BookMarkButton info={cell.row.original.facility_id} />
                       </td>
                     );
                   }
