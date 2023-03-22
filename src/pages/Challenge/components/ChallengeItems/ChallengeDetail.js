@@ -15,7 +15,9 @@ const ChallengeDetail = challenge => {
     <div>
       <div>상세챌린지페이지</div>
       <ChallengeItem {...challenge} />
-      <ChallengeIsJoin />
+      <Link to="/challenge/create">
+        <Button color="primary">챌린지 수정 테스트</Button>
+      </Link>
     </div>
   );
 };
