@@ -4,7 +4,9 @@ import CultureMap from './components/map/CultureMap';
 import SelectedFilter from './components/filter/SelectedFilter';
 import CultureTable from './components/table/CultureTable';
 import CultureDetailModal from './components/modal/CultureDetailModal';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 //주제분류 아이콘
 import {
   ico_picker01_on,
@@ -50,10 +52,11 @@ const CulturePage = () => {
   const [infoModal, setInfoModal] = useState(null);
 
   return (
-    <Content>
-      <Block />
-      <Location>소개-&gt; 문화여가시설 찾기</Location>
-      <ContentInner>
+    <Container fixed>
+      <Box sx={{ height: '100px', mb: '20px' }}>
+        <Location>소개-&gt; 문화여가시설 찾기</Location>
+      </Box>
+      <Box>
         {showModal && (
           <CultureDetailModal
             showModal={showModal}
@@ -67,16 +70,28 @@ const CulturePage = () => {
           <div className="section-inner">
             <div className="title-area">
               <h1 className="title-h1">
-                문화여가 · 단체
+                문화여가 · 시설
                 <span className="txt">
-                  지역별 다양한 문화관련 시설들을 공유합니다
+                  서울시 자역별 다양한 문화관련 시설들을 공유합니다
                 </span>
               </h1>
             </div>
           </div>
         </SectionHeader>
         <SectionMap>
-          <AreaFacility>
+          {/* <AreaFacility> */}
+          <Paper
+            elevation={3}
+            sx={{
+              height: '600px',
+              display: 'flex',
+              marginTop: '20px',
+              justifyContent: 'center',
+              border: '5px solid #f2be5b',
+              overflow: 'hidden',
+              borderRadius: '70px',
+            }}
+          >
             <SelectedFilter
               filterObj={filterObj}
               setFilterObj={setFilterObj}
@@ -89,39 +104,25 @@ const CulturePage = () => {
               setShowModal={setShowModal}
               setInfoModal={setInfoModal}
             />
-          </AreaFacility>
+          </Paper>
+          {/* </AreaFacility> */}
         </SectionMap>
-        <SectionShowAllTable>
-          <AreaUtil></AreaUtil>
-          <CultureTable
-            showModal={showModal}
-            setShowModal={setShowModal}
-            setInfoModal={setInfoModal}
-          />
-        </SectionShowAllTable>
-      </ContentInner>
-      <Button variant="outlined">Outlined</Button>
-    </Content>
+      </Box>
+      <Box sx={{ mt: '50px' }}>
+        <CultureTable
+          showModal={showModal}
+          setShowModal={setShowModal}
+          setInfoModal={setInfoModal}
+        />
+      </Box>
+    </Container>
   );
 };
-// 문화여가시설 찾기 페이지 전체영역
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 // 소개 페이지 기준 현재 페이지 상대 위치
 const Location = styled.div`
   height: 84px;
-  width: 1280px;
   padding: 32px 0;
-`;
-
-// Main, Map, Table 담기는 영역
-const ContentInner = styled.div`
-  /* height: 1100px; */
-  width: 1280px;
 `;
 
 // content의 header
@@ -169,27 +170,9 @@ const AreaFacility = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: center;
-  border: 2px solid black;
-`;
-
-// 필터링된 리스트 결과 테이블
-const SectionShowAllTable = styled.div`
-  margin-top: 100px;
-  display: flex;
-  justify-content: center;
-  width: 1280px;
-  border: 1px solid red;
-`;
-
-const AreaUtil = styled.div`
-  height: 40px;
-  border: 1px solid black;
-`;
-
-// 공간 차지용 div
-const Block = styled.div`
-  height: 200px;
-  width: 100%;
+  border: 5px solid #f2be5b;
+  overflow: hidden;
+  border-radius: 70px;
 `;
 
 export default CulturePage;

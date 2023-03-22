@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import API from 'API.js';
 import EventMarkerContainer from './EventMarkerContainer';
-
+import Box from '@mui/material/Box';
 const CultureMap = ({
   filterObj,
   icons,
@@ -46,41 +46,44 @@ const CultureMap = ({
         });
     }
   }, [filterObj]);
-
+  console.log(filteredList);
   return (
-    <Map // 지도를 표시할 Container
-      center={{
-        // 지도의 중심좌표
-        lat: 37.5696296,
-        lng: 126.9721884,
-      }}
-      style={{
-        // 지도의 크기
-        width: '100%',
-        height: '100%',
-      }}
-      level={8} // 지도의 확대 레벨
-    >
-      {filteredList.map((value, idx) => (
-        <EventMarkerContainer
-          name={value.fac_name}
-          addr={value.addr}
-          phone={value.phne}
-          homepage={value.homepage}
-          icons={icons}
-          onClick={() => setSeleteMarker(idx)}
-          subject={value.subjcode}
-          key={`EventMarkerContainer-${value.facility_id}`}
-          facilityId={value.facility_id}
-          position={{ lat: value.x_coord, lng: value.y_coord }}
-          content={<div style={{ color: '#000' }}>{value.fac_name}</div>}
-          isClicked={selectedMarker === idx}
-          showModal={showModal}
-          setShowModal={setShowModal}
-          setInfoModal={setInfoModal}
-        />
-      ))}
-    </Map>
+    <Box sx={{ width: '60%' }}>
+      <Map // 지도를 표시할 Container
+        center={{
+          // 지도의 중심좌표
+          lat: 37.5696296,
+          lng: 126.9721884,
+        }}
+        style={{
+          // 지도의 크기
+          width: '100%',
+          height: '100%',
+        }}
+        level={8} // 지도의 확대 레벨
+      >
+        {filteredList.map((value, idx) => (
+          <EventMarkerContainer
+            name={value.fac_name}
+            addr={value.addr}
+            phone={value.phne}
+            subjcode={value.subjcode}
+            homepage={value.homepage}
+            icons={icons}
+            onClick={() => setSeleteMarker(idx)}
+            subject={value.subjcode}
+            key={`EventMarkerContainer-${value.facility_id}`}
+            facilityId={value.facility_id}
+            position={{ lat: value.x_coord, lng: value.y_coord }}
+            content={<div style={{ color: '#000' }}>{value.fac_name}</div>}
+            isClicked={selectedMarker === idx}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            setInfoModal={setInfoModal}
+          />
+        ))}
+      </Map>
+    </Box>
   );
 };
 

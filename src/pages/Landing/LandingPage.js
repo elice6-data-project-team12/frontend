@@ -1,182 +1,287 @@
 import { useState, useEffect } from 'react';
 import BarChart from './components/charts/BarChart';
 import TwoChart from './components/charts/TwoChart';
-import styled from 'styled-components';
 import DoughnutChart from './components/charts/DoughnutChart';
 import useScrollFadeIn from '../../hooks/useScrollFadeIn.js';
+import useScrollClipPath from 'hooks/useScrollClipPath';
 import MapChart from './components/charts/MapChart';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
+
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
 const LandingPage = () => {
-  const animatedItem = {
+  const animatedFadeInItem = {
     0: useScrollFadeIn('up', 1, 0),
     1: useScrollFadeIn('up', 1, 0.2),
     2: useScrollFadeIn('up', 1, 0.3),
+    3: useScrollFadeIn('up', 1, 2),
+    4: useScrollFadeIn('up', 1, 3),
+  };
+  const animatedPathItem = {
+    0: useScrollFadeIn('up', 1, 0),
+    1: useScrollFadeIn('left', 1, 0.2),
+    2: useScrollFadeIn('up', 1, 0.3),
+    3: useScrollFadeIn('up', 1, 2),
+    4: useScrollFadeIn('up', 1, 3),
   };
 
   return (
-    <Wrap>
-      <ContentWrap>
-        <Block />
-        <Content>
-          <Title>
-            <h1 className="title-header">
-              1인가구 증가로 인해 심화되는 사회적 고립
-            </h1>
-            <p>1인가구 증가~ 외로움 증가</p>
-          </Title>
-          <ChartWrap {...animatedItem[0]}>
-            <div className="bar-wrap">
-              <BarChart />
-            </div>
-            <div className="map-wrap">
-              <MapChart />
-            </div>
-          </ChartWrap>
-        </Content>
-        <Content>
-          <Title>
-            <h1 className="title-header">특히 높은 중~장년층 세대의 비율</h1>
-            <p>사회적 접촉이 40대 이후 지속적 감소~~~ 해결책~~~~ </p>
-          </Title>
-          <div className="content-chart-age" {...animatedItem[1]}>
-            <TwoChart />
-          </div>
-        </Content>
-        <Content>
-        <MapChart />
-          <Title>
-            <h1 className="title-header">
-              이제,부모님이 외롭지 않게 도와주세요.
-            </h1>
-            <p>
-              중장년층을 위한 문화여가시설 지도를 통해 외출을 장려하고
-              <br />
-              커뮤니케이션을 통해 정보를 공유하세요!
-            </p>
-          </Title>
-          <ImgWrap>
-            <div>
-              <Btn>문화여가시설 찾으러 가기</Btn>
-              <Btn>효도챌린지 하러 가기</Btn>
-            </div>
-          </ImgWrap>
-        </Content>
-      </ContentWrap>
-    </Wrap>
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ bgcolor: '#FBF7F2', p: '50px' }}>
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '350px',
+            }}
+            {...animatedPathItem[2]}
+          >
+            <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
+              ⭐ 1인가구 증가에 따른 사회적 고립 문제
+            </Typography>
+            <Typography
+              sx={{ color: 'grey', textAlign: 'center', fontSize: '20px' }}
+              variant="body1"
+              gutterBottom
+            >
+              주변에서 혼자 생활하는 1인가구를 본 적이 있나요? <br /> 혹은 혼자
+              생활해 본 경험이 있나요? <br />
+              혼자 생활하다 보면 사회적으로 고립된 느낌을 받는 동시에 외로움이
+              밀려올 때가 있습니다.
+            </Typography>
+            <br />
+          </Box>
+          <Box
+            sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+            {...animatedFadeInItem[0]}
+          >
+            <Typography
+              sx={{ color: 'grey', textAlign: 'center' }}
+              variant="h5"
+              gutterBottom
+            >
+              2016년 대비 2021년 서울시 1인 가구수 약 35만명이 증가
+            </Typography>
+            <Box sx={{ display: 'flex' }}>
+              <Paper
+                sx={{
+                  width: '50%',
+                  borderBottomLeftRadius: '20%',
+                  background: '#F16565',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                elevation={3}
+              >
+                <BarChart />
+              </Paper>
+              <Paper
+                sx={{
+                  width: '50%',
+                  borderTopRightRadius: '20%',
+                  background: '#D9D9D9',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                elevation={3}
+              >
+                <MapChart />
+              </Paper>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+      <Box sx={{ bgcolor: '#FFFFFF', p: '50px' }}>
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '350px',
+            }}
+            {...animatedPathItem[0]}
+          >
+            <Typography
+              sx={{ color: 'grey', fontSize: '20px', textAlign: 'center' }}
+              variant="body1"
+              gutterBottom
+            >
+              1인가구의 수가 지속적으로 증가하면서 <br /> 사회적 고립 문제는 더
+              이상 개인의 문제가 아닌 사회적 문제로 대두되고있으며,
+              <br /> 적극적으로 예방하고 대책을 마련할 수 있는 실질적인 방안이
+              필요합니다.
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
+      <Box sx={{ bgcolor: '#FBF7F2' }}>
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              p: '50px',
+            }}
+            {...animatedFadeInItem[1]}
+          >
+            <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
+              ⭐ 중장년층 이후 사회적 활동 감소
+            </Typography>
+            <Typography
+              sx={{ color: 'grey', textAlign: 'center', fontSize: '20px' }}
+              variant="body1"
+              gutterBottom
+            >
+              1인가구의 사회적 고립 문제는 특히 50대 이후 중장년층 세대에서
+              나타납니다. <br />
+              1인가구 중에서도 중장년층은 가족과의 관계가 떨어져 있거나,
+              전자기기와 SNS에 능하지 않기 때문입니다.
+            </Typography>
+
+            <Box sx={{ width: '70%' }}>
+              <TwoChart />
+            </Box>
+          </Box>
+          <Box sx={{ p: '50px' }}>
+            <Typography
+              sx={{ color: 'grey', textAlign: 'center', fontSize: '20px' }}
+              variant="body1"
+              gutterBottom
+            >
+              실제로 *커뮤니케이션 지수, *외출 지수와 같은 사회적 접촉량을
+              연령대 별로 살펴보았을 때, <br />
+              다른 연령대에 비해 수치가 현저히 낮은 것을 확인하였습니다.
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
+      <Box sx={{ bgcolor: '#FFFFFF' }}>
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '350px',
+            }}
+            {...animatedPathItem[1]}
+          >
+            <Typography
+              sx={{ color: 'grey', fontSize: '20px', textAlign: 'center' }}
+              variant="body1"
+              gutterBottom
+            >
+              따라서 중장년층 세대의 사회적 접촉(커뮤니케이션 활동과 외출)을
+              장려하기 위하여 <br /> 자녀들과 부모님이 함께 만들어가는 효도
+              서비스를 제공하고자 합니다.
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
+      <Box sx={{ bgcolor: '#F8F9FA' }}>
+        <Container maxWidth="lg">
+          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+            <img
+              src="https://i.ibb.co/sJYLz25/20230322-141751.png"
+              alt="20230322-141751"
+              border="0"
+            />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: '50px',
+              }}
+            >
+              <Typography
+                sx={{ color: 'black', textAlign: 'center' }}
+                variant="h5"
+                gutterBottom
+              >
+                문화시설 정보를 찾고
+                <br />
+                부모님과 함께 외출해요.
+              </Typography>
+              <Typography
+                sx={{ color: 'grey', textAlign: 'center' }}
+                variant="body1"
+                gutterBottom
+              >
+                “매일 외출하는 노인은 건강 상태나 기능적 능력과 상관없이
+                외출하지 않는 노인보다 오래 사는 것으로 나타났다”
+                <br />
+                <br />
+                제레미 제이콥스 박사 - Hadassah Medical Center
+              </Typography>
+              <Link to="/culture">
+                <Button sx={{ maxWidth: '200px' }} variant="contained">
+                  문화여가시설 찾기
+                </Button>
+              </Link>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+      <Box sx={{ bgcolor: '#F8F9FA' }}>
+        <Container maxWidth="lg">
+          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: '50px',
+              }}
+            >
+              <Typography
+                sx={{ color: 'black', textAlign: 'center' }}
+                variant="h5"
+                gutterBottom
+              >
+                <br />
+                문화시설 정보를 찾고 부모님과 함께 외출해요.
+              </Typography>
+              <Typography
+                sx={{ color: 'grey', textAlign: 'center' }}
+                variant="body1"
+                gutterBottom
+              >
+                “매일 외출하는 노인은 건강 상태나 기능적 능력과 상관없이
+                외출하지 않는 노인보다 오래 사는 것으로 나타났다”
+                <br />
+                제레미 제이콥스 박사 - 하다사 메디컬 센터(Hadassah Medical
+                Center)
+              </Typography>
+              <Button sx={{ maxWidth: '200px' }} variant="contained">
+                문화여가시설 찾기
+              </Button>
+            </Box>
+            <img
+              src="https://i.ibb.co/sJYLz25/20230322-141751.png"
+              alt="20230322-141751"
+              border="0"
+            />
+          </Box>
+        </Container>
+      </Box>
+    </Box>
   );
 };
 
-const Wrap = styled.div`
-  height: 3000px;
-  width: 100%;
-  min-height: 100%;
-  padding-bottom: 10%;
-`;
-
-const Block = styled.div`
-  height: 5%;
-  width: 100%;
-`;
-
-const ContentWrap = styled.div`
-  display: block;
-  height: 100%;
-`;
-
-const Content = styled.div`
-  height: 33%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  .content-chart-age {
-    width: 80%;
-    height: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    opacity: 0;
-  }
-`;
-
-const Title = styled.div`
-  height: 30%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .title-header {
-    font-size: 30px;
-    font-weight: 700;
-    margin-bottom: 5%;
-  }
-`;
-
-const ChartWrap = styled.div`
-  height: 70%;
-  display: flex;
-  align-items: center;
-
-  .bar-wrap,
-  .map-wrap {
-    height:500px;
-    width: 50%;
-    display: flex;
-    align-items: center;
-    padding: 5%;
-
-    &:nth-child(1) {
-    }
-    &:nth-child(2) {
-      background-color: #d9d9d9;
-      border-top-right-radius: 20%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-`;
-
-const ImgWrap = styled.div`
-  height: 400px;
-  display: flex;
-  justify-content: center;
-  background-image: url('images/MaskGroup.png');
-  background-size: 100% 100%;
-
-  div {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
-    width: 80%;
-  }
-`;
-
-const Btn = styled.button`
-  margin: 0;
-  border: none;
-  cursor: pointer;
-  width: 300px;
-  margin-bottom: 100px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: var(--button-font-size, 1rem);
-  padding: var(--button-padding, 12px 16px);
-  border-radius: var(--button-radius, 8px);
-  background: var(--button-bg-color, #f2be5b);
-  color: var(--button-color, black);
-  font-weight: 700;
-
-  &:active,
-  &:hover,
-  &:focus {
-    background: var(--button-hover-bg-color, #bc8721);
-  }
-
-  &:disabled {
-    cursor: default;
-    opacity: 0.5;
-    background: var(--button-bg-color, #bc8721);
-  }
-`;
 export default LandingPage;
