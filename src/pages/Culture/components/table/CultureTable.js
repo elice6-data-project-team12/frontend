@@ -34,11 +34,8 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
   useEffect(() => {
     // 이름 검색
     if (nameSearch.length > 0) {
-      API.get(
-        `http://localhost:4000/api/facility/list/search?query=${nameSearch}&${index}`
-      )
+      API.get(`/api/facility/list/search?query=${nameSearch}&${index}`)
         .then(res => {
-          //TODO 백앤드 수정 필요
           setPageCount(res.data.maxPage);
           setData(res.data.data);
         })
@@ -57,6 +54,10 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
         });
     }
   }, [index, pageSize, nameSearch]);
+
+  useEffect(() => {
+    setIndex('page=1');
+  }, [pageSize]);
 
   // Table
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -113,11 +114,13 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
                   setPageSize(Number(e.target.value));
                 }}
               >
-                {[10, 20, 30, 40, 50].map(pageSize => (
-                  <MenuItem key={pageSize} value={pageSize}>
-                    Show {pageSize}
-                  </MenuItem>
-                ))}
+                {[10, 20, 30, 40, 50].map(pageSize => {
+                  return (
+                    <MenuItem key={pageSize} value={pageSize}>
+                      Show {pageSize}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
           </Box>
@@ -209,35 +212,5 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
     </div>
   );
 };
-
-// const Styles = styled.div`
-//   table {
-//     border-spacing: 0;
-//     border: 1px solid black;
-//     width: 1270px;
-//     tr {
-//       :last-child {
-//         td {
-//           border-bottom: 0;
-//         }
-//       }
-//     }
-//     th,
-//     td {
-//       margin: 0;
-//       padding: 0.5rem;
-//       border-bottom: 1px solid black;
-//       border-right: 1px solid black;
-
-//       :last-child {
-//         border-right: 0;
-//       }
-//     }
-//   }
-
-//   .pagination {
-//     padding: 0.5rem;
-//   }
-// `;
 
 export default CultureTable;
