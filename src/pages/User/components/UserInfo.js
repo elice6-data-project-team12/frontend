@@ -42,7 +42,7 @@ export default function MyInfoList({ datas }) {
   // 회원정보 업데이트
   const handleUpdateInfo = e => {
     e.preventDefault();
-    API.put('http://localhost:4000/api/user', inputValue).then(res => {
+    API.put('/api/user', inputValue).then(res => {
       alert('성공');
       })
       .catch(err => {
