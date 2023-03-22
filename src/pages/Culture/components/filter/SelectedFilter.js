@@ -81,7 +81,7 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
   };
   const handleFilterNameSearch = e => {
     e.preventDefault();
-
+    setSearchName('');
     return setFilterObj({
       reset: false,
       all: false,
@@ -91,6 +91,23 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
         subject: '',
       },
     });
+  };
+
+  const handleFilterNameKeyDown = e => {
+    e.preventDefault();
+
+    if (e.key === 'Enter') {
+      setSearchName('');
+      return setFilterObj({
+        reset: false,
+        all: false,
+        searchName: searchName,
+        filterState: {
+          addr: '',
+          subject: '',
+        },
+      });
+    }
   };
 
   return (
@@ -158,6 +175,7 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
           <SearchNameInput
             setSearchName={setSearchName}
             handleFilterNameSearch={handleFilterNameSearch}
+            handleFilterNameKeyDown={handleFilterNameKeyDown}
             searchName={searchName}
           />
         </Box>

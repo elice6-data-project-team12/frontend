@@ -44,7 +44,7 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
         });
       // 전체 검색
     } else {
-      API.get(`/api/facility?${index}&pageSize=${pageSize}`) // 백앤드 API (정상작동)
+      API.get(`/api/facility?${index}&pageSize=${pageSize}`)
         .then(res => {
           setPageCount(res.data.maxPage);
           setData(res.data.data);
@@ -93,6 +93,17 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
     setShowModal(true);
   };
 
+  const handleFilterNameKeyDown = e => {
+    e.preventDefault();
+
+    if (e.key === 'Enter') {
+      setNameInput('');
+      return setNameSearch(e.target.value);
+    }
+  };
+
+  useEffect(() => {});
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -109,8 +120,8 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
               <InputLabel id="demo-simple-select-label">개수</InputLabel>
 
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="show-count-label"
+                id="show-count"
                 value={pageSize}
                 label="Age"
                 onChange={e => {
@@ -136,6 +147,9 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
               variant="standard"
               onChange={e => {
                 setNameInput(e.target.value);
+              }}
+              onKeyDown={e => {
+                handleFilterNameKeyDown(e);
               }}
               value={nameInput || ''}
             />
