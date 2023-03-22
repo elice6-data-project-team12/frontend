@@ -4,53 +4,51 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import API from 'API';
 
-//TODO 진행률60%
-// Backend 연동테스트
-// 로그인일 경우만 보이도록 변경
-// CSS 작업
-
-// MyChallenge 컴포넌트
 const MyChallenge = () => {
   const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
-    //userid
-    //challenge_id
-    const requestData = {
-      //userid: 123,
-    };
     const fetchChallenges = async () => {
       try {
         const response = await API.get(`/api/challenge/participation`);
         setChallenges(response.data.data);
-        console.log('MyData selecting data :', response.data);
       } catch (error) {
+        alert('로그인');
         console.log('Error MyData selecting data:', error);
       }
     };
     fetchChallenges();
   }, []);
-  console.log(challenges);
 
   return (
-    <div>
+    <>
       <RowContainer>
         <ColumnTitle>
           <Title>진행중 챌린지</Title>
         </ColumnTitle>
       </RowContainer>
       <SliderChallenge joinedChallenge={challenges} />
-    </div>
+    </>
   );
 };
 
-// Slider 컴포넌트
-// const SliderChallenge = ({ data }) => {
 const SliderChallenge = ({ joinedChallenge }) => {
-  //코드리뷰 20230319
+  const sliderSettings = {
+    dots: true,
+    speed: 500,
+    infinite: true,
+    slidesMargin: 10,
+    centerMode: true,
+    slidesToShow: joinedChallenge.length >= 3 ? 3 : joinedChallenge.length,
+    slidesToScroll: joinedChallenge.length >= 3 ? 3 : joinedChallenge.length,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 600, settings: { slidesToShow: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 1 } },
+    ],
+  };
 
   return (
     <StyledSlider {...sliderSettings}>
@@ -58,9 +56,7 @@ const SliderChallenge = ({ joinedChallenge }) => {
         <SlideContainer key={index}>
           <ImageWrapper>
             <Link to={`/challenge/detail/${item.challenge_id}`}>
-              {/* <Image src={item.image} alt="" /> */}
               <Image src={item.image} alt={item.title} />
-              {/*코드리뷰 20230319 */}
               <Overlay>
                 <ImgTitle>{item.title}</ImgTitle>
                 <Subtitle>
@@ -73,22 +69,6 @@ const SliderChallenge = ({ joinedChallenge }) => {
       ))}
     </StyledSlider>
   );
-};
-
-// 슬라이더의 설정값을 상수로 정의
-const sliderSettings = {
-  dots: true,
-  speed: 500,
-  infinite: true,
-  slidesToShow: 3,
-  //slidesToScroll: 3, 코드리뷰 20230319
-  slidesMargin: 10,
-  centerMode: true,
-  responsive: [
-    { breakpoint: 1024, settings: { slidesToShow: 3 } },
-    { breakpoint: 600, settings: { slidesToShow: 1 } },
-    { breakpoint: 480, settings: { slidesToShow: 1 } },
-  ],
 };
 
 const StyledSlider = styled(Slider)`
