@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { Button } from '@mui/material';
-import axios from 'axios';
-
-// userid: 123,
-// chellengeid: id,
-// CSS
+import API from 'API';
 
 const ChallengeIsJoin = () => {
   const { id } = useParams();
@@ -14,7 +10,6 @@ const ChallengeIsJoin = () => {
 
   console.log('ChallengeDetailPage params: ', id);
 
-  // 참여하기
   // 참여하기 : 참여테이블 POST
   // 참여취소 : 참여테이블 DELECT
   const handleClickJoined = () => {
@@ -22,17 +17,15 @@ const ChallengeIsJoin = () => {
   };
 
   useEffect(() => {
-    const apiUrl = `http://localhost:5000/api/challenge/join`;
+    const apiUrl = `/api/challenge/participation`;
     const requestData = {
-      isJoined,
-      userid: 123,
       chellengeid: id,
     };
 
     console.log('requestData: ', requestData);
     const method = isJoined ? 'POST' : 'DELETE';
 
-    axios({
+    API({
       method: method,
       url: apiUrl,
       data: requestData,

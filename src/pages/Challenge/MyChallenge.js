@@ -17,27 +17,23 @@ const MyChallenge = () => {
   const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
-    API.get('/challenge')
-      .then(Response => {
-        setChallenges(Response.data);
-      })
-      .catch(Error => {
-        console.log(Error);
-      });
+    //userid
+    //challenge_id
+    const requestData = {
+      //userid: 123,
+    };
+    const fetchChallenges = async () => {
+      try {
+        const response = await API.get(`/api/challenge/participation`);
+        setChallenges(response.data.data);
+        console.log('MyData selecting data :', response.data);
+      } catch (error) {
+        console.log('Error MyData selecting data:', error);
+      }
+    };
+    fetchChallenges();
   }, []);
-
-  // useEffect(() => {
-  //   const fetchChallenges = async () => {
-  //     try {
-  //       const response = await axios.get(`/api/challenge/posts`);
-  //       setChallenges(response.data);
-  //       console.log('Data selecting detail:', response.data);
-  //     } catch (error) {
-  //       console.log('Error selecting data:', error);
-  //     }
-  //   };
-  //   fetchChallenges();
-  // }, []);
+  console.log(challenges);
 
   return (
     <div>
@@ -55,6 +51,7 @@ const MyChallenge = () => {
 // const SliderChallenge = ({ data }) => {
 const SliderChallenge = ({ joinedChallenge }) => {
   //코드리뷰 20230319
+
   return (
     <StyledSlider {...sliderSettings}>
       {joinedChallenge.map((item, index) => (
@@ -67,7 +64,7 @@ const SliderChallenge = ({ joinedChallenge }) => {
               <Overlay>
                 <ImgTitle>{item.title}</ImgTitle>
                 <Subtitle>
-                  {item.start_date}-{item.end_date}
+                  {item.progress_start}-{item.progress_end}
                 </Subtitle>
               </Overlay>
             </Link>

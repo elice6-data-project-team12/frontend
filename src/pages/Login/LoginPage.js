@@ -32,7 +32,8 @@ function LoginPage() {
 
       console.log(jwtToken, 'jwt');
 
-      localStorage.setItem('userToken', jwtToken.userId);
+      localStorage.setItem('userId', jwtToken.userId);
+      localStorage.setItem('userToken', user);
       if (!localStorage.getItem('userToken')) {
         navigate('/signup');
       }

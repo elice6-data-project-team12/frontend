@@ -89,10 +89,10 @@ const Nav = () => {
 
 const NavWrap = styled.div`
   width: 100%;
-  height: 15%;
+  height: 100px;
   display: flex;
   justify-content: space-between;
-  position: fixed;
+  position: sticky;
   top: 0;
   background-color: lightgray;
   opacity: 0.8;

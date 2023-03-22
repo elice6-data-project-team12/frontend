@@ -4,7 +4,7 @@ import { InputLabel, TextField, Button } from '@mui/material';
 // import DatePicker from "react-datepicker";
 import { Link } from 'react-router-dom';
 import ImageUpload from './ImageUpload';
-import axios from 'axios';
+import API from 'API';
 
 // onCreate, onUpdate, onDelete, challenge (챌린지정보) props
 const ChallengeForm = ({ actionType }) => {
@@ -16,17 +16,11 @@ const ChallengeForm = ({ actionType }) => {
     content: '',
     image: '',
     recruitment_personnel: '',
-    //recruit_start: '',
-    //recruit_start: new Date().toISOString().slice(0, 10),
-    //recruit_start: getCurrentDate(),
     recruit_start: currentDate,
-    recruit_end: '',
+    recruit_end: currentDate,
     delete: 'N',
-    // start_date: '',
-    //start_date: new Date().toISOString().slice(0, 10),
-    // start_date: getCurrentDate(),
-    start_date: currentDate,
-    end_date: '',
+    progress_start: currentDate,
+    progress_end: currentDate,
   });
 
   const handleChange = e => {
@@ -57,12 +51,9 @@ const ChallengeForm = ({ actionType }) => {
         'Content-Type': 'multipart/form-data',
       };
       console.log('Challenge object:', challenge);
-      const response = await axios.post(
-        'http://localhost:5000/api/challenge/create',
-        // '/api/challenge/create',
-        challenge,
-        { headers }
-      );
+      const response = await API.post('/api/challenge/', challenge, {
+        headers,
+      });
       console.log('Data created:', response.data);
     } catch (error) {
       console.log('Error creating data:', error);
@@ -98,27 +89,27 @@ const ChallengeForm = ({ actionType }) => {
       errors.recruit_end = '모집 종료일은 모집 시작일 이후로 선택해주세요.';
     }
 
-    if (!challenge.start_date) {
-      errors.start_date = '참여 시작일을 선택해주세요.';
+    if (!challenge.progress_start) {
+      errors.progress_start = '참여 시작일을 선택해주세요.';
     } else if (
       challenge.recruit_start &&
-      challenge.start_date < challenge.recruit_start
+      challenge.progress_start < challenge.recruit_start
     ) {
-      errors.start_date = '참여 시작일은 모집 시작일 이후로 선택해주세요.';
+      errors.progress_start = '참여 시작일은 모집 시작일 이후로 선택해주세요.';
     }
 
-    if (!challenge.end_date) {
-      errors.end_date = '참여 종료일을 선택해주세요.';
+    if (!challenge.progress_end) {
+      errors.progress_end = '참여 종료일을 선택해주세요.';
     } else if (
-      challenge.start_date &&
-      challenge.start_date > challenge.end_date
+      challenge.progress_start &&
+      challenge.progress_start > challenge.progress_end
     ) {
-      errors.end_date = '참여 종료일은 참여 시작일 이후로 선택해주세요.';
+      errors.progress_end = '참여 종료일은 참여 시작일 이후로 선택해주세요.';
     } else if (
       challenge.recruit_end &&
-      challenge.end_date > challenge.recruit_end
+      challenge.progress_end > challenge.recruit_end
     ) {
-      errors.end_date = '참여 종료일은 모집 종료일 이전으로 선택해주세요.';
+      errors.progress_end = '참여 종료일은 모집 종료일 이전으로 선택해주세요.';
     }
 
     setErrors(errors);
@@ -223,14 +214,14 @@ const ChallengeForm = ({ actionType }) => {
             <br />
             <RowWrapper>
               <div>
-                <InputLabel htmlFor="start_date">참여기간</InputLabel>
+                <InputLabel htmlFor="progress_start">참여기간</InputLabel>
                 <TextField
                   label=""
                   type="date"
                   variant="outlined"
-                  id="start_date"
-                  name="start_date"
-                  value={challenge.start_date}
+                  id="progress_start"
+                  name="progress_start"
+                  value={challenge.progress_start}
                   onChange={handleChange}
                   size="small"
                 />
@@ -239,9 +230,9 @@ const ChallengeForm = ({ actionType }) => {
                   label=""
                   type="date"
                   variant="outlined"
-                  id="end_date"
-                  name="end_date"
-                  value={challenge.end_date}
+                  id="progress_end"
+                  name="progress_end"
+                  value={challenge.progress_end}
                   onChange={handleChange}
                   size="small"
                 />
