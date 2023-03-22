@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 // import DatePicker from "react-datepicker";
 import { Link } from 'react-router-dom';
-import ChallengeIsJoin from './ChallengeIsJoin';
 import ImageUpload from './ImageUpload';
 import API from 'API';
 
@@ -62,7 +61,7 @@ const ChallengeItem = challenge => {
         <Grid item xs={12} sm={6}>
           <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
             <FormControl style={{ width: '100%' }}>
-              <TextField
+              <Label
                 id="title"
                 name="title"
                 label="챌린지명"
@@ -144,10 +143,9 @@ const ChallengeItem = challenge => {
                   />
                 </Grid>
               </Grid>
-              {/* <Button variant="contained" sx={{ mt: 2 }}>
+              <Button variant="contained" sx={{ mt: 2 }}>
                 참여하기
-              </Button> */}
-              <ChallengeIsJoin />
+              </Button>
             </FormControl>
           </Box>
         </Grid>
@@ -181,6 +179,7 @@ const ChallengeItem = challenge => {
           >
             수정
           </Button>
+          {/* <ChallengeForm actionType="update" /> */}
         </Grid>
       </Grid>
     </StyledContainer>

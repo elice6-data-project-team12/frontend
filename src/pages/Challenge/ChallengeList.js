@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
-import axios from 'axios';
+import {
+  TextField,
+  Button,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardMedia,
+} from '@mui/material';
 import API from 'API.js';
 
 //TODO 진행률60%
@@ -15,7 +27,7 @@ const ChallengeList = () => {
   const [challenges, setChallenges] = useState([]);
   const [challengeStatus, setchallengeStatus] = useState('progressing');
 
-  const handleClick = selectedStatus => {
+  const handleStatusClick = selectedStatus => {
     setchallengeStatus(selectedStatus);
   };
 
@@ -38,7 +50,8 @@ const ChallengeList = () => {
 
   // challenge 객체가 정의되어 있는지 확인
   // if (!challenge) return <div>Loading...</div>;
-  if (challenges === null) return <div>Loading...</div>;
+  if (challenges.length === 0) return <div>Loading...</div>;
+  if (challenges.length === null) return <div>Loading...</div>;
 
   return (
     <div>
@@ -50,7 +63,7 @@ const ChallengeList = () => {
           <Button
             color="primary"
             variant={challengeStatus === 'progress' ? 'contained' : 'outlined'}
-            onClick={() => handleClick('progressing')}
+            onClick={() => handleStatusClick('progressing')}
           >
             진행중
           </Button>
@@ -61,7 +74,7 @@ const ChallengeList = () => {
             variant={
               challengeStatus === 'recruiting' ? 'contained' : 'outlined'
             }
-            onClick={() => handleClick('recruiting')}
+            onClick={() => handleStatusClick('recruiting')}
           >
             모집중
           </Button>
@@ -70,7 +83,7 @@ const ChallengeList = () => {
           <Button
             color="primary"
             variant={challengeStatus === 'completed' ? 'contained' : 'outlined'}
-            onClick={() => handleClick('ended')}
+            onClick={() => handleStatusClick('ended')}
           >
             완료
           </Button>
@@ -81,19 +94,19 @@ const ChallengeList = () => {
           </Link>
         </ColumnTitle>
       </RowContainer>
-      {challenges.map(data => (
+      {challenges.map(challenge => (
         <ChallengeItem
-          key={data.challenge_id}
-          id={data.challenge_id}
-          title={data.title}
-          description={data.description}
-          imageUrl={data.image}
-          recruitment_personnel={data.recruitment_personnel}
-          recruit_start={data.recruit_start}
-          recruit_end={data.recruit_end}
-          challengeStatus={data.delete}
-          progress_start={data.progress_start}
-          progress_end={data.progress_end}
+          key={challenge.challenge_id}
+          id={challenge.challenge_id}
+          title={challenge.title}
+          description={challenge.description}
+          image={challenge.image}
+          recruit_person={challenge.recruit_person}
+          recruit_start={challenge.recruit_start}
+          recruit_end={challenge.recruit_end}
+          challengeStatus={challenge.isDeleted}
+          progress_start={challenge.progress_start}
+          progress_end={challenge.progress_end}
         />
       ))}
     </div>
@@ -104,8 +117,8 @@ const ChallengeItem = ({
   id,
   title,
   description,
-  imageUrl,
-  recruitment_personnel,
+  image,
+  recruit_person,
   recruit_start,
   recruit_end,
   challengeStatus,
@@ -116,7 +129,7 @@ const ChallengeItem = ({
     <RowContainer>
       <ColumnList>
         <Link to={`/challenge/detail/${id}`}>
-          <img width="300px" height="200px" src={imageUrl} alt={title} />
+          <img width="300px" height="200px" src={image} alt={title} />
         </Link>
       </ColumnList>
       <ColumnList>
@@ -127,7 +140,7 @@ const ChallengeItem = ({
           <div>
             모집기간 : {recruit_start} ~ {recruit_end}
           </div>
-          <div>모집인원 : {recruitment_personnel}</div>
+          <div>모집인원 : {recruit_person}</div>
           <div>
             참여기간: {progress_start} ~ {progress_end}
           </div>

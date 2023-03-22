@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 const ChallengePage = () => {
   return (
     <div>
-      <MyChallenge />
+      {localStorage.getItem('userToken') ? <MyChallenge /> : null}
       <ChallengeList />
     </div>
   );
