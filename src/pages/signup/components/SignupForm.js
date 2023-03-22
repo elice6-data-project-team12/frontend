@@ -59,7 +59,7 @@ function SignupForm() {
   
     const handleSignup = e => {
       e.preventDefault();
-      API.post('http://localhost:4000/api/user/signup', {
+      API.post('/api/user/signup', {
         email: email,
         name: name,
         password: password,

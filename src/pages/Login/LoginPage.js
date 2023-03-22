@@ -22,7 +22,7 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await API.post('http://localhost:4000/api/user/login', {
+      const res = await API.post('/api/user/login', {
         email: email,
         password: password,
       });
