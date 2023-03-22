@@ -1,7 +1,17 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import { seoul } from 'pages/Landing/Data/map/valueData';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
 
+import SearchNameInput from 'pages/Culture/components/filter/SearchNameInput';
 const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
   // 주제 분류 리스트
   const selectList = [
@@ -16,13 +26,20 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
 
   const addrList = seoul.map(data => data.name);
 
-  const [selected, setSelected] = useState('');
+  const [selectedAddr, setSelectedAddr] = useState('');
+  const [selectedSubject, setSelectedSubject] = useState('');
   const [searchName, setSearchName] = useState('');
+
   // 필터 정보 저장 함수 (select)
   const handleFilterSelect = e => {
     const name = e.target.value;
-    const tag = e.target.id;
-    setSelected(name);
+    const tag = e.target.name;
+    if (tag === 'subject') {
+      setSelectedSubject(name);
+    } else if (tag === 'addr') {
+      setSelectedAddr(name);
+    }
+
     e.preventDefault();
     return setFilterObj({
       reset: false,
@@ -75,99 +92,95 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
       },
     });
   };
+
   return (
-    <FacilityFilter>
-      <FilterWrap>
-        <div className="filter-subject">
-          <select id="subject" onChange={handleFilterSelect} value={selected}>
-            {selectList.map(item => (
-              <option value={item} key={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <hr />
-        </div>
-        <div className="filter-subject">
-          <select id="addr" onChange={handleFilterSelect} value={selected}>
-            {addrList.map(item => (
-              <option value={item} key={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <hr />
-        </div>
-        <button id="all" onMouseDown={handleFilterShowAll}>
-          전체보기
-        </button>
-        <hr />
-        <input
-          placeholder="이름 검색"
-          onChange={e => {
-            setSearchName(e.target.value);
-          }}
-          value={searchName}
-        />
-        <button
-          id="name"
-          onMouseDown={e => {
-            handleFilterNameSearch(e);
-            setSearchName('');
-          }}
+    <Box
+      className="container"
+      sx={{ width: '40%', padding: '50px', borderRight: '5px solid #F2BE5B' }}
+    >
+      <Box className="filter" sx={{ height: '55%' }}>
+        <Stack direction="row" spacing={1}>
+          <Chip
+            label="전체보기"
+            name="all"
+            sx={{ backgroundColor: '#F2BE5B' }}
+            onClick={handleFilterShowAll}
+          />
+          <Chip
+            label="초기화"
+            name="reset"
+            sx={{ backgroundColor: '#F2BE5B' }}
+            onClick={handleFilterReset}
+          />
+        </Stack>
+        <Box sx={{ minWidth: 120, mb: '20px', mt: '20px' }}>
+          <FormControl fullWidth>
+            <InputLabel id="subject-label">시설분류</InputLabel>
+            <Select
+              labelId="subject-label"
+              id="subject"
+              value={selectedSubject}
+              label="subject"
+              name="subject"
+              onChange={handleFilterSelect}
+            >
+              {selectList.map(item => (
+                <MenuItem value={item} key={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+
+        <Box sx={{ minWidth: 120, mb: '20px' }}>
+          <FormControl fullWidth>
+            <InputLabel id="addr-label">지역</InputLabel>
+            <Select
+              labelId="addr-label"
+              id="addr"
+              value={selectedAddr}
+              label="addr"
+              name="addr"
+              onChange={handleFilterSelect}
+            >
+              {addrList.map(item => (
+                <MenuItem value={item} key={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        <Box
+          sx={{ display: 'flex', alignItems: 'center', position: 'relative' }}
         >
-          검색
-        </button>
-        <button id="reset" onMouseDown={handleFilterReset}>
-          초기화
-        </button>
-        <IconWrap>
-          {icons.map(i => (
-            <div className="icon" key={i.value}>
+          <SearchNameInput
+            setSearchName={setSearchName}
+            handleFilterNameSearch={handleFilterNameSearch}
+            searchName={searchName}
+          />
+        </Box>
+      </Box>
+      <Box className="icons">
+        <Grid
+          sx={{ height: '100px' }}
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+        >
+          {icons.map((i, index) => (
+            <Grid item xs={2} sm={4} md={4} key={index}>
               <img src={i.img} alt={i.value} />
-              <span className="icon-title">{i.value}</span>
-            </div>
+              <Box sx={{ mt: '5px' }}>
+                <span className="icon-title">{i.value}</span>
+              </Box>
+            </Grid>
           ))}
-        </IconWrap>
-      </FilterWrap>
-    </FacilityFilter>
+        </Grid>
+      </Box>
+    </Box>
   );
 };
-const FacilityFilter = styled.div`
-  width: 40%;
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const FilterWrap = styled.div`
-  width: 100%;
-
-  .filter-subject {
-    height: 70px;
-  }
-`;
-
-const IconWrap = styled.div`
-  height: 283px;
-  width: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  .icon {
-    height: 100px;
-    width: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .icon-title {
-      margin-top: 10px;
-      font-size: 10px;
-      font-weight: 700;
-    }
-  }
-`;
 
 export default SelectedFilter;

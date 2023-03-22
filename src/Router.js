@@ -33,7 +33,7 @@ function Router() {
           <Route path="/item" element={<ItemPage />} />
           <Route path="/user" element={<MyPage />} />
         </Routes>
-        {/* <Footer /> */}
+        <Footer />
       </BrowserRouter>
     </Provider>
   );

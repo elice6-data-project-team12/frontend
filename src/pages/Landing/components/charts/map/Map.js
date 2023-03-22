@@ -66,7 +66,7 @@ const Map = ({ currentState }) => {
                     key={geo.rsmKey}
                     geography={geo}
                     style={{
-                      hover: { fill: 'rgba(245, 80, 115, 1)' },
+                      hover: { fill: 'rgba(91, 184, 251, 1)' },
                     }}
                   />
                 );

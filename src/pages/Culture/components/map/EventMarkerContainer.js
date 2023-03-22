@@ -7,9 +7,15 @@ import BookMarkButton from 'common/BookMarkButton';
 import CloseIcon from '@mui/icons-material/Close';
 import CallIcon from '@mui/icons-material/Call';
 import HomeIcon from '@mui/icons-material/Home';
-import MapIcon from '@mui/icons-material/Map';
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
+
+// MUI UI
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { BorderClear } from '@mui/icons-material';
 
 // 지도에 나타나는 marker 컴포넌트
 export const EventMarkerContainer = ({
@@ -18,6 +24,7 @@ export const EventMarkerContainer = ({
   subject,
   name,
   addr,
+  subjcode,
   homepage,
   phone,
   onClick,
@@ -33,18 +40,9 @@ export const EventMarkerContainer = ({
   // 주제분류에 해당하는 아이콘 이미지 설정
   const selectedIconImg = icons.find(data => data.value === subject);
 
-  // 북마크에 저장할 데이터
-  const [bookmarks, setBookmarks] = useState([]);
-  const [bookmarkStatus, SetBookmarkStatus] = useState('북마크 추가');
-
   // 컴포넌트가 마운트될 때, 로컬 스토리지에서 북마크 목록, 아이콘 이미지를 불러오기
   useEffect(() => {
     setIconImg(selectedIconImg.img);
-
-    const storedBookmarks = localStorage.getItem('bookmarks');
-    if (storedBookmarks) {
-      setBookmarks(JSON.parse(storedBookmarks));
-    }
   }, []);
   // 상세모달 열기 함수
   const openModal = e => {
@@ -56,30 +54,11 @@ export const EventMarkerContainer = ({
     setShowModal(true);
   };
 
-  // 북마크 추가/제거 함수
-  function toggleBookmark() {
-    const index = bookmarks.findIndex(
-      bookmark => bookmark.name === name && bookmark.subject === subject
-    );
-
-    if (index === -1) {
-      const newBookmarks = [...bookmarks, { name: name, subject: subject }];
-      SetBookmarkStatus('북마크 제거');
-      setBookmarks(newBookmarks);
-      localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
-    } else {
-      const newBookmarks = [...bookmarks];
-      SetBookmarkStatus('북마크 추가');
-      newBookmarks.splice(index, 1);
-      setBookmarks(newBookmarks);
-      localStorage.setItem('bookmarks', JSON.stringify(newBookmarks));
-    }
-  }
-
   return (
     <FacilityMap>
       <MapMarker
         position={position} // 마커를 표시할 위치
+        content={BorderClear}
         onClick={() => {
           onClick();
           setIsOpen(!isOpen);
@@ -99,54 +78,76 @@ export const EventMarkerContainer = ({
         }}
       >
         {isClicked && isOpen && (
-          <CustomOverlayWrap>
-            <div className="header">
-              <div className="title">
-                <span>{name}</span>
-              </div>
-              <div className="close" onClick={() => setIsOpen(false)}>
-                <CloseIcon
-                  sx={{ fontSize: 15 }}
-                  style={{ cursor: 'pointer' }}
-                />
-              </div>
-            </div>
-
-            <div className="body">
-              <div className="desc">
-                <div className="desc-icon">
-                  <ReadMoreIcon sx={{ fontSize: 15 }} color="action" />
-                  <button
-                    id="detail-show"
-                    onClick={e => {
-                      setInfoModal(facilityId);
-                      openModal(e);
+          <Card sx={{ minWidth: 275 }}>
+            <CardContent>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mb: '5px',
+                }}
+              >
+                <Typography
+                  sx={{ fontSize: 18, fontWeight: 700 }}
+                  color="text.HighlightText"
+                >
+                  <img
+                    src={iconImg}
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      verticalAlign: 'middle',
                     }}
-                  >
-                    자세히보기
-                  </button>
+                    alt="icon"
+                  />
+
+                  <span style={{ verticalAlign: 'middle' }}> {` ${name}`}</span>
+                </Typography>
+                <div className="close" onClick={() => setIsOpen(false)}>
+                  <CloseIcon
+                    sx={{ fontSize: 15 }}
+                    style={{ cursor: 'pointer' }}
+                  />
                 </div>
-                <div className="desc-icon">
-                  <MapIcon sx={{ fontSize: 15 }} color="action" />
-                  <span>{addr}</span>
-                </div>
-                <div className="desc-icon">
-                  <CallIcon sx={{ fontSize: 15 }} color="action" />
-                  <span>{phone}</span>
-                </div>
-                <div className="desc-icon">
-                  <a href={homepage}>
-                    <HomeIcon sx={{ fontSize: 15 }} color="action" />
-                    <span>공식 홈페이지</span>
-                  </a>
-                </div>
-                <div className="desc-icon">
-                  <BookmarkIcon sx={{ fontSize: 15 }} color="action" />
-                  <BookMarkButton info={facilityId} />
-                </div>
-              </div>
-            </div>
-          </CustomOverlayWrap>
+              </Box>
+              <Typography variant="h5" component="div"></Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                {`위치: 서울시 ${addr}`}
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                {`시설분류: ${subjcode}`}
+              </Typography>
+              <Typography variant="body2">
+                <a href={homepage}>
+                  <span style={{ verticalAlign: 'middle' }}>
+                    <HomeIcon sx={{ fontSize: 15, color: '#F2BE5B' }} />
+                  </span>
+                  <span style={{ fontWeight: 700, marginRight: '10px' }}>
+                    공식 홈페이지
+                  </span>
+                </a>
+                <span style={{ verticalAlign: 'middle' }}>
+                  <CallIcon sx={{ fontSize: 15, color: '#F2BE5B' }} />
+                </span>
+                <span>{phone}</span>
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+                variant="outlined"
+                sx={{ marginLeft: '6px', marginRight: '5px' }}
+                id="detail-show"
+                onClick={e => {
+                  setInfoModal(facilityId);
+                  openModal(e);
+                }}
+              >
+                자세히보기
+              </Button>
+              <BookMarkButton info={facilityId} />
+            </CardActions>
+          </Card>
         )}
       </MapMarker>
     </FacilityMap>
@@ -158,54 +159,4 @@ const FacilityMap = styled.div`
   display: flex;
 `;
 
-const CustomOverlayWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 8px;
-  position: relative;
-  padding: 10px;
-  .header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
-  .body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .title {
-    font-size: 15px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    span {
-      vertical-align: middle;
-    }
-  }
-
-  .close {
-    align-self: flex-end;
-  }
-
-  .desc-icon {
-    height: 20px;
-    margin-bottom: 5px;
-    display: flex;
-    align-items: center;
-    span {
-      vertical-align: middle;
-      margin-left: 5px;
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-    }
-  }
-`;
 export default EventMarkerContainer;
