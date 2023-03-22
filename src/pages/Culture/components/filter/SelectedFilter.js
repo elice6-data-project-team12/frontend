@@ -8,8 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
 
 import SearchNameInput from 'pages/Culture/components/filter/SearchNameInput';
 const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
