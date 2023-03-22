@@ -1,19 +1,10 @@
-import React, { Link, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
 import NavTitleIcon from './images/navTitle.png';
 
 import { NavLink } from 'react-router-dom';
 
-export const Dropdown = () => {
-  return (
-    <DropdownBox className="dropMenu">
-      <NavLink to="/challenge">
-        <li>효도챌린지</li>
-      </NavLink>
-    </DropdownBox>
-  );
-};
 
 const Nav = () => {
   const [selectedId, setSelectedId] = useState('');
@@ -27,6 +18,7 @@ const Nav = () => {
     e.stopPropagation();
     setView(!view);
   };
+
 
   return (
     <div>
@@ -63,7 +55,7 @@ const Nav = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/">
+            <NavLink to="/challenge">
               <LinkStyle
                 id="channel"
                 onClick={menuClick}
@@ -71,13 +63,12 @@ const Nav = () => {
                 onMouseLeave={menuDrop}
                 className={selectedId === 'channel' ? 'activated' : ''}
               >
-                효도채널
-                {view && <Dropdown />}
+                효도챌린지
               </LinkStyle>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/">
+            <NavLink to={localStorage.getItem('userToken') ? '/user' : '/user/login'}>
               <PersonIcon id="profile" onClick={menuClick} fontSize="large" />
             </NavLink>
           </NavItem>
@@ -154,21 +145,6 @@ const LinkStyle = styled.span`
       color: black;
     }
   }
-`;
-
-const DropdownBox = styled.div`
-  width: 15vmin;
-  height: 15vmin;
-  background-color: rgba(188, 135, 33, 1);
-  /* margin: 2vmin 0 0 77%; */
-  margin: 0 0 0 0;
-  position: fixed;
-  z-index: 999;
-  opacity: 0.8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: none;
 `;
 
 export default Nav;

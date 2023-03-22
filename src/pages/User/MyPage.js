@@ -29,7 +29,7 @@ export default function MyPage() {
 //   }, []);
 
   useEffect(() => {
-    API.get('/api/user').then(res => setUserInfo(cur => {
+    API.get('http://localhost:4000/api/user').then(res => setUserInfo(cur => {
       return {
         ...cur,
         user_id: res.data.data.user_id,
@@ -39,11 +39,11 @@ export default function MyPage() {
       }
     }));
 
-    API.get('/api/user/facility').then(res => setMyFacility(cur => {
+    API.get('http://localhost:4000/api/user/facility').then(res => setMyFacility(cur => {
         return res.data.data
       }));
 
-    API.get('/api/challenge/participation').then(res => setMyChallenge(cur => {
+    API.get('http://localhost:4000/api/challenge/participation').then(res => setMyChallenge(cur => {
         return res.data.data
       }));
 
@@ -72,7 +72,7 @@ export default function MyPage() {
         e.preventDefault();
         
         try{
-          const res = await API.post('/api/user/login', {
+          const res = await API.post('http://localhost:4000/api/user/login', {
           email: email,
           password: password,
             });
