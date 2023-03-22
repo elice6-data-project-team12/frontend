@@ -3,6 +3,7 @@ import BarChart from './components/charts/BarChart';
 import TwoChart from './components/charts/TwoChart';
 import DoughnutChart from './components/charts/DoughnutChart';
 import useScrollFadeIn from '../../hooks/useScrollFadeIn.js';
+import useScrollClipPath from 'hooks/useScrollClipPath';
 import MapChart from './components/charts/MapChart';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -12,10 +13,19 @@ import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 const LandingPage = () => {
-  const animatedItem = {
+  const animatedFadeInItem = {
     0: useScrollFadeIn('up', 1, 0),
     1: useScrollFadeIn('up', 1, 0.2),
     2: useScrollFadeIn('up', 1, 0.3),
+    3: useScrollFadeIn('up', 1, 2),
+    4: useScrollFadeIn('up', 1, 3),
+  };
+  const animatedPathItem = {
+    0: useScrollFadeIn('up', 1, 0),
+    1: useScrollFadeIn('left', 1, 0.2),
+    2: useScrollFadeIn('up', 1, 0.3),
+    3: useScrollFadeIn('up', 1, 2),
+    4: useScrollFadeIn('up', 1, 3),
   };
 
   return (
@@ -30,6 +40,7 @@ const LandingPage = () => {
               alignItems: 'center',
               height: '350px',
             }}
+            {...animatedPathItem[2]}
           >
             <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
               ⭐ 1인가구 증가에 따른 사회적 고립 문제
@@ -48,7 +59,7 @@ const LandingPage = () => {
           </Box>
           <Box
             sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
-            {...animatedItem[0]}
+            {...animatedFadeInItem[0]}
           >
             <Typography
               sx={{ color: 'grey', textAlign: 'center' }}
@@ -98,6 +109,7 @@ const LandingPage = () => {
               alignItems: 'center',
               height: '350px',
             }}
+            {...animatedPathItem[0]}
           >
             <Typography
               sx={{ color: 'grey', fontSize: '20px', textAlign: 'center' }}
@@ -122,6 +134,7 @@ const LandingPage = () => {
               alignItems: 'center',
               p: '50px',
             }}
+            {...animatedFadeInItem[1]}
           >
             <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
               ⭐ 중장년층 이후 사회적 활동 감소
@@ -137,7 +150,7 @@ const LandingPage = () => {
               전자기기와 SNS에 능하지 않기 때문입니다.
             </Typography>
 
-            <Box sx={{ width: '70%' }} {...animatedItem[1]}>
+            <Box sx={{ width: '70%' }}>
               <TwoChart />
             </Box>
           </Box>
@@ -164,6 +177,7 @@ const LandingPage = () => {
               alignItems: 'center',
               height: '350px',
             }}
+            {...animatedPathItem[1]}
           >
             <Typography
               sx={{ color: 'grey', fontSize: '20px', textAlign: 'center' }}
