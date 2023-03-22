@@ -18,7 +18,7 @@ import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
@@ -101,10 +101,13 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            p: '10px',
           }}
         >
           <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">개수</InputLabel>
+
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -117,7 +120,7 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
                 {[10, 20, 30, 40, 50].map(pageSize => {
                   return (
                     <MenuItem key={pageSize} value={pageSize}>
-                      Show {pageSize}
+                      {pageSize}개
                     </MenuItem>
                   );
                 })}
