@@ -4,6 +4,7 @@ import API from '../../API';
 import styled from 'styled-components';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import UserInfo from './components/UserInfo';
+import Button from '../../common/button';
 
 export default function MyPage() {
 //   const [userInfo, setUserInfo] = useState([]);
@@ -20,13 +21,9 @@ export default function MyPage() {
   const [myChallenge, setMyChallenge] = useState([]);
   const navigate = useNavigate();
 
+  
+  const selectTabHandler = e => setCurrentTab(e.target.id)
 
-//   useEffect(() => {
-//     API.get('http://localhost:4000/api/user').then(res => setUserInfo(res.data));
-//     // const userName = JSON.parse(userInfo).data.name
-//     console.log(userInfo);
-//     // console.log(userName);
-//   }, []);
 
   useEffect(() => {
     API.get('/api/user').then(res => setUserInfo(cur => {
@@ -98,62 +95,67 @@ export default function MyPage() {
     <Container>
       <WelcomeMsg>
         <AccountIcon fontSize="large"/>
-        <p>안녕하세요 {name}님, 환영합니다! </p>
-        <button onClick={logoutHandler}> &gt; 로그아웃 </button>
+        <p>{name}님의 정보</p>
+        <span onClick={logoutHandler}> &gt; 로그아웃</span>
       </WelcomeMsg>
       <MenuTab>
         <ul className="tabs">
-          <li onMouseDown={() => setCurrentTab('myinfo')}>내 정보</li>
-          <li onMouseDown={() => setCurrentTab('myplace')}>내 장소</li>
-          <li onMouseDown={() => setCurrentTab('mychallenge')}>내 챌린지</li>
-          <li onMouseDown={() => setCurrentTab('mypost')}>내 게시글</li>
+          <li id="myinfo" onClick={selectTabHandler} className={currentTab === 'myinfo' ? 'activated' : ''}>내 정보</li>
+          <li id="myplace" onClick={selectTabHandler} className={currentTab === 'myplace' ? 'activated' : ''}>내 장소</li>
+          <li id="mychallenge" onClick={selectTabHandler} className={currentTab === 'mychallenge' ? 'activated' : ''}>내 챌린지</li>
         </ul>
       </MenuTab>
       <UserInputBox>
       {currentTab === 'myinfo' && (
         isPasswordTrue ? <UserInfo datas={userInfo}/> : 
-        <div>
-        <div>
-          <p>이메일</p>
-          <p>{email}</p>
-        </div>
-        <form onSubmit={showInfoHandler}>
-          <div>
-            <label>비밀번호</label>
-            <input onChange={pwHandler} type="password"/>
-          </div>
-          <button type="submit">내 정보 보기</button>
-        </form>
-      </div>
+            <CheckUserForm onSubmit={showInfoHandler}>
+              <div>
+                <label htmlFor="email">이메일</label>
+                <div>{email}</div>
+              </div>
+              <div>
+                <label htmlFor="password">비밀번호</label>
+                <div className="form-field">
+                  <Input onChange={pwHandler} type="password"/>
+                </div>
+              </div>
+              <Button title="내 정보 보기" type="submit">내 정보 보기</Button>
+            </CheckUserForm>
       )}
       {currentTab === 'myplace' && (
         myFacility.map((i, idx) => {
             return (
-              <div key={idx}>
+              <MyList key={idx}>
+                <img src={i.main_img} alt={i.fac_name}/>
+                <div>
                   <p>{i.fac_name}</p>
                   <p>{i.district}</p>
-                  <img src={i.main_img} alt={i.fac_name}/>
-              </div>
+                </div>
+                  <Button onClick={e=> {
+                    e.preventDefault();
+                    API.delete(`/api/user/facility/${i.facility_id}`).then(res => {
+                      alert('삭제 완료');
+                    })
+                      .catch(err => {
+                        alert('실패');
+                        console.log(err)
+                      });
+                  }}>삭제</Button>
+              </MyList>
             )
           })
       )}
       {currentTab === 'mychallenge' && (
         myChallenge.map((i, idx) => {
             return (
-              <div key={idx}>
+              <MyList key={idx}>
                   <img src={i.image} alt={i.title}/>
-                  <p>{i.challenge_id}</p>
                   <p>{i.title}</p>
                   <p>{i.description}</p>
                   <p>{i.content}</p>
-              </div>
+              </MyList>
             )
           })
-      )}
-      {currentTab === 'mypost' && (
-        <Subtitle>
-        <p>내 게시글</p>
-        </Subtitle>
       )}
       </UserInputBox>
     </Container>
@@ -176,22 +178,66 @@ const WelcomeMsg = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
+  height: max-content;
   border: 4px groove red;
-   p {
-    font-weight: 500;
-  }
+    p {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 10px 0 10px 0;
+    }
+      span {
+    font-size: 15px;
+    margin: 0 0 10px 0;
+    }
+
+  span {
+      &:hover {
+        cursor: pointer;
+      }
+    }
 `;
 
 const UserInputBox = styled.div`
   width: 50%;
   height: 75vh;
-  background-color: rgba(217, 217, 217, 1);
+  background-color: rgba(236, 233, 233, 1);
   border-radius: 0 0 20px 20px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  border: 4px groove red;
+
+`;
+
+const CheckUserForm = styled.form`
+  height: 35%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 15px;
+  border: 4px groove blue;
+  div {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 4px groove pink;
+    .form-field {
+      width: 70%;
+    }
+  }
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 50px;
+  font-size: 15px;
+  background-color: inherit;
+  border: 2px solid #757575;
+  outline: none;
 `;
 
 const AccountIcon = styled(AccountCircleIcon)`
@@ -203,7 +249,7 @@ const MenuTab = styled.div`
   width: 50%;
   text-align: center;
   font-weight: 600;
-  border: 4px groove red;
+  /* border: 4px groove red; */
    .tabs {
     display: flex;
      li {
@@ -211,7 +257,7 @@ const MenuTab = styled.div`
       text-align: center;
       padding: 30px;
       cursor: pointer;
-      background-color: rgba(217, 217, 217, 1);
+      background-color: rgba(236, 233, 233, 1);
       color: gray;
       border-radius: 20px 20px 0 0;
       display: flex;
@@ -221,17 +267,43 @@ const MenuTab = styled.div`
 
       &:hover {
         font-weight: bold;
-        border-bottom: none;
         color: black;
+        transition: 0.2s;
       }
 
     }
+
+    .activated {
+        color: black;
+        font-weight: bold;
+        background-color: rgba(242, 190, 91, 1);
+      }
   }
 `;
 
-const Subtitle = styled.div`
+const MyList = styled.div`
+  margin: 0 0 2% 0;
+  width: 90%;
+  height: max-content;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   border: 4px groove red;
+
+    img {
+      width: 10vmin;
+      height: 10vmin;
+    }
+
+    div{
+      width: 60%;
+      /* border: 4px groove green; */
+      display: flex;
+      justify-content: space-between;
+    }
+
+    p{
+      /* border: 4px groove pink; */
+    }
 `;
