@@ -59,23 +59,17 @@ const CulturePage = () => {
     message: 'Alert 메세지를 입력 하세요.',
   });
   return (
-    <Container fixed>
+    <Container fixed sx={{ mt: '100px' }}>
       <AlertBox isOpenAlert={isOpenAlert} setIsOpenAlert={setIsOpenAlert} />
 
-      <Box sx={{ height: '100px', mb: '20px' }}>
-        <Location>소개-&gt; 문화여가시설 찾기</Location>
-      </Box>
-      <Box>
-        {showModal && (
-          <CultureDetailModal
-            showModal={showModal}
-            closable={true}
-            maskClosable={true}
-            infoModal={infoModal}
-            onClose={closeModal}
-            setIsOpenAlert={setIsOpenAlert}
-          />
-        )}
+      <Box
+        sx={{
+          height: '200px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <SectionHeader>
           <div className="section-inner">
             <div className="title-area">
@@ -88,13 +82,25 @@ const CulturePage = () => {
             </div>
           </div>
         </SectionHeader>
+      </Box>
+      <Box>
+        {showModal && (
+          <CultureDetailModal
+            showModal={showModal}
+            closable={true}
+            maskClosable={true}
+            infoModal={infoModal}
+            onClose={closeModal}
+            setIsOpenAlert={setIsOpenAlert}
+          />
+        )}
+
         <SectionMap>
           <Paper
             elevation={3}
             sx={{
               height: '600px',
               display: 'flex',
-              marginTop: '20px',
               justifyContent: 'center',
               border: '5px solid #f2be5b',
               overflow: 'hidden',
@@ -117,7 +123,7 @@ const CulturePage = () => {
           </Paper>
         </SectionMap>
       </Box>
-      <Box sx={{ mt: '50px' }}>
+      <Box sx={{ mt: '20px' }}>
         <CultureTable
           showModal={showModal}
           setShowModal={setShowModal}
@@ -128,12 +134,6 @@ const CulturePage = () => {
     </Container>
   );
 };
-
-// 소개 페이지 기준 현재 페이지 상대 위치
-const Location = styled.div`
-  height: 84px;
-  padding: 32px 0;
-`;
 
 // content의 header
 const SectionHeader = styled.div`
@@ -166,6 +166,7 @@ const SectionHeader = styled.div`
         display: flex;
         font-size: 18px;
         justify-content: center;
+        align-items: center;
       }
     }
   }
