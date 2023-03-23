@@ -45,6 +45,7 @@ export default function MyInfoList({ datas }) {
     e.preventDefault();
     API.put('/api/user', inputValue).then(res => {
       alert('성공');
+      window.location.replace('/user');
       })
       .catch(err => {
         alert('다시 시도해 주세요.');

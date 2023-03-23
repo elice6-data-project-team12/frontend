@@ -158,6 +158,7 @@ export default function MyPage() {
                     e.preventDefault();
                     API.delete(`/api/user/facility/${i.facility_id}`).then(res => {
                       alert('삭제 완료');
+                      window.location.replace('/user');
                     })
                       .catch(err => {
                         alert('실패');
