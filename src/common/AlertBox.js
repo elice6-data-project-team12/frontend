@@ -2,11 +2,17 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import { useEffect } from 'react';
 
 const AlertBox = ({ isOpenAlert, setIsOpenAlert }) => {
   const handleClose = () => {
-    setIsOpenAlert(false);
+    setIsOpenAlert({
+      open: false,
+      type: isOpenAlert.type,
+      message: isOpenAlert.message,
+    });
   };
+
   return (
     <Snackbar
       anchorOrigin={{

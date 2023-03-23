@@ -75,7 +75,7 @@ const Nav = () => {
 
 const NavWrap = styled.div`
   width: 100%;
-  height: 130px;
+  height: 100px;
   display: flex;
   justify-content: space-between;
   position: fixed;
