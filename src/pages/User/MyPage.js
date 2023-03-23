@@ -177,7 +177,8 @@ export default function MyPage() {
               <MyChallengeList key={idx}>
                 <img src={i.image} alt={i.title}/>
                 <div>
-                  <p>{i.title}</p>
+                  <p onClick={() =>
+                    navigate('/challenge')}>{i.title}</p>
                   <p>{i.description}</p>
                   <p>{i.content}</p>
                   <p>{i.recruit_start} ~ {i.recruit_end}</p>
