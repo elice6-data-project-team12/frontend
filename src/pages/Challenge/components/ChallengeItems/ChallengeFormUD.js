@@ -98,7 +98,7 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
     try {
       const response = await API.delete(`/api/challenge/${challenge_id}`);
       alert('챌린지 삭제가 완료되었습니다!');
-      window.location.href = '/ChallengePage';
+      window.location.href = '/Challenge';
     } catch (error) {
       alert('챌린지 삭제가 제대로 이루어지지 않았습니다.');
       console.log('Error creating data:', error);

@@ -60,14 +60,14 @@ const ChallengeForm = ({ actionType }) => {
       const headers = {
         'Content-Type': 'multipart/form-data',
       };
-      console.log('Challenge object:', formFields);
+
       const response = await API.post('/api/challenge/', formFields, {
         headers,
       });
       alert(
         '챌린지가 정상적으로 등록되었습니다!<br /> 참여중인 챌린지에서 확인하세요!'
       );
-      window.location.href = '/ChallengePage';
+      window.location.href = '/Challenge';
     } catch (error) {
       alert('챌린지 등록이 정상적으로 처리되지 않았습니다!');
       console.log('Error creating data:', error);

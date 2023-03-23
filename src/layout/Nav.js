@@ -22,8 +22,8 @@ const Nav = () => {
               HYODORI
             </p>
           </NavLink>
-          <div class="wrap">
-            <div class="circle" />
+          <div className="wrap">
+            <div className="circle" />
           </div>
         </NavTitle>
         <NavItems>

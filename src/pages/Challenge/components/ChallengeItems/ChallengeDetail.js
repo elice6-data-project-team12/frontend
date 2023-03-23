@@ -176,7 +176,7 @@ const ChallengeDetail = challenge => {
         <Grid item xs={12} sm={6}>
           <Link to="/challenge">
             <Button variant="contained" sx={{ mt: 2 }} color="primary">
-              취소
+              목록으로
             </Button>
           </Link>
           {localStorage.getItem('userToken') ? (
