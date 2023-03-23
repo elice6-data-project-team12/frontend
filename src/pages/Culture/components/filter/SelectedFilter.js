@@ -8,8 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
 
 import SearchNameInput from 'pages/Culture/components/filter/SearchNameInput';
 const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
@@ -32,15 +30,28 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
 
   // 필터 정보 저장 함수 (select)
   const handleFilterSelect = e => {
-    const name = e.target.value;
-    const tag = e.target.name;
+    e.preventDefault();
+
+    let name;
+    let tag;
+
+    //아이콘 클릭 시 필터 조건
+    if (e.target.alt) {
+      name = e.target.alt;
+      tag = 'subject';
+
+      // select 선택 시 필터 조건
+    } else {
+      name = e.target.value;
+      tag = e.target.name;
+    }
+
     if (tag === 'subject') {
       setSelectedSubject(name);
     } else if (tag === 'addr') {
       setSelectedAddr(name);
     }
 
-    e.preventDefault();
     return setFilterObj({
       reset: false,
       all: false,
@@ -55,6 +66,9 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
   // 필터 정보 저장 함수 (초기화 Btn)
   const handleFilterReset = e => {
     e.preventDefault();
+    setSelectedAddr('');
+    setSelectedSubject('');
+    setSearchName('');
     return setFilterObj({
       reset: true,
       all: false,
@@ -81,7 +95,7 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
   };
   const handleFilterNameSearch = e => {
     e.preventDefault();
-
+    setSearchName('');
     return setFilterObj({
       reset: false,
       all: false,
@@ -93,10 +107,26 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
     });
   };
 
+  const handleFilterNameKeyDown = e => {
+    e.preventDefault();
+
+    if (e.key === 'Enter') {
+      setSearchName('');
+      return setFilterObj({
+        reset: false,
+        all: false,
+        searchName: searchName,
+        filterState: {
+          addr: '',
+          subject: '',
+        },
+      });
+    }
+  };
   return (
     <Box
       className="container"
-      sx={{ width: '40%', padding: '50px', borderRight: '5px solid #F2BE5B' }}
+      sx={{ width: '40%', padding: '40px', borderRight: '5px solid #F2BE5B' }}
     >
       <Box className="filter" sx={{ height: '55%' }}>
         <Stack direction="row" spacing={1}>
@@ -158,6 +188,7 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
           <SearchNameInput
             setSearchName={setSearchName}
             handleFilterNameSearch={handleFilterNameSearch}
+            handleFilterNameKeyDown={handleFilterNameKeyDown}
             searchName={searchName}
           />
         </Box>
@@ -170,7 +201,21 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           {icons.map((i, index) => (
-            <Grid item xs={2} sm={4} md={4} key={index}>
+            <Grid
+              item
+              xs={2}
+              sm={4}
+              md={4}
+              key={index}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                cursor: 'pointer',
+              }}
+              onClick={handleFilterSelect}
+            >
               <img src={i.img} alt={i.value} />
               <Box sx={{ mt: '5px' }}>
                 <span className="icon-title">{i.value}</span>

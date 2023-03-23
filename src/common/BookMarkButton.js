@@ -2,6 +2,7 @@ import API from 'API';
 import { useState } from 'react';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Box from '@mui/material/Box';
+
 function BookMarkButton({ info }) {
   const [isClicked, setIsClicked] = useState(false);
   // 북마크 추가/제거 함수
@@ -20,7 +21,14 @@ function BookMarkButton({ info }) {
   };
 
   return (
-    <Box sx={{ color: '#F2BE5B', display: 'flex', alignItems: 'center' }}>
+    <Box
+      sx={{
+        color: '#F2BE5B',
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+      }}
+    >
       <BookmarkIcon sx={{ color: '#F2BE5B' }} onClick={handleClick}>
         북마크
       </BookmarkIcon>

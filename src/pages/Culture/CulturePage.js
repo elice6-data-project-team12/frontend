@@ -32,13 +32,13 @@ const CulturePage = () => {
 
   // 지도 아이콘 state
   const [icons, setIcons] = useState([
-    { img: ico_picker01_on, value: '공연장' },
-    { img: ico_picker02_on, value: '미술관' },
-    { img: ico_picker03_on, value: '박물관/기념관' },
-    { img: ico_picker04_on, value: '도서관' },
-    { img: ico_picker05_on, value: '문화예술회관' },
-    { img: ico_picker06_on, value: '문화원' },
-    { img: ico_picker07_on, value: '기타' },
+    { img: ico_picker01_on, value: '공연장', name: 'subject' },
+    { img: ico_picker02_on, value: '미술관', name: 'subject' },
+    { img: ico_picker03_on, value: '박물관/기념관', name: 'subject' },
+    { img: ico_picker04_on, value: '도서관', name: 'subject' },
+    { img: ico_picker05_on, value: '문화예술회관', name: 'subject' },
+    { img: ico_picker06_on, value: '문화원', name: 'subject' },
+    { img: ico_picker07_on, value: '기타', name: 'subject' },
   ]);
 
   // 상세정보 모달 show state
@@ -79,7 +79,6 @@ const CulturePage = () => {
           </div>
         </SectionHeader>
         <SectionMap>
-          {/* <AreaFacility> */}
           <Paper
             elevation={3}
             sx={{
@@ -105,7 +104,6 @@ const CulturePage = () => {
               setInfoModal={setInfoModal}
             />
           </Paper>
-          {/* </AreaFacility> */}
         </SectionMap>
       </Box>
       <Box sx={{ mt: '50px' }}>

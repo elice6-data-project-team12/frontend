@@ -46,7 +46,6 @@ const CultureMap = ({
         });
     }
   }, [filterObj]);
-  console.log(filteredList);
   return (
     <Box sx={{ width: '60%' }}>
       <Map // 지도를 표시할 Container
