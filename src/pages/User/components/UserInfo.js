@@ -43,9 +43,9 @@ export default function MyInfoList({ datas }) {
   // 회원정보 업데이트
   const handleUpdateInfo = e => {
     e.preventDefault();
-    API.put('/api/user', inputValue)
-      .then(res => {
-        alert('성공');
+    API.put('/api/user', inputValue).then(res => {
+      alert('성공');
+      window.location.replace('/user');
       })
       .catch(err => {
         alert('다시 시도해 주세요.');

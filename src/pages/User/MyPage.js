@@ -22,7 +22,6 @@ export default function MyPage() {
   const [myChallenge, setMyChallenge] = useState([]);
   const [visiblePlace, setVisiblePlace] = useState(3);
   const [visibleChallenge, setVisibleChallenge] = useState(2);
-
   const navigate = useNavigate();
 
   const selectTabHandler = e => setCurrentTab(e.target.id);
@@ -184,6 +183,12 @@ export default function MyPage() {
                     API.delete(`/api/user/facility/${i.facility_id}`)
                       .then(res => {
                         alert('삭제 완료');
+
+                        const newList = myFacility;
+                        const datas = newList.filter(
+                          list => list.facility_id !== i.facility_id
+                        );
+                        return setMyFacility(datas);
                       })
                       .catch(err => {
                         alert('실패');
@@ -204,7 +209,7 @@ export default function MyPage() {
               <MyChallengeList key={idx}>
                 <img src={i.image} alt={i.title} />
                 <div>
-                  <p>{i.title}</p>
+                  <p onClick={() => navigate('/challenge')}>{i.title}</p>
                   <p>{i.description}</p>
                   <p>{i.content}</p>
                   <p>
