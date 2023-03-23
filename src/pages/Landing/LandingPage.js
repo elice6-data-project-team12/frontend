@@ -26,7 +26,7 @@ const LandingPage = () => {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', marginTop: '100px' }}>
       <Box sx={{ bgcolor: '#FBF7F2', p: '50px' }}>
         <Container maxWidth="lg">
           <Box
