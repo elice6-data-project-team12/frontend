@@ -64,17 +64,17 @@ const LandingPage = () => {
           >
             <Typography
               sx={{ color: 'grey', textAlign: 'center' }}
-              variant="h5"
+              variant="h6"
               gutterBottom
             >
               2016년 대비 2021년 서울시 1인 가구수 약 35만명이 증가
             </Typography>
             <Box sx={{ display: 'flex' }}>
-              <Paper
+              <Box
                 sx={{
                   width: '50%',
                   borderBottomLeftRadius: '20%',
-                  background: '#F16565',
+                  background: '#BBD6B8',
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -82,12 +82,12 @@ const LandingPage = () => {
                 elevation={3}
               >
                 <BarChart />
-              </Paper>
-              <Paper
+              </Box>
+              <Box
                 sx={{
                   width: '50%',
                   borderTopRightRadius: '20%',
-                  background: '#D9D9D9',
+                  background: '#ECF2FF',
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -95,7 +95,7 @@ const LandingPage = () => {
                 elevation={3}
               >
                 <MapChart />
-              </Paper>
+              </Box>
             </Box>
           </Box>
         </Container>
@@ -151,7 +151,7 @@ const LandingPage = () => {
               전자기기와 SNS에 능하지 않기 때문입니다.
             </Typography>
 
-            <Box sx={{ width: '70%' }}>
+            <Box sx={{ width: '70%', mt: '20px' }}>
               <TwoChart />
             </Box>
           </Box>

@@ -11,12 +11,7 @@ const BarChart = () => {
       {
         label: '인구수',
         data: singlePerson.map(data => data.population),
-        backgroundColor: [
-          'rgb(255, 159, 64)',
-          'rgb(255, 159, 64)',
-          'rgb(255, 159, 64)',
-          'rgb(255, 159, 64)',
-        ],
+        backgroundColor: ['#DBE4C6'],
         borderColor: [
           'rgba(255, 159, 64, 0.2)',
           'rgba(255, 159, 64, 0.2)',
@@ -33,7 +28,7 @@ const BarChart = () => {
     plugins: {
       title: {
         display: true,
-        text: '연도별 1인 가구수',
+        text: '연도별 서울시 1인 가구수',
       },
     },
     scales: {
@@ -45,6 +40,21 @@ const BarChart = () => {
       y: {
         ticks: {
           color: '#2B3467',
+        },
+        type: 'linear',
+        axis: 'y',
+        display: true,
+        position: 'left',
+        title: {
+          display: true,
+          align: 'end',
+          color: '#2B3467',
+          font: {
+            size: 12,
+            family: "'Noto Sans KR', sans-serif",
+            weight: 300,
+          },
+          text: '단위: 명',
         },
       },
     },

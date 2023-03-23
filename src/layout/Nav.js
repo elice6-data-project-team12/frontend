@@ -5,7 +5,6 @@ import NavTitleIcon from './images/navTitle.png';
 
 import { NavLink } from 'react-router-dom';
 
-
 const Nav = () => {
   const [selectedId, setSelectedId] = useState('');
   const [view, setView] = useState(false);
@@ -13,8 +12,6 @@ const Nav = () => {
   const menuClick = e => {
     setSelectedId(e.target.id);
   };
-
-
 
   return (
     <div>
@@ -25,7 +22,9 @@ const Nav = () => {
               HYODORI
             </p>
           </NavLink>
-            <div class="wrap"><div class="circle" /></div>
+          <div class="wrap">
+            <div class="circle" />
+          </div>
         </NavTitle>
         <NavItems>
           <NavItem>
@@ -62,7 +61,9 @@ const Nav = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to={localStorage.getItem('userToken') ? '/user' : '/user/login'}>
+            <NavLink
+              to={localStorage.getItem('userToken') ? '/user' : '/user/login'}
+            >
               <PersonIcon id="profile" onClick={menuClick} fontSize="large" />
             </NavLink>
           </NavItem>
@@ -87,7 +88,6 @@ const NavWrap = styled.div`
     color: rgba(140, 101, 27, 1);
     font-weight: bold;
   }
-
 `;
 
 const NavTitle = styled.div`
@@ -96,7 +96,7 @@ const NavTitle = styled.div`
   justify-content: center;
   align-items: center;
   /* border: 2px solid red; */
-  
+
   p {
     font-size: 4.5vh;
     font-weight: bold;
@@ -113,23 +113,23 @@ const NavTitle = styled.div`
   }
 
   .wrap {
-        /* border: 2px solid blue; */
-        top: -15%;
-        left: -8%;
-        position: relative;
-    }
+    /* border: 2px solid blue; */
+    top: -15%;
+    left: -8%;
+    position: relative;
+  }
 
   .circle {
-        margin: 0;
-        width: 6vmin;
-        height: 6vmin;
-        background-color: white;
-        border-radius: 50%;
-        z-index: -1;
-        transform: rotate(45deg);
-        position: relative;
-        /* border: 2px solid blue; */
-    }
+    margin: 0;
+    width: 6vmin;
+    height: 6vmin;
+    background-color: white;
+    border-radius: 50%;
+    z-index: -1;
+    transform: rotate(45deg);
+    position: relative;
+    /* border: 2px solid blue; */
+  }
 `;
 
 const NavItems = styled.div`
@@ -165,4 +165,3 @@ const LinkStyle = styled.span`
 `;
 
 export default Nav;
-
