@@ -30,19 +30,10 @@ function LoginPage() {
       const token = res.data.data;
       localStorage.setItem('userToken', token);
 
-      console.log(token);
-
-
       const decodedToken = jwt_decode(token);
       localStorage.setItem('decodedToken', JSON.stringify(decodedToken));
 
-      console.log(decodedToken);
-      console.log(localStorage.getItem('decodedToken'));
-
-
       localStorage.setItem('userId', decodedToken.userId);
-
-      console.log(decodedToken.userId);
 
       if (!localStorage.getItem('userId')) {
         navigate('/signup');

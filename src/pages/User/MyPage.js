@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import UserInfo from './components/UserInfo';
 import Button from '../../common/button';
+import Container from '@mui/material/Container';
 
 export default function MyPage() {
 //   const [userInfo, setUserInfo] = useState([]);
@@ -19,6 +20,10 @@ export default function MyPage() {
   const [isPasswordTrue, setIsPasswordTrue] = useState(false);
   const [myFacility, setMyFacility] = useState([]);
   const [myChallenge, setMyChallenge] = useState([]);
+  const [visiblePlace, setVisiblePlace] = useState(3);
+  const [visibleChallenge, setVisibleChallenge] = useState(2);
+
+  
   const navigate = useNavigate();
 
   
@@ -45,11 +50,6 @@ export default function MyPage() {
       }));
 
     }, []);
-
-    // console.log(userInfo);
-    console.log(myFacility);
-    console.log(myChallenge);
-
 
     const {user_id, name, email, phone} = userInfo;
 
@@ -90,11 +90,34 @@ export default function MyPage() {
         }
     }
 
+    const handleShowPlaceMore = () => {
+      setVisiblePlace(visiblePlace + 3);
+    };
+
+    const handleShowChallengeMore = () => {
+      setVisibleChallenge(visibleChallenge + 2)
+    }
+
 
   return (
-    <Container>
+    <Container sx={{ 
+      bgcolor: '#cfe8fc', 
+      height: 'max-content', 
+      maxWidth: '1200px',
+      marginTop: '15%',
+      marginBottom: '5%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      border: '4px groove red' 
+      }}>
       <WelcomeMsg>
-        <AccountIcon fontSize="large"/>
+        <AccountCircleIcon sx={{
+          height: '12vh',
+          width: '12vh',
+          color: 'gray'
+        }}/>
         <p>{name}님의 정보</p>
         <span onClick={logoutHandler}> &gt; 로그아웃</span>
       </WelcomeMsg>
@@ -123,9 +146,9 @@ export default function MyPage() {
             </CheckUserForm>
       )}
       {currentTab === 'myplace' && (
-        myFacility.map((i, idx) => {
+        myFacility.slice(0, visiblePlace).map((i, idx) => {
             return (
-              <MyList key={idx}>
+              <MyPlaceList key={idx}>
                 <img src={i.main_img} alt={i.fac_name}/>
                 <div>
                   <p>{i.fac_name}</p>
@@ -138,40 +161,38 @@ export default function MyPage() {
                     })
                       .catch(err => {
                         alert('실패');
-                        console.log(err)
                       });
                   }}>삭제</Button>
-              </MyList>
+              </MyPlaceList>
             )
           })
       )}
+      {currentTab === 'myplace' && visiblePlace < myFacility.length && (
+        <Button onClick={handleShowPlaceMore}>더 보기</Button>
+      )}
       {currentTab === 'mychallenge' && (
-        myChallenge.map((i, idx) => {
+        myChallenge.slice(0, visibleChallenge).map((i, idx) => {
             return (
-              <MyList key={idx}>
-                  <img src={i.image} alt={i.title}/>
+              <MyChallengeList key={idx}>
+                <img src={i.image} alt={i.title}/>
+                <div>
                   <p>{i.title}</p>
                   <p>{i.description}</p>
                   <p>{i.content}</p>
-              </MyList>
+                  <p>{i.recruit_start} ~ {i.recruit_end}</p>
+                  <p>{i.progress_start} ~ {i.progress_end}</p>
+                </div>
+              </MyChallengeList>
             )
           })
+      )}
+      {currentTab === 'mychallenge' && visibleChallenge < myChallenge.length && (
+        <Button onClick={handleShowChallengeMore}>더 보기</Button>
       )}
       </UserInputBox>
     </Container>
   );
 }
-
-const Container = styled.div`
-  margin: 15% 0 5% 0;
-  width: 100%;
-  height: max-content;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 4px groove red;
-`;
 
 const WelcomeMsg = styled.div`
   display: flex;
@@ -199,10 +220,11 @@ const WelcomeMsg = styled.div`
 
 const UserInputBox = styled.div`
   width: 50%;
-  height: 75vh;
+  height: max-content;
   background-color: rgba(236, 233, 233, 1);
   border-radius: 0 0 20px 20px;
   display: flex;
+  padding: 5% 0 5% 0;
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -211,12 +233,13 @@ const UserInputBox = styled.div`
 `;
 
 const CheckUserForm = styled.form`
-  height: 35%;
+  height: 60%;
   width: 100%;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
+  align-items: center; */
+  padding: 20px;
   font-size: 15px;
   border: 4px groove blue;
   div {
@@ -224,9 +247,10 @@ const CheckUserForm = styled.form`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 4px groove pink;
+    /* border: 4px groove pink; */
     .form-field {
       width: 70%;
+      margin: 30px 0 30px 0;
     }
   }
 `;
@@ -238,11 +262,6 @@ const Input = styled.input`
   background-color: inherit;
   border: 2px solid #757575;
   outline: none;
-`;
-
-const AccountIcon = styled(AccountCircleIcon)`
-  color: rgba(153, 164, 151, 1);
-  border: 4px groove red;
 `;
 
 const MenuTab = styled.div`
@@ -281,7 +300,7 @@ const MenuTab = styled.div`
   }
 `;
 
-const MyList = styled.div`
+const MyPlaceList = styled.div`
   margin: 0 0 2% 0;
   width: 90%;
   height: max-content;
@@ -289,7 +308,11 @@ const MyList = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 4px groove red;
+  padding: 10px;
+  border: 1px solid gray;
+  border-top-style: none;
+  border-right-style: none;
+  border-left-style: none;
 
     img {
       width: 10vmin;
@@ -300,6 +323,39 @@ const MyList = styled.div`
       width: 60%;
       /* border: 4px groove green; */
       display: flex;
+      justify-content: space-between;
+    }
+
+    p{
+      /* border: 4px groove pink; */
+    }
+`;
+
+const MyChallengeList = styled.div`
+  margin: 0 0 3% 0;
+  width: 90%;
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  /* border: 4px groove red; */
+
+    img {
+      width: 14vmin;
+      height: 14vmin;
+      padding: 10px;
+    }
+
+    div{
+      width: 80%;
+      padding: 10px;
+      border: 1px solid gray;
+      border-top-style: none;
+      border-right-style: none;
+      border-bottom-style: none;
+      display: flex;
+      flex-direction: column;
       justify-content: space-between;
     }
 

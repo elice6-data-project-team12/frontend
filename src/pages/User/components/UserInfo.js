@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../../API';
 import styled from 'styled-components';
+import Button from '../../../common/button'
 
 export default function MyInfoList({ datas }) {
   const navigate = useNavigate();
@@ -47,21 +48,17 @@ export default function MyInfoList({ datas }) {
       })
       .catch(err => {
         alert('다시 시도해 주세요.');
-        console.log(err)
       });
-    console.log(inputValue);
-
   };
 
 
   return (
-    <div>
-      <div>
-        <form onSubmit={handleUpdateInfo}>
+    <UserInfo>
+        <ChangeInfoForm onSubmit={handleUpdateInfo}>
           <div>
             <label htmlFor="email">이메일</label>
             <div className="form-field">
-              <input
+              <Input
                 required
                 id="email"
                 type="email"
@@ -78,7 +75,7 @@ export default function MyInfoList({ datas }) {
           <div>
             <label htmlFor="password">비밀번호</label>
             <div className="form-field">
-              <input
+              <Input
                 required
                 id="password"
                 type="password"
@@ -96,7 +93,7 @@ export default function MyInfoList({ datas }) {
           <div>
             <label htmlFor="name">이름</label>
             <div className="form-field">
-              <input
+              <Input
                 required
                 id="name"
                 type="text"
@@ -109,7 +106,7 @@ export default function MyInfoList({ datas }) {
           <div>
             <label htmlFor="contact">연락처</label>
             <div className="form-field">
-              <input
+              <Input
                 required
                 id="contact"
                 type="text"
@@ -119,9 +116,41 @@ export default function MyInfoList({ datas }) {
               />
             </div>
           </div>
-          <button type="submit">변경사항 저장하기</button>
-        </form>
-      </div>
-    </div>
+          <Button type="submit">변경사항 저장하기</Button>
+        </ChangeInfoForm>
+    </UserInfo>
   );
 }
+
+const UserInfo = styled.div`
+  width: 100%;
+  height: 70vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 4px groove red;
+`;
+
+const ChangeInfoForm = styled.form`
+height: 100%;
+width: 100%;
+border: 4px groove pink;
+flex-direction: column;
+justify-content: space-around;
+align-items: center;
+  div {
+    border: 4px groove blue;
+  .form-field {
+    width: 70%;
+  }
+}
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 50px;
+  font-size: 15px;
+  background-color: inherit;
+  border: 2px solid #757575;
+  outline: none;
+`;
