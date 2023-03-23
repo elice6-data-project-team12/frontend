@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../../../API';
 import styled from 'styled-components';
-import Button from '../../../common/button'
+import Button from '../../../common/button';
 
 export default function MyInfoList({ datas }) {
   const navigate = useNavigate();
@@ -43,81 +43,81 @@ export default function MyInfoList({ datas }) {
   // 회원정보 업데이트
   const handleUpdateInfo = e => {
     e.preventDefault();
-    API.put('/api/user', inputValue).then(res => {
-      alert('성공');
+    API.put('/api/user', inputValue)
+      .then(res => {
+        alert('성공');
       })
       .catch(err => {
         alert('다시 시도해 주세요.');
       });
   };
 
-
   return (
     <UserInfo>
-        <ChangeInfoForm onSubmit={handleUpdateInfo}>
-          <div>
-            <label htmlFor="email">이메일</label>
-            <div className="form-field">
-              <Input
-                required
-                id="email"
-                type="email"
-                name="email"
-                value={inputValue.email}
-                onChange={emailValidation}
-                onBlur={() => {
-                  setEmailErr('');
-                }}
-              />
-              {emailErr && <p className="error-msg">{emailErr}</p>}
-            </div>
+      <ChangeInfoForm onSubmit={handleUpdateInfo}>
+        <div>
+          <label htmlFor="email">이메일</label>
+          <div className="form-field">
+            <Input
+              required
+              id="email"
+              type="email"
+              name="email"
+              value={inputValue.email}
+              onChange={emailValidation}
+              onBlur={() => {
+                setEmailErr('');
+              }}
+            />
+            {emailErr && <p className="error-msg">{emailErr}</p>}
           </div>
-          <div>
-            <label htmlFor="password">비밀번호</label>
-            <div className="form-field">
-              <Input
-                required
-                id="password"
-                type="password"
-                name="password"
-                value={inputValue.password}
-                onChange={pwValidation}
-                onBlur={() => {
-                  pwErr('');
-                }}
-              />
-              {pwErr && <p className="error-msg">{pwErr}</p>}
-            </div>
+        </div>
+        <div>
+          <label htmlFor="password">비밀번호</label>
+          <div className="form-field">
+            <Input
+              required
+              id="password"
+              type="password"
+              name="password"
+              value={inputValue.password}
+              onChange={pwValidation}
+              onBlur={() => {
+                setPwErr('');
+              }}
+            />
+            {pwErr && <p className="error-msg">{pwErr}</p>}
           </div>
+        </div>
 
-          <div>
-            <label htmlFor="name">이름</label>
-            <div className="form-field">
-              <Input
-                required
-                id="name"
-                type="text"
-                name="name"
-                value={inputValue.name}
-                onChange={inputhandler}
-              />
-            </div>
+        <div>
+          <label htmlFor="name">이름</label>
+          <div className="form-field">
+            <Input
+              required
+              id="name"
+              type="text"
+              name="name"
+              value={inputValue.name}
+              onChange={inputhandler}
+            />
           </div>
-          <div>
-            <label htmlFor="contact">연락처</label>
-            <div className="form-field">
-              <Input
-                required
-                id="contact"
-                type="text"
-                name="phone"
-                value={inputValue.phone}
-                onChange={inputhandler}
-              />
-            </div>
+        </div>
+        <div>
+          <label htmlFor="contact">연락처</label>
+          <div className="form-field">
+            <Input
+              required
+              id="contact"
+              type="text"
+              name="phone"
+              value={inputValue.phone}
+              onChange={inputhandler}
+            />
           </div>
-          <Button type="submit">변경사항 저장하기</Button>
-        </ChangeInfoForm>
+        </div>
+        <Button type="submit">변경사항 저장하기</Button>
+      </ChangeInfoForm>
     </UserInfo>
   );
 }
@@ -132,18 +132,18 @@ const UserInfo = styled.div`
 `;
 
 const ChangeInfoForm = styled.form`
-height: 100%;
-width: 100%;
-border: 4px groove pink;
-flex-direction: column;
-justify-content: space-around;
-align-items: center;
+  height: 100%;
+  width: 100%;
+  border: 4px groove pink;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   div {
     border: 4px groove blue;
-  .form-field {
-    width: 70%;
+    .form-field {
+      width: 70%;
+    }
   }
-}
 `;
 
 const Input = styled.input`

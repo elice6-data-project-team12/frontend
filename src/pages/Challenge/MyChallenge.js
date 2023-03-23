@@ -4,17 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
-import {
-  TextField,
-  Button,
-  Box,
-  FormControl,
-  Container,
-  Typography,
-  Grid,
-  Card,
-  CardMedia,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import API from 'API';
 
 const MyChallenge = () => {
@@ -65,23 +55,25 @@ const SliderChallenge = ({ joinedChallenge }) => {
   };
 
   return (
-    <StyledSlider {...sliderSettings}>
-      {joinedChallenge.map((item, index) => (
-        <SlideContainer key={index}>
-          <ImageWrapper>
-            <Link to={`/challenge/detail/${item.challenge_id}`}>
-              <Image src={item.image} alt={item.title} />
-              <Overlay>
-                <ImgTitle>{item.title}</ImgTitle>
-                <Subtitle>
-                  {item.progress_start}-{item.progress_end}
-                </Subtitle>
-              </Overlay>
-            </Link>
-          </ImageWrapper>
-        </SlideContainer>
-      ))}
-    </StyledSlider>
+    joinedChallenge.length && (
+      <StyledSlider {...sliderSettings}>
+        {joinedChallenge.map((item, index) => (
+          <SlideContainer key={index}>
+            <ImageWrapper>
+              <Link to={`/challenge/detail/${item.challenge_id}`}>
+                <Image src={item.image} alt={item.title} />
+                <Overlay>
+                  <ImgTitle>{item.title}</ImgTitle>
+                  <Subtitle>
+                    {item.progress_start}-{item.progress_end}
+                  </Subtitle>
+                </Overlay>
+              </Link>
+            </ImageWrapper>
+          </SlideContainer>
+        ))}
+      </StyledSlider>
+    )
   );
 };
 
