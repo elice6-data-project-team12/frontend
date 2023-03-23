@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import BarChart from './components/charts/BarChart';
 import TwoChart from './components/charts/TwoChart';
 import DoughnutChart from './components/charts/DoughnutChart';
@@ -6,7 +5,6 @@ import useScrollFadeIn from '../../hooks/useScrollFadeIn.js';
 import MapChart from './components/charts/MapChart';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
 
 import Container from '@mui/material/Container';
@@ -42,15 +40,15 @@ const LandingPage = () => {
             {...animatedPathItem[2]}
           >
             <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
-              ⭐ 1인가구 증가에 따른 사회적 고립 문제
+              1인가구 증가에 따른 사회적 고립 문제
             </Typography>
             <Typography
               sx={{ color: 'grey', textAlign: 'center', fontSize: '20px' }}
               variant="body1"
               gutterBottom
             >
-              주변에서 혼자 생활하는 1인가구를 본 적이 있나요? <br /> 혹은 혼자
-              생활해 본 경험이 있나요? <br />
+              주변에 혼자 생활하는 1인가구를 본 적이 있으신가요? <br /> 혹은
+              아무도 없는 집에서 외로움을 느껴본 경험은 없으신가요? <br />
               혼자 생활하다 보면 사회적으로 고립된 느낌을 받는 동시에 외로움이
               밀려올 때가 있습니다.
             </Typography>
@@ -67,7 +65,7 @@ const LandingPage = () => {
               variant="h6"
               gutterBottom
             >
-              2016년 대비 2021년 서울시 1인 가구수 약 35만명이 증가
+              2016년 대비 2021년 서울시 1인 가구수 약 35만명 증가
             </Typography>
             <Box sx={{ display: 'flex' }}>
               <Box
@@ -117,10 +115,9 @@ const LandingPage = () => {
               variant="body1"
               gutterBottom
             >
-              1인가구의 수가 지속적으로 증가하면서 <br /> 사회적 고립 문제는 더
-              이상 개인의 문제가 아닌 사회적 문제로 대두되고있으며,
-              <br /> 적극적으로 예방하고 대책을 마련할 수 있는 실질적인 방안이
-              필요합니다.
+              매년 증가하는 1인가구에 따라 사회적 고립 문제는 더욱
+              심화되고있습니다. <br /> 이를 적극적으로 예방하고 대책을 마련할 수
+              있는 실질적인 방안이 필요합니다.
             </Typography>
           </Box>
         </Container>
@@ -138,7 +135,7 @@ const LandingPage = () => {
             {...animatedFadeInItem[1]}
           >
             <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
-              ⭐ 중장년층 이후 사회적 활동 감소
+              중장년층 이후 사회적 활동 감소
             </Typography>
             <Typography
               sx={{ color: 'grey', textAlign: 'center', fontSize: '20px' }}
@@ -147,8 +144,8 @@ const LandingPage = () => {
             >
               1인가구의 사회적 고립 문제는 특히 50대 이후 중장년층 세대에서
               나타납니다. <br />
-              1인가구 중에서도 중장년층은 가족과의 관계가 떨어져 있거나,
-              전자기기와 SNS에 능하지 않기 때문입니다.
+              중장년층은 가족과의 관계가 떨어져 있는 경우가 많거나, 전자기기와
+              SNS에 능숙하지 않기 때문입니다. <br />
             </Typography>
 
             <Box sx={{ width: '70%', mt: '20px' }}>
@@ -162,7 +159,7 @@ const LandingPage = () => {
               gutterBottom
             >
               실제로 *커뮤니케이션 지수, *외출 지수와 같은 사회적 접촉량을
-              연령대 별로 살펴보았을 때, <br />
+              연령대 별로 살펴본 결과, <br />
               다른 연령대에 비해 수치가 현저히 낮은 것을 확인하였습니다.
             </Typography>
           </Box>
@@ -185,9 +182,8 @@ const LandingPage = () => {
               variant="body1"
               gutterBottom
             >
-              따라서 중장년층 세대의 사회적 접촉(커뮤니케이션 활동과 외출)을
-              장려하기 위하여 <br /> 자녀들과 부모님이 함께 만들어가는 효도
-              서비스를 제공하고자 합니다.
+              따라서 중장년층 세대의 사회적 활동을 장려하기 위하여 <br />{' '}
+              자녀들과 부모님이 함께 만들어가는 효도 서비스를 제공하고자 합니다.
             </Typography>
           </Box>
         </Container>
