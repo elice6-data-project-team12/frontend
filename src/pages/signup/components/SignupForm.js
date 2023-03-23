@@ -72,7 +72,7 @@ function SignupForm() {
           navigate('/user/login');
         })
         .catch(error => {
-          console.log(error.response.data.err);
+          alert(error.response.data.err);
         });
     };
   
