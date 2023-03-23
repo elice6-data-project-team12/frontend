@@ -5,9 +5,6 @@ import {
   Button,
   Box,
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Container,
   Typography,
   Grid,
@@ -19,29 +16,32 @@ import { Link } from 'react-router-dom';
 import ImageUpload from './ImageUpload';
 import API from 'API';
 
-const ChallengeForm = ({ actionType }) => {
+const ChallengeFormUD = ({ actionType, challenge }) => {
   const [buttonJoinVisible, setButtonJoinVisible] = useState(true);
+  const {
+    challenge_id,
+    title,
+    description,
+    content,
+    image,
+    recruit_person,
+    recruit_start,
+    recruit_end,
+    isDeleted,
+    progress_start,
+    progress_end,
+  } = challenge || {};
 
-  useEffect(() => {
-    if (actionType === 'select') {
-      setButtonJoinVisible(true);
-    } else {
-      setButtonJoinVisible(false);
-    }
-  }, [actionType]);
-
-  const currentDate = new Date().toISOString().slice(0, 10);
   const [formFields, setFormFields] = useState({
-    title: '',
-    description: '',
-    content: '',
-    image: '',
-    recruit_person: 1,
-    recruit_start: currentDate,
-    recruit_end: currentDate,
-    isDeleted: 0,
-    progress_start: currentDate,
-    progress_end: currentDate,
+    title: challenge?.title || '',
+    description: description || '',
+    content: content || '',
+    image: image || '',
+    recruit_person: recruit_person || '',
+    recruit_start: recruit_start || '',
+    recruit_end: recruit_end || '',
+    progress_start: progress_start || '',
+    progress_end: progress_end || '',
   });
 
   const handleFormChange = event => {
@@ -66,27 +66,50 @@ const ChallengeForm = ({ actionType }) => {
   const handleSubmitForm = async event => {
     event.preventDefault();
 
+    if (!image || !image.type.startsWith('image/')) {
+      alert('이미지 파일을 변경하여 저장해주세요!');
+      return;
+    }
+
     try {
       const headers = {
         'Content-Type': 'multipart/form-data',
       };
-      console.log('Challenge object:', formFields);
-      const response = await API.post('/api/challenge/', formFields, {
-        headers,
-      });
-      console.log('Data created:', response.data);
-      alert('등록이 완료되었습니다!');
+      console.log('Challenge update:', formFields);
+      const response = await API.put(
+        `/api/challenge/${challenge_id}`,
+        formFields,
+        {
+          headers,
+        }
+      );
+      console.log('Data update:', response.data);
+      alert('챌린지 수정이 완료되었습니다!');
+      window.location.href = '/ChallengePage';
     } catch (error) {
-      alert('동일한 제목의 챌린지가 있습니다.');
+      alert('챌린지 수정이 정상적으로 수행되지 않았습니다.');
+      console.log('Error update data:', error);
+    }
+  };
+
+  const handleDeleteForm = async event => {
+    event.preventDefault();
+
+    try {
+      const response = await API.delete(`/api/challenge/${challenge_id}`);
+      alert('챌린지 삭제가 완료되었습니다!');
+      window.location.href = '/ChallengePage';
+    } catch (error) {
+      alert('챌린지 삭제가 제대로 이루어지지 않았습니다.');
       console.log('Error creating data:', error);
     }
   };
 
   return (
     <StyledContainer maxWidth="md">
-      <Box sx={{ mb: 4, mt: 4, my: 4, marginTop: '150px' }}>
+      <Box sx={{ mb: 4, mt: 2, my: 4, marginTop: '50px' }}>
         <Typography variant="h4" component="h1" align="center">
-          부모님과 함께 소중한 추억을 만들어요.
+          {formFields.title}
         </Typography>
         <Typography variant="subtitle1" component="p" align="center">
           Register your challenge and start your journey today!
@@ -95,13 +118,15 @@ const ChallengeForm = ({ actionType }) => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ maxWidth: 400 }}>
-            {/* <CardMedia
-              component="img"
+            <CardMedia
+              id="image"
+              name="image"
+              component="image"
               height="auto"
-              width="100%"
-              image="https://source.unsplash.com/400x400/?fitness"
+              // width="100%"
+              image={formFields.title}
               alt={formFields.title}
-            /> */}
+            />
             <ImageUpload onChange={handleImageChange} />
           </Card>
         </Grid>
@@ -114,7 +139,7 @@ const ChallengeForm = ({ actionType }) => {
                 label="챌린지명"
                 fullWidth
                 required
-                value={formFields.title}
+                value={title}
                 onChange={handleFormChange}
                 sx={{ mt: 1 }}
               />
@@ -223,7 +248,7 @@ const ChallengeForm = ({ actionType }) => {
               </Grid>
               {buttonJoinVisible ? (
                 <Button variant="contained" sx={{ mt: 2 }}>
-                  참여하기
+                  챌린지삭제
                 </Button>
               ) : (
                 <Box sx={{ height: '50px' }} />
@@ -261,7 +286,16 @@ const ChallengeForm = ({ actionType }) => {
             color="primary"
             onClick={handleSubmitForm}
           >
-            등록
+            수정
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 2 }}
+            color="primary"
+            onClick={handleDeleteForm}
+          >
+            챌린지 삭제
           </Button>
         </Grid>
       </Grid>
@@ -274,22 +308,4 @@ const StyledContainer = styled(Container)`
   padding: 24px;
 `;
 
-// const StyledChallengeForm = styled(ChallengeForm)`
-//   background-color: #fff;
-//   border-radius: 8px;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//   padding: 32px;
-// `;
-// const YellowForm = styled('form')({
-//   backgroundColor: '#FFEB3B',
-//   padding: '24px',
-//   borderRadius: '8px',
-// });
-
-const YellowForm = styled(Box)`
-  background-color: lightgray;
-  padding: 24px;
-  border-radius: 8px;
-`;
-
-export default ChallengeForm;
+export default ChallengeFormUD;
