@@ -4,6 +4,17 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
+import {
+  TextField,
+  Button,
+  Box,
+  FormControl,
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardMedia,
+} from '@mui/material';
 import API from 'API';
 
 const MyChallenge = () => {
@@ -15,7 +26,7 @@ const MyChallenge = () => {
         const response = await API.get(`/api/challenge/participation`);
         setChallenges(response.data.data);
       } catch (error) {
-        alert('로그인');
+        //alert('로그인');
         console.log('Error MyData selecting data:', error);
       }
     };
@@ -24,13 +35,16 @@ const MyChallenge = () => {
 
   return (
     <>
-      <RowContainer>
-        <ColumnTitle>
-          <Title>진행중 챌린지</Title>
-        </ColumnTitle>
-      </RowContainer>
+      <Box sx={{ mb: 4, mt: 2, my: 4, marginTop: '50px' }}>
+        <Typography variant="h4" component="h1" align="center">
+          참여중 챌린지
+        </Typography>
+      </Box>
       <SliderChallenge joinedChallenge={challenges} />
     </>
+    // <>
+    //   <Title>참여중 챌린지</Title>
+    // </>
   );
 };
 

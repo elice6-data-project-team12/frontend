@@ -20,16 +20,6 @@ import ImageUpload from './ImageUpload';
 import API from 'API';
 
 const ChallengeForm = ({ actionType }) => {
-  const [buttonJoinVisible, setButtonJoinVisible] = useState(true);
-
-  useEffect(() => {
-    if (actionType === 'select') {
-      setButtonJoinVisible(true);
-    } else {
-      setButtonJoinVisible(false);
-    }
-  }, [actionType]);
-
   const currentDate = new Date().toISOString().slice(0, 10);
   const [formFields, setFormFields] = useState({
     title: '',
@@ -74,17 +64,19 @@ const ChallengeForm = ({ actionType }) => {
       const response = await API.post('/api/challenge/', formFields, {
         headers,
       });
-      console.log('Data created:', response.data);
-      alert('등록이 완료되었습니다!');
+      alert(
+        '챌린지가 정상적으로 등록되었습니다!<br /> 참여중인 챌린지에서 확인하세요!'
+      );
+      window.location.href = '/ChallengePage';
     } catch (error) {
-      alert('동일한 제목의 챌린지가 있습니다.');
+      alert('챌린지 등록이 정상적으로 처리되지 않았습니다!');
       console.log('Error creating data:', error);
     }
   };
 
   return (
     <StyledContainer maxWidth="md">
-      <Box sx={{ mb: 4, mt: 4, my: 4, marginTop: '150px' }}>
+      <Box sx={{ mb: 4, mt: 2, my: 4, marginTop: '50px' }}>
         <Typography variant="h4" component="h1" align="center">
           부모님과 함께 소중한 추억을 만들어요.
         </Typography>
@@ -95,13 +87,6 @@ const ChallengeForm = ({ actionType }) => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ maxWidth: 400 }}>
-            {/* <CardMedia
-              component="img"
-              height="auto"
-              width="100%"
-              image="https://source.unsplash.com/400x400/?fitness"
-              alt={formFields.title}
-            /> */}
             <ImageUpload onChange={handleImageChange} />
           </Card>
         </Grid>
@@ -221,13 +206,6 @@ const ChallengeForm = ({ actionType }) => {
                   />
                 </Grid>
               </Grid>
-              {buttonJoinVisible ? (
-                <Button variant="contained" sx={{ mt: 2 }}>
-                  참여하기
-                </Button>
-              ) : (
-                <Box sx={{ height: '50px' }} />
-              )}
             </FormControl>
           </Box>
         </Grid>
@@ -272,24 +250,6 @@ const ChallengeForm = ({ actionType }) => {
 const StyledContainer = styled(Container)`
   background-color: #f5f5f5;
   padding: 24px;
-`;
-
-// const StyledChallengeForm = styled(ChallengeForm)`
-//   background-color: #fff;
-//   border-radius: 8px;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//   padding: 32px;
-// `;
-// const YellowForm = styled('form')({
-//   backgroundColor: '#FFEB3B',
-//   padding: '24px',
-//   borderRadius: '8px',
-// });
-
-const YellowForm = styled(Box)`
-  background-color: lightgray;
-  padding: 24px;
-  border-radius: 8px;
 `;
 
 export default ChallengeForm;

@@ -63,7 +63,13 @@ const ChallengeIsJoin = () => {
 
   return (
     <Grid>
-      <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
         <Button
           variant="contained"
           value={isJoined}
