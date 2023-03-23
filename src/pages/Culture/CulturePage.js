@@ -79,7 +79,6 @@ const CulturePage = () => {
           </div>
         </SectionHeader>
         <SectionMap>
-          {/* <AreaFacility> */}
           <Paper
             elevation={3}
             sx={{
@@ -105,7 +104,6 @@ const CulturePage = () => {
               setInfoModal={setInfoModal}
             />
           </Paper>
-          {/* </AreaFacility> */}
         </SectionMap>
       </Box>
       <Box sx={{ mt: '50px' }}>

@@ -9,11 +9,9 @@ import HomeIcon from '@mui/icons-material/Home';
 const CultureDetailModal = ({
   infoModal,
   showModal,
-  children,
   className,
   onClose,
   maskClosable,
-  closable,
 }) => {
   const [selectedModalInfo, setSelectedModalInfo] = useState({});
 
