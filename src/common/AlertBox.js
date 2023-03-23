@@ -1,22 +1,26 @@
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
 
 const AlertBox = ({ isOpenAlert, setIsOpenAlert }) => {
   const handleClose = () => {
-    setIsOpenAlert(false);
+    setIsOpenAlert({
+      open: false,
+      type: isOpenAlert.type,
+      message: isOpenAlert.message,
+    });
   };
+
   return (
     <Snackbar
+      sx={{ width: '100%' , mt:'100px'}}
       anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
+        vertical: 'top',
+        horizontal: 'center',
       }}
       open={isOpenAlert.open}
       onClose={handleClose}
       message={isOpenAlert.message}
-      autoHideDuration={2000}
+      autoHideDuration={3000}
     >
       <Alert severity={isOpenAlert.type}>{isOpenAlert.message}</Alert>
     </Snackbar>

@@ -124,12 +124,25 @@ export const EventMarkerContainer = ({
                   <span style={{ verticalAlign: 'middle' }}>
                     <HomeIcon sx={{ fontSize: 15, color: '#F2BE5B' }} />
                   </span>
-                  <span style={{ fontWeight: 700, marginRight: '10px' }}>
+                  <span
+                    style={{
+                      fontWeight: 700,
+                      marginRight: '10px',
+                      marginLeft: '10px',
+                    }}
+                  >
                     공식 홈페이지
                   </span>
                 </a>
                 <span style={{ verticalAlign: 'middle' }}>
-                  <CallIcon sx={{ fontSize: 15, color: '#F2BE5B' }} />
+                  <CallIcon
+                    sx={{
+                      fontSize: 15,
+                      color: '#F2BE5B',
+                      marginRight: '10px',
+                      marginLeft: '10px',
+                    }}
+                  />
                 </span>
                 <span>{phone}</span>
               </Typography>

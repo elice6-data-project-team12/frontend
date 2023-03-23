@@ -18,7 +18,7 @@ function BookMarkButton({ info, setIsOpenAlert }) {
       .catch(err => {
         setIsOpenAlert({
           open: true,
-          type: 'info',
+          type: 'error',
           message: '로그인이 필요한 서비스 입니다.',
         });
       });
