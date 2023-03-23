@@ -9,10 +9,10 @@ const CultureMap = ({
   showModal,
   setShowModal,
   setInfoModal,
+  setIsOpenAlert,
 }) => {
   const [filteredList, setFilteredList] = useState([]); // filter 적용된 리스트 state
   const [selectedMarker, setSeleteMarker] = useState(); // 마커를 하나만 선택하기 위한 state
-
   // 필터링된 데이터 불러오기
   useEffect(() => {
     const { addr, subject } = filterObj.filterState;
@@ -79,6 +79,7 @@ const CultureMap = ({
             showModal={showModal}
             setShowModal={setShowModal}
             setInfoModal={setInfoModal}
+            setIsOpenAlert={setIsOpenAlert}
           />
         ))}
       </Map>

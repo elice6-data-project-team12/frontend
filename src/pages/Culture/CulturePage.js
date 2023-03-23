@@ -7,6 +7,7 @@ import CultureDetailModal from './components/modal/CultureDetailModal';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import AlertBox from 'common/AlertBox';
 //주제분류 아이콘
 import {
   ico_picker01_on,
@@ -51,8 +52,16 @@ const CulturePage = () => {
   // 상세정보 모달 info state
   const [infoModal, setInfoModal] = useState(null);
 
+  //Alert open state
+  const [isOpenAlert, setIsOpenAlert] = useState({
+    open: false,
+    type: 'error',
+    message: 'Alert 메세지를 입력 하세요.',
+  });
   return (
     <Container fixed>
+      <AlertBox isOpenAlert={isOpenAlert} setIsOpenAlert={setIsOpenAlert} />
+
       <Box sx={{ height: '100px', mb: '20px' }}>
         <Location>소개-&gt; 문화여가시설 찾기</Location>
       </Box>
@@ -64,6 +73,7 @@ const CulturePage = () => {
             maskClosable={true}
             infoModal={infoModal}
             onClose={closeModal}
+            setIsOpenAlert={setIsOpenAlert}
           />
         )}
         <SectionHeader>
@@ -102,6 +112,7 @@ const CulturePage = () => {
               showModal={showModal}
               setShowModal={setShowModal}
               setInfoModal={setInfoModal}
+              setIsOpenAlert={setIsOpenAlert}
             />
           </Paper>
         </SectionMap>
@@ -111,6 +122,7 @@ const CulturePage = () => {
           showModal={showModal}
           setShowModal={setShowModal}
           setInfoModal={setInfoModal}
+          setIsOpenAlert={setIsOpenAlert}
         />
       </Box>
     </Container>

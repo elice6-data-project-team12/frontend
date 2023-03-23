@@ -33,6 +33,7 @@ export const EventMarkerContainer = ({
   showModal,
   setShowModal,
   setInfoModal,
+  setIsOpenAlert,
 }) => {
   const [iconImg, setIconImg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -111,7 +112,7 @@ export const EventMarkerContainer = ({
                   />
                 </div>
               </Box>
-              <Typography variant="h5" component="div"></Typography>
+
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 {`위치: 서울시 ${addr}`}
               </Typography>
@@ -145,7 +146,10 @@ export const EventMarkerContainer = ({
               >
                 자세히보기
               </Button>
-              <BookMarkButton info={facilityId} />
+              <BookMarkButton
+                info={facilityId}
+                setIsOpenAlert={setIsOpenAlert}
+              />
             </CardActions>
           </Card>
         )}

@@ -3,7 +3,6 @@ import BarChart from './components/charts/BarChart';
 import TwoChart from './components/charts/TwoChart';
 import DoughnutChart from './components/charts/DoughnutChart';
 import useScrollFadeIn from '../../hooks/useScrollFadeIn.js';
-import useScrollClipPath from 'hooks/useScrollClipPath';
 import MapChart from './components/charts/MapChart';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -55,8 +54,10 @@ const LandingPage = () => {
               혼자 생활하다 보면 사회적으로 고립된 느낌을 받는 동시에 외로움이
               밀려올 때가 있습니다.
             </Typography>
+
             <br />
           </Box>
+
           <Box
             sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
             {...animatedFadeInItem[0]}
