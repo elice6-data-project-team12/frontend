@@ -10,6 +10,7 @@ import { useRef, useEffect, useCallback } from 'react';
 // direction(string): 엘리먼트가 펼쳐지는 방향 (up, down, left, right) default value = 'left'
 // duration(number): 애니메이션의 총 동작 시간. second 단위 default value = 1
 // delay(number): 애니메이션 지연 시간. second 단위 default value = 0
+
 const useScrollClipPath = (direction = 'left', duration = 1, delay = 0) => {
   const element = useRef();
 
