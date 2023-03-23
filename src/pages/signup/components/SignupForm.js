@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import API from '../../../API';
 import { useNavigate } from 'react-router-dom';
+import Button from '../../../common/button';
+import styled from 'styled-components';
 
 function SignupForm() {
     const [emailErr, setEmailErr] = useState('');
@@ -75,11 +77,11 @@ function SignupForm() {
     };
   
     return (
-      <form onSubmit={handleSignup}>
+      <Signup onSubmit={handleSignup}>
         <div>
           <label htmlFor="name">이름</label>
           <div className="form-field">
-            <input
+            <Input
               required
               id="name"
               type="text"
@@ -92,7 +94,7 @@ function SignupForm() {
         <div>
           <label htmlFor="email">이메일</label>
           <div className="form-field">
-            <input
+            <Input
               required
               id="email"
               type="email"
@@ -110,7 +112,7 @@ function SignupForm() {
         <div>
           <label htmlFor="password">비밀번호</label>
           <div className="form-field">
-            <input
+            <Input
               required
               id="password"
               type="password"
@@ -127,7 +129,7 @@ function SignupForm() {
         <div>
           <label htmlFor="confirmPassword">비밀번호 확인</label>
           <div className="form-field">
-            <input
+            <Input
               required
               id="confirmPassword"
               type="password"
@@ -144,7 +146,7 @@ function SignupForm() {
         <div>
           <label htmlFor="phone">휴대폰</label>
           <div className="form-field">
-            <input
+            <Input
               required
               id="phone"
               type="text"
@@ -154,11 +156,40 @@ function SignupForm() {
             />
           </div>
         </div>
-        <button className="sign-up-btn " disabled={!activateButton} type="submit">
+        <Button title="회원가입" disabled={!activateButton} type="submit">
           이메일로 회원가입하기
-        </button>
-      </form>
+        </Button>
+      </Signup>
     );
   }
+
+  const Signup = styled.form`
+    height: 60%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 4px groove blue;
+      div {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      .form-field {
+        width: 80%;
+      }
+    }
+  `;
+
+  const Input = styled.input`
+    width: 100%;
+    height: 50px;
+    font-size: 15px;
+    background-color: inherit;
+    border: 2px solid #757575;
+    outline: none;
+  `;
+
 
   export default SignupForm;
