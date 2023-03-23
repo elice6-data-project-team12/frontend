@@ -7,27 +7,29 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
+import PieChart from '../Landing/components/charts/PieChart';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import { display } from '@mui/system';
 const LandingPage = () => {
   const animatedFadeInItem = {
-    0: useScrollFadeIn('up', 1, 0),
+    0: useScrollFadeIn('down', 1, 0),
     1: useScrollFadeIn('up', 1, 0.2),
     2: useScrollFadeIn('up', 1, 0.3),
-    3: useScrollFadeIn('up', 1, 2),
+    3: useScrollFadeIn('up', 1, 0.4),
     4: useScrollFadeIn('up', 1, 3),
   };
   const animatedPathItem = {
     0: useScrollFadeIn('up', 1, 0),
     1: useScrollFadeIn('left', 1, 0.2),
-    2: useScrollFadeIn('up', 1, 0.3),
-    3: useScrollFadeIn('up', 1, 2),
+    2: useScrollFadeIn('left', 1, 0.3),
+    3: useScrollFadeIn('left', 1, 1),
     4: useScrollFadeIn('up', 1, 3),
   };
 
   return (
     <Box sx={{ width: '100%', marginTop: '100px' }}>
-      <Box sx={{ bgcolor: '#FBF7F2', p: '50px' }}>
+      <Box sx={{ bgcolor: '#FBF7F2', p: '50px' }} {...animatedFadeInItem[0]}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -37,7 +39,6 @@ const LandingPage = () => {
               alignItems: 'center',
               height: '350px',
             }}
-            {...animatedPathItem[2]}
           >
             <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
               1인가구 증가에 따른 사회적 고립 문제
@@ -55,11 +56,11 @@ const LandingPage = () => {
 
             <br />
           </Box>
-
-          <Box
-            sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
-            {...animatedFadeInItem[0]}
-          >
+        </Container>
+      </Box>
+      <Box sx={{ bgcolor: '#FFFFFF', p: '50px' }} {...animatedFadeInItem[1]}>
+        <Container maxWidth="md">
+          <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <Typography
               sx={{ color: 'grey', textAlign: 'center' }}
               variant="h6"
@@ -89,6 +90,7 @@ const LandingPage = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  position: 'relative',
                 }}
                 elevation={3}
               >
@@ -98,8 +100,38 @@ const LandingPage = () => {
           </Box>
         </Container>
       </Box>
-      <Box sx={{ bgcolor: '#FFFFFF', p: '50px' }}>
-        <Container maxWidth="lg">
+      <Box sx={{ bgcolor: '#FBF7F2', p: '50px' }} {...animatedPathItem[0]}>
+        <Container maxWidth="md">
+          <Typography
+            sx={{ color: 'grey', textAlign: 'center', mb: '20px' }}
+            variant="h6"
+            gutterBottom
+          >
+            연령대가 높아질 수록 혼인상태가 사별/이혼인 비율이 증가
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <PieChart />
+          </Box>
+          <Typography
+            sx={{ color: 'grey', textAlign: 'center', fontSize: '20px' }}
+            variant="body1"
+            gutterBottom
+          >
+            50대 이후 연령대는 성인이 된 자녀를 모두 출가시키고, 배우자를 먼저
+            하늘나라로 보낸 이들이 있습니다. 위의 그래프를 보면, 연령대가 높아질
+            수록 혼인상태가 사별/이혼인 비율이 증가합니다.
+          </Typography>
+        </Container>
+      </Box>
+      <Box sx={{ bgcolor: '#FFFFFF', p: '50px' }} {...animatedPathItem[1]}>
+        <Container maxWidth="md">
           <Box
             sx={{
               display: 'flex',
@@ -108,7 +140,6 @@ const LandingPage = () => {
               alignItems: 'center',
               height: '350px',
             }}
-            {...animatedPathItem[0]}
           >
             <Typography
               sx={{ color: 'grey', fontSize: '20px', textAlign: 'center' }}
@@ -122,8 +153,8 @@ const LandingPage = () => {
           </Box>
         </Container>
       </Box>
-      <Box sx={{ bgcolor: '#FBF7F2' }}>
-        <Container maxWidth="lg">
+      <Box sx={{ bgcolor: '#FBF7F2' }} {...animatedFadeInItem[3]}>
+        <Container maxWidth="md">
           <Box
             sx={{
               display: 'flex',
@@ -132,7 +163,6 @@ const LandingPage = () => {
               alignItems: 'center',
               p: '50px',
             }}
-            {...animatedFadeInItem[1]}
           >
             <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
               중장년층 이후 사회적 활동 감소
@@ -165,8 +195,8 @@ const LandingPage = () => {
           </Box>
         </Container>
       </Box>
-      <Box sx={{ bgcolor: '#FFFFFF' }}>
-        <Container maxWidth="lg">
+      <Box sx={{ bgcolor: '#FFFFFF' }} {...animatedPathItem[3]}>
+        <Container maxWidth="md">
           <Box
             sx={{
               display: 'flex',
@@ -175,7 +205,6 @@ const LandingPage = () => {
               alignItems: 'center',
               height: '350px',
             }}
-            {...animatedPathItem[1]}
           >
             <Typography
               sx={{ color: 'grey', fontSize: '20px', textAlign: 'center' }}
