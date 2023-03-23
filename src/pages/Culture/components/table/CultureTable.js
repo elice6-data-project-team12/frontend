@@ -21,7 +21,12 @@ import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Chip from '@mui/material/Chip';
-const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
+const CultureTable = ({
+  showModal,
+  setShowModal,
+  setInfoModal,
+  setIsOpenAlert,
+}) => {
   // 컬럼명과 컬럼명에 해당하는 값들 연결
 
   const [data, setData] = useState([]); //
@@ -221,7 +226,10 @@ const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
                     >
                       자세히보기
                     </Button>
-                    <BookMarkButton info={row.facility_id} />
+                    <BookMarkButton
+                      info={row.facility_id}
+                      setIsOpenAlert={setIsOpenAlert}
+                    />
                   </ButtonGroup>
                 </StyledTableCell>
               </StyledTableRow>

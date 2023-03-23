@@ -12,6 +12,7 @@ const CultureDetailModal = ({
   className,
   onClose,
   maskClosable,
+  setIsOpenAlert,
 }) => {
   const [selectedModalInfo, setSelectedModalInfo] = useState({});
 
@@ -58,7 +59,10 @@ const CultureDetailModal = ({
                 sx={{ bgcolor: '#F2BE5B', margin: '10px 0', fontSize: '12px' }}
                 label={selectedModalInfo.subjcode}
               />
-              <BookMarkButton info={selectedModalInfo.facility_id} />
+              <BookMarkButton
+                info={selectedModalInfo.facility_id}
+                setIsOpenAlert={setIsOpenAlert}
+              />
               <div className="block"></div>
               <div className="info-body">
                 <div className="info-icon">
