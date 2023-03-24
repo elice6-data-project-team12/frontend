@@ -1,6 +1,5 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto';
 import { singlePerson } from 'pages/Landing/Data/chartData.js';
 import { useState } from 'react';
 
@@ -9,7 +8,7 @@ const BarChart = () => {
     labels: singlePerson.map(data => data.year),
     datasets: [
       {
-        label: '인구수',
+        label: '가구수',
         data: singlePerson.map(data => data.population),
         backgroundColor: ['#DBE4C6'],
         borderColor: [

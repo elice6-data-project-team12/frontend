@@ -31,11 +31,11 @@ const MapChart = () => {
       <Legend>
         <div className="ranking">
           <dl>
-            <dt>1인 가구수</dt>
+            <dt>가구수</dt>
             <dd></dd>
             <div className="range">
               <div>0</div>
-              <div>700, 000</div>
+              <div>700,000</div>
             </div>
           </dl>
         </div>
@@ -45,7 +45,7 @@ const MapChart = () => {
 };
 
 const Legend = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 0px;
   right: 0px;
   padding: 16px;
@@ -58,12 +58,12 @@ const Legend = styled.div`
       display: flex;
       flex-direction: column;
       dt {
-        align-self: center;
+        align-self: flex-end;
         margin-bottom: 5px;
       }
       dd {
         margin-left: 8px;
-        width: 160px;
+        width: 100px;
         height: 16px;
         background: linear-gradient(
           to right,
