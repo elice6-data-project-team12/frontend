@@ -283,7 +283,7 @@ const LandingPage = () => {
                     <br />
                     나누고, 상담하며, 애정을 나누는 시간을 가질 수 있습니다.
                   </Typography>
-                  <Link to="/culture">
+                  <Link to="/challenge">
                     <Button sx={{ maxWidth: '200px' }} variant="contained">
                       효도챌린지 도전
                     </Button>
