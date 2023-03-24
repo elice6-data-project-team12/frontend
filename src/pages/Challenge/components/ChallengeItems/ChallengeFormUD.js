@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/system';
 import {
   TextField,
@@ -10,14 +10,13 @@ import {
   Grid,
   Card,
   CardMedia,
+  Chip,
 } from '@mui/material';
-// import DatePicker from "react-datepicker";
 import { Link } from 'react-router-dom';
 import ImageUpload from './ImageUpload';
 import API from 'API';
 
 const ChallengeFormUD = ({ actionType, challenge }) => {
-  const [buttonJoinVisible, setButtonJoinVisible] = useState(true);
   const {
     challenge_id,
     title,
@@ -43,6 +42,8 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
     progress_start: progress_start || '',
     progress_end: progress_end || '',
   });
+
+  const [isImageUploadActive, setIsImageUploadActive] = useState(false);
 
   const handleFormChange = event => {
     const { name, value, files } = event.target;
@@ -85,7 +86,7 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
       );
       console.log('Data update:', response.data);
       alert('챌린지 수정이 완료되었습니다!');
-      window.location.href = '/ChallengePage';
+      window.location.href = `/challenge/detail/${challenge_id}`;
     } catch (error) {
       alert('챌린지 수정이 정상적으로 수행되지 않았습니다.');
       console.log('Error update data:', error);
@@ -98,7 +99,7 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
     try {
       const response = await API.delete(`/api/challenge/${challenge_id}`);
       alert('챌린지 삭제가 완료되었습니다!');
-      window.location.href = '/ChallengePage';
+      window.location.href = `/challenge/detail/${challenge_id}`;
     } catch (error) {
       alert('챌린지 삭제가 제대로 이루어지지 않았습니다.');
       console.log('Error creating data:', error);
@@ -107,7 +108,7 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
 
   return (
     <StyledContainer maxWidth="md">
-      <Box sx={{ mb: 4, mt: 2, my: 4, marginTop: '50px' }}>
+      <Box sx={{ mb: 4, mt: 4, my: 4, marginTop: '100px' }}>
         <Typography variant="h4" component="h1" align="center">
           {formFields.title}
         </Typography>
@@ -118,16 +119,23 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ maxWidth: 400 }}>
-            <CardMedia
-              id="image"
-              name="image"
-              component="image"
-              height="auto"
-              // width="100%"
-              image={formFields.title}
-              alt={formFields.title}
-            />
-            <ImageUpload onChange={handleImageChange} />
+            {!isImageUploadActive && (
+              <CardMedia
+                id="image"
+                name="image"
+                component="img"
+                height="auto"
+                width="100%"
+                image={formFields.image}
+                alt={formFields.title}
+              />
+            )}
+            <Button onClick={() => setIsImageUploadActive(true)}>
+              이미지 업로드
+            </Button>
+            {isImageUploadActive && (
+              <ImageUpload onChange={handleImageChange} />
+            )}
           </Card>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -246,17 +254,11 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
                   />
                 </Grid>
               </Grid>
-              {buttonJoinVisible ? (
-                <Button variant="contained" sx={{ mt: 2 }}>
-                  챌린지삭제
-                </Button>
-              ) : (
-                <Box sx={{ height: '50px' }} />
-              )}
             </FormControl>
           </Box>
         </Grid>
       </Grid>
+
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12}>
           <TextField
@@ -268,35 +270,46 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
             required
             value={formFields.content}
             onChange={handleFormChange}
-            // sx={{ mt: 4, minHeight: '200px' }}
             sx={{ mt: 4 }}
           />
         </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <Link to="/challenge">
-            <Button variant="contained" sx={{ mt: 2 }} color="primary">
-              취소
+      </Grid>
+      <Grid container spacing={1} justifyContent="center" alignItems="center">
+        <Grid item xs={12} sm={12} sx={{ textAlign: 'center' }}>
+          <Grid item xs>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ mt: 2, width: '180px' }}
+              color="primary"
+              onClick={handleSubmitForm}
+            >
+              수 정
             </Button>
-          </Link>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 2 }}
-            color="primary"
-            onClick={handleSubmitForm}
-          >
-            수정
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 2 }}
-            color="primary"
-            onClick={handleDeleteForm}
-          >
-            챌린지 삭제
-          </Button>
+
+            <Link to="/challenge" sx={{ mr: 1 }}>
+              <Button
+                color="primary"
+                variant="outlined"
+                sx={{ mt: 2, ml: 1, width: '180px' }}
+              >
+                챌린지목록
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item xs>
+            <Link to="/challenge/create" sx={{ ml: 'auto' }}>
+              <Chip
+                label="챌린지 삭제"
+                sx={{
+                  mt: 2,
+                  width: '180px',
+                  backgroundColor: '#F2BE5B',
+                }}
+                onClick={handleDeleteForm}
+              />
+            </Link>
+          </Grid>
         </Grid>
       </Grid>
     </StyledContainer>

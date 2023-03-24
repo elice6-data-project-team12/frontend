@@ -5,10 +5,18 @@ import ChallengeList from './ChallengeList';
 import { Container } from '@mui/material';
 
 const ChallengePage = () => {
+  const isLoggedIn = !!localStorage.getItem('userToken');
+
   return (
     <StyledContainer maxWidth="lg">
-      {localStorage.getItem('userToken') ? <MyChallenge /> : null}
-      <ChallengeList />
+      {isLoggedIn ? (
+        <>
+          <MyChallenge />
+          <ChallengeList />
+        </>
+      ) : (
+        <ChallengeList />
+      )}
     </StyledContainer>
   );
 };

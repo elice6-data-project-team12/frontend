@@ -20,7 +20,7 @@ const ChallengeList = () => {
         );
         setChallenges(response.data.data);
       } catch (error) {
-        console.log('Error challengeStatus selecting data', error);
+        console.log('Error ChallengeList', error);
       }
     };
     fetchChallenges();
@@ -30,10 +30,10 @@ const ChallengeList = () => {
     return <div>Loading...</div>;
 
   return (
-    <Box sx={{ marginTop: '3rem' }}>
-      <Grid container spacing={3}>
-        <Grid item xs>
-          <Title>전체챌린지</Title>
+    <Box sx={{ marginTop: '7rem' }}>
+      <Grid container spacing={3} justify="center" alignItems="center">
+        <Grid item xs sx={{ textAlign: 'right' }}>
+          <Typography style={{ fontSize: '32px' }}>전체 챌린지</Typography>
         </Grid>
         <Grid item xs={6}>
           <Button
@@ -65,7 +65,7 @@ const ChallengeList = () => {
             완료
           </Button>
         </Grid>
-        <Grid item xs>
+        <Grid item xs sx={{ textAlign: 'center' }}>
           <Link to="/challenge/create">
             <Chip
               label="새 챌린지 생성하기"
@@ -144,15 +144,14 @@ const Img = styled('img')({
   borderRadius: '25px',
 });
 
-const RowContainer = styled.div`
-  display: flex;
-  width: 80%;
-  margin-left: 50px;
-  margin-left: 150px;
-  top: 50%;
-  left: 50%;
-  }
-`;
+const RowContainer = styled('div')({
+  display: 'flex',
+  width: '80%',
+  marginLeft: '50px',
+  marginLeft: '150px',
+  top: '50%',
+  left: '50%',
+});
 
 const ColumnList = styled.div`
   display: flex;

@@ -65,9 +65,9 @@ const ChallengeForm = ({ actionType }) => {
         headers,
       });
       alert(
-        '챌린지가 정상적으로 등록되었습니다!<br /> 참여중인 챌린지에서 확인하세요!'
+        '챌린지가 정상적으로 등록되었습니다!\n 참여중인 챌린지에서 확인하세요!'
       );
-      window.location.href = '/ChallengePage';
+      window.location.href = '/challenge';
     } catch (error) {
       alert('챌린지 등록이 정상적으로 처리되지 않았습니다!');
       console.log('Error creating data:', error);
@@ -76,7 +76,7 @@ const ChallengeForm = ({ actionType }) => {
 
   return (
     <StyledContainer maxWidth="md">
-      <Box sx={{ mb: 4, mt: 2, my: 4, marginTop: '50px' }}>
+      <Box sx={{ mb: 4, mt: 4, my: 4, marginTop: '100px' }}>
         <Typography variant="h4" component="h1" align="center">
           부모님과 함께 소중한 추억을 만들어요.
         </Typography>
@@ -221,26 +221,30 @@ const ChallengeForm = ({ actionType }) => {
             required
             value={formFields.content}
             onChange={handleFormChange}
-            // sx={{ mt: 4, minHeight: '200px' }}
             sx={{ mt: 4 }}
           />
         </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <Link to="/challenge">
-            <Button variant="contained" sx={{ mt: 2 }} color="primary">
-              취소
-            </Button>
-          </Link>
+      </Grid>
+      <Grid container spacing={1} justifyContent="center" alignItems="center">
+        <Grid item xs={12} sm={12} sx={{ textAlign: 'center' }}>
           <Button
             type="submit"
             variant="contained"
-            sx={{ mt: 2 }}
+            sx={{ mt: 2, width: '180px' }}
             color="primary"
             onClick={handleSubmitForm}
           >
-            등록
+            등 록
           </Button>
+          <Link to="/challenge" sx={{ mr: 1 }}>
+            <Button
+              color="primary"
+              variant="outlined"
+              sx={{ mt: 2, ml: 1, width: '180px' }}
+            >
+              챌린지목록
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </StyledContainer>

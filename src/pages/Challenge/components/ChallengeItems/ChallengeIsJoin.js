@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import {
-  TextField,
-  Button,
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Container,
-  Typography,
-  Grid,
-  Card,
-  CardMedia,
-} from '@mui/material';
+import { Button, Box, Grid } from '@mui/material';
 import API from 'API';
 
 const ChallengeIsJoin = () => {
@@ -23,12 +9,12 @@ const ChallengeIsJoin = () => {
 
   const apiUrl = `/api/challenge/participation`;
 
-  // 참여중이면 true, 아니면 false
   useEffect(() => {
     const getJoinStatus = async () => {
       try {
         const response = await API.get(apiUrl, id);
         setIsJoined(!!response.data);
+        console.log('response.data', !!response.data);
       } catch (error) {
         console.log('Error JoinedStatus', error);
       }
@@ -36,8 +22,6 @@ const ChallengeIsJoin = () => {
     getJoinStatus();
   }, []);
 
-  // 참여하기 : 참여테이블 POST
-  // 참여취소 : 참여테이블 DELECT
   const handleJoinClick = () => {
     setIsJoined(prevIsJoined => !prevIsJoined);
     sendJoinStatus();
@@ -47,8 +31,12 @@ const ChallengeIsJoin = () => {
     const requestData = {
       challenge_id: id,
     };
-    const method = isJoined ? 'POST' : 'DELETE';
 
+    const method = isJoined ? 'DELETE' : 'POST';
+
+    console.log('method:', method);
+    console.log('apiUrl:', apiUrl);
+    console.log('requestData', requestData);
     try {
       const response = await API({
         method: method,
@@ -62,24 +50,37 @@ const ChallengeIsJoin = () => {
   };
 
   return (
-    <Grid>
-      <Box
+    <Grid container spacing={2}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: '100%',
+          width: '100%',
         }}
       >
-        <Button
-          variant="contained"
-          value={isJoined}
-          color={isJoined ? 'secondary' : 'primary'}
-          onClick={handleJoinClick}
-          sx={{ mt: 2 }}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '100%',
+          }}
         >
-          {isJoined ? '참여취소' : '참여하기'}
-        </Button>
-      </Box>
+          <Button
+            variant="contained"
+            value={isJoined}
+            color={isJoined ? 'secondary' : 'primary'}
+            onClick={handleJoinClick}
+            sx={{
+              mt: 2,
+              mt: 2,
+              width: '100%',
+            }}
+          >
+            {isJoined ? '챌린지 참여취소' : '챌린지 참여하기'}
+          </Button>
+        </Box>
+      </Grid>
     </Grid>
   );
 };
