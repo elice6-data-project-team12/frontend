@@ -66,15 +66,13 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
   };
 
   const handleSubmitForm = async event => {
-    event.preventDefault();
+    // event.preventDefault();
 
     console.log('111image.type', image.type);
-
-    if (!image.type || !image.type.startsWith('image/')) {
+    if (!formFields.image.type || !formFields.image.type.startsWith('image/')) {
       alert('※ 수정시 이미지파일을 다시 업로드해주세요!');
       return;
     }
-
     try {
       const headers = {
         'Content-Type': 'multipart/form-data',

@@ -114,7 +114,14 @@ const LandingPage = () => {
             variant="h6"
             gutterBottom
           >
-            연령대가 높아질 수록 혼인상태가 사별/이혼인 비율이 증가
+            1인가구의 연령대 높아질 수록 혼인상태가 사별/이혼인 비율이 증가
+          </Typography>
+          <Typography
+            sx={{ color: 'grey', textAlign: 'center', mb: '20px' }}
+            variant="h6"
+            gutterBottom
+          >
+            20대~30대, 40대, 50대, 60대
           </Typography>
           <Box
             sx={{

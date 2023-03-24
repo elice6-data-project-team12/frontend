@@ -108,7 +108,7 @@ const SelectedFilter = ({ filterObj, setFilterObj, icons }) => {
   };
 
   const handleFilterNameKeyDown = e => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (e.key === 'Enter') {
       setSearchName('');

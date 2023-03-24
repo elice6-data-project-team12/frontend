@@ -16,11 +16,11 @@ const Nav = () => {
   const navigateHandle = () => {
     if (localStorage.getItem('userToken')) {
       navigate('/user');
-    } 
+    }
     if (!localStorage.getItem('userToken')) {
       navigate('/user/login');
     }
-  }
+  };
 
   return (
     <div>
@@ -31,9 +31,6 @@ const Nav = () => {
               HYODORI
             </p>
           </NavLink>
-          <div className="wrap">
-            <div className="circle" />
-          </div>
         </NavTitle>
         <NavItems>
           <NavItem>
@@ -70,9 +67,7 @@ const Nav = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <span
-              onClick={navigateHandle}
-            >
+            <span onClick={navigateHandle}>
               <PersonIcon id="profile" onClick={menuClick} fontSize="large" />
             </span>
           </NavItem>
@@ -107,7 +102,7 @@ const NavTitle = styled.div`
   /* border: 2px solid red; */
 
   p {
-    font-size: 4.5vh;
+    font-size: 40px;
     font-weight: bold;
     /* border: 2px solid red; */
   }
@@ -119,25 +114,6 @@ const NavTitle = styled.div`
     position: absolute;
     right: 10%;
     top: 15%;
-  }
-
-  .wrap {
-    /* border: 2px solid blue; */
-    top: -15%;
-    left: -8%;
-    position: relative;
-  }
-
-  .circle {
-    margin: 0;
-    width: 6vmin;
-    height: 6vmin;
-    background-color: white;
-    border-radius: 50%;
-    z-index: -1;
-    transform: rotate(45deg);
-    position: relative;
-    /* border: 2px solid blue; */
   }
 `;
 
@@ -178,6 +154,5 @@ const LinkStyle = styled.span`
     }
   }
 `;
-
 
 export default Nav;

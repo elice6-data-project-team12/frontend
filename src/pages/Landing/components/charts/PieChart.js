@@ -115,7 +115,11 @@ const option_0 = {
     },
     title: {
       display: true,
-      text: ['2o대~30대 '],
+      text: '2o대~30대 ',
+      padding: {
+        top: 10,
+        bottom: 30,
+      },
       position: 'bottom',
 
       align: 'center',
@@ -158,7 +162,7 @@ const option_1 = {
     },
     title: {
       display: true,
-      text: ['40대 '],
+      text: '40대 ',
       position: 'bottom',
       align: 'center',
       font: {

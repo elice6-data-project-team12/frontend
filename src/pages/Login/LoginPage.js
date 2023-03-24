@@ -8,13 +8,15 @@ import Container from '@mui/material/Container';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
+import { useDispatch } from 'react-redux';
+import { changeLogin } from 'store.js';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onEmailHandler = e => {
     setEmail(e.target.value);
@@ -38,13 +40,13 @@ function LoginPage() {
       const decodedToken = jwt_decode(token);
       localStorage.setItem('decodedToken', JSON.stringify(decodedToken));
 
+      dispatch(changeLogin(token));
       localStorage.setItem('userId', decodedToken.userId);
 
       if (!localStorage.getItem('userId')) {
         navigate('/signup');
       }
       navigate('/');
-  
     } catch (err) {
       setErrModalOpen(true);
     }
@@ -63,61 +65,69 @@ function LoginPage() {
     p: 4,
   };
 
-
   const [errModalOpen, setErrModalOpen] = useState(false);
   const handleErrModalOpen = () => setErrModalOpen(true);
   const handleErrModalClose = () => {
     setErrModalOpen(false);
   };
 
-
   return (
-    <Container sx={{ 
-      bgcolor: 'white', 
-      height: 'max-content', 
-      maxWidth: '1200px',
-      marginTop: '10%',
-      marginBottom: '5%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      }}>
+    <Container
+      sx={{
+        bgcolor: 'white',
+        height: 'max-content',
+        maxWidth: '1200px',
+        marginTop: '10%',
+        marginBottom: '5%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <MainTitle>로그인</MainTitle>
       <LoginBox>
-        <UpperColor><p>이메일로 로그인</p></UpperColor>
+        <UpperColor>
+          <p>이메일로 로그인</p>
+        </UpperColor>
         <TextBox>
-        <LoginForm onSubmit={handleSubmit}>
-          <div>
-            <label>이메일</label>
-            <div className="form-field">
-              <Input
-                type="email"
-                placeholder="EMAIL"
-                onChange={onEmailHandler}
-              />
+          <LoginForm onSubmit={handleSubmit}>
+            <div>
+              <label>이메일</label>
+              <div className="form-field">
+                <Input
+                  type="email"
+                  placeholder="EMAIL"
+                  onChange={onEmailHandler}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <label>패스워드</label>
-            <div className="form-field">
-              <Input
-                type="password"
-                placeholder="PASSWORD"
-                onChange={onPasswordHandler}
-              />
+            <div>
+              <label>패스워드</label>
+              <div className="form-field">
+                <Input
+                  type="password"
+                  placeholder="PASSWORD"
+                  onChange={onPasswordHandler}
+                />
+              </div>
             </div>
-          </div>
-          <Button title="로그인" type="submit">로그인하기</Button>
-        </LoginForm>
-          <span onClick={()=> navigate('/user/signup')}> &gt; 회원가입하러 가기</span>
+            <Button title="로그인" type="submit">
+              로그인하기
+            </Button>
+          </LoginForm>
+          <span onClick={() => navigate('/user/signup')}>
+            {' '}
+            &gt; 회원가입하러 가기
+          </span>
         </TextBox>
       </LoginBox>
       <Modal
         open={errModalOpen}
         onClose={handleErrModalOpen}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={modalStyle}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             로그인 실패
@@ -125,13 +135,17 @@ function LoginPage() {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             회원정보를 확인해 주세요.
           </Typography>
-          <Button style={{margin: '20px 0 0 0'}} onClick={handleErrModalClose}>확인</Button>
+          <Button
+            style={{ margin: '20px 0 0 0' }}
+            onClick={handleErrModalClose}
+          >
+            확인
+          </Button>
         </Box>
       </Modal>
     </Container>
   );
 }
-
 
 const MainTitle = styled.div`
   width: 35%;
@@ -141,7 +155,6 @@ const MainTitle = styled.div`
   display: flex;
   justify-content: center;
 `;
-
 
 const LoginForm = styled.form`
   height: 60%;
@@ -188,10 +201,10 @@ const UpperColor = styled.div`
   justify-content: center;
   flex-direction: column;
 
-    p {
-      font-size: 15px;
-      font-weight: 600;
-    }
+  p {
+    font-size: 15px;
+    font-weight: 600;
+  }
 `;
 
 const TextBox = styled.div`
@@ -204,11 +217,11 @@ const TextBox = styled.div`
   flex-direction: column;
   align-items: center;
 
-    span {
-      &:hover {
-        cursor: pointer;
-      }
+  span {
+    &:hover {
+      cursor: pointer;
     }
+  }
 `;
 
 export default LoginPage;

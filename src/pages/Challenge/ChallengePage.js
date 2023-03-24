@@ -10,17 +10,18 @@ import { NavLink } from 'react-router-dom';
 
 const ChallengePage = () => {
   const [logined, setLogined] = useState('');
+
   const loginInfo = useSelector(state => {
     return state.userLogin;
   });
 
   useEffect(() => {
-    setLogined(loginInfo);
-  }, []);
+    setLogined(loginInfo.type);
+  }, [loginInfo]);
 
   return (
     <StyledContainer maxWidth="lg">
-      {logined.token ? (
+      {logined !== 'login' ? (
         <MyChallenge />
       ) : (
         <Box

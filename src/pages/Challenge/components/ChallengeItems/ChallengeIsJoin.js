@@ -66,30 +66,33 @@ const ChallengeIsJoin = ({ title, challenge_id }) => {
             height: '100%',
           }}
         >
-          <Button
-            variant="contained"
-            value={isJoined}
-            color={isJoined ? 'secondary' : 'primary'}
-            onClick={handleJoinClick}
-            sx={{
-              mt: 2,
-              width: '100%',
-            }}
-          >
-            챌린지 참여하기
-          </Button>
-          <Button
-            variant="contained"
-            value={isJoined}
-            color={isJoined ? 'secondary' : 'primary'}
-            onClick={handleDelClick}
-            sx={{
-              mt: 2,
-              width: '100%',
-            }}
-          >
-            챌린지 취소하기
-          </Button>
+          {myChallenge === 0 ? (
+            <Button
+              variant="contained"
+              value={isJoined}
+              color={isJoined ? 'secondary' : 'primary'}
+              onClick={handleJoinClick}
+              sx={{
+                mt: 2,
+                width: '100%',
+              }}
+            >
+              챌린지 참여하기
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              value={isJoined}
+              color={isJoined ? 'secondary' : 'primary'}
+              onClick={handleDelClick}
+              sx={{
+                mt: 2,
+                width: '100%',
+              }}
+            >
+              챌린지 취소하기
+            </Button>
+          )}
         </Box>
       </Grid>
     </Grid>
