@@ -27,7 +27,7 @@ const ImageUpload = ({ onChange }) => {
   };
   return (
     <>
-      <div style={{ backgroundColor: 'lightgrey', padding: 10 }}>
+      <div style={{ backgroundColor: '#FBF7F2', padding: 10 }}>
         <div
           style={{
             display: 'flex',
@@ -57,7 +57,6 @@ const ImageUpload = ({ onChange }) => {
           onChange={handleImageChange}
           ref={fileElementRef}
         />
-        <Button>이미지등록</Button>
       </div>
     </>
   );

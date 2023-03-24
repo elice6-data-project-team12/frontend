@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/system';
 import {
   TextField,
@@ -15,9 +15,18 @@ import {
 import { Link } from 'react-router-dom';
 import ChallengeIsJoin from './ChallengeIsJoin';
 import ChallengeFormUD from './ChallengeFormUD';
-import LoginPage from 'pages/Login/LoginPage';
+import { useSelector } from 'react-redux';
 
 const ChallengeDetail = challenge => {
+  const [logined, setLogined] = useState('');
+  const loginInfo = useSelector(state => {
+    return state.userLogin;
+  });
+
+  useEffect(() => {
+    setLogined(loginInfo);
+  }, []);
+
   const {
     challenge_id,
     title,
@@ -28,17 +37,9 @@ const ChallengeDetail = challenge => {
     recruit_start,
     recruit_end,
     isDeleted,
-    created_at,
-    updated_at,
     progress_start,
     progress_end,
   } = challenge || {};
-
-  const isLoggedIn = !!localStorage.getItem('userToken');
-
-  // if (!isLoggedIn) {
-  //   return <LoginPage />;
-  // }
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -181,15 +182,18 @@ const ChallengeDetail = challenge => {
       </Grid>
       <Grid container spacing={1} justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={12} sx={{ textAlign: 'center' }}>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 2, width: '180px' }}
-            color="primary"
-            onClick={handleEditClick}
-          >
-            수정 페이지로 이동
-          </Button>
+          {logined.token ? (
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ mt: 2, width: '180px' }}
+              color="primary"
+              onClick={handleEditClick}
+            >
+              수정 페이지로 이동
+            </Button>
+          ) : null}
+
           <Link to="/challenge" sx={{ mr: 1 }}>
             <Button
               color="primary"
