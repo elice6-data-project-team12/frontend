@@ -15,6 +15,7 @@ import {
 import { Link } from 'react-router-dom';
 import ChallengeIsJoin from './ChallengeIsJoin';
 import ChallengeFormUD from './ChallengeFormUD';
+import { useSelector } from 'react-redux';
 
 const ChallengeDetail = challenge => {
   const [logined, setLogined] = useState('');
