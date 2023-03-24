@@ -12,11 +12,11 @@ import { useDispatch } from 'react-redux';
 import { changeLogin } from 'store.js';
 
 function LoginPage() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const onEmailHandler = e => {
     setEmail(e.target.value);
@@ -42,6 +42,8 @@ function LoginPage() {
 
       dispatch(changeLogin(token));
       localStorage.setItem('userId', decodedToken.userId);
+
+      dispatch(changeLogin(token));
 
       if (!localStorage.getItem('userId')) {
         navigate('/signup');
