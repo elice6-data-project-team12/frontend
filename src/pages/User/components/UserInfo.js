@@ -1,13 +1,15 @@
 //회원정보 조회 & 수정
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import API from '../../../API';
 import styled from 'styled-components';
 import Button from '../../../common/button';
+import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
+
 export default function MyInfoList({ datas }) {
-  const navigate = useNavigate();
 
   const [emailErr, setEmailErr] = useState('');
   const [pwErr, setPwErr] = useState('');
@@ -21,7 +23,7 @@ export default function MyInfoList({ datas }) {
   const pwValidation = e => {
     let pw = e.target.value;
     setInputValue({ ...inputValue, password: pw });
-    pw.length > 7 ? setPwErr('') : setPwErr('비밀번호를 8자 이상 입력하세요.');
+    pw.length > 7 ? setPwErr('') : setPwErr('! 영문, 숫자 포함 8자~16자');
   };
 
   const emailValidation = e => {
@@ -29,7 +31,7 @@ export default function MyInfoList({ datas }) {
     setInputValue({ ...inputValue, email: email });
     email.includes('@') && email.includes('.')
       ? setEmailErr('')
-      : setEmailErr('이메일을 확인해주세요');
+      : setEmailErr('! 이메일이 올바르지 않습니다.');
   };
 
   const inputhandler = e => {
@@ -43,29 +45,43 @@ export default function MyInfoList({ datas }) {
   // 회원정보 업데이트
   const handleUpdateInfo = e => {
     e.preventDefault();
-    API.put('/api/user', inputValue)
-      .then(res => {
-        alert('성공');
-        window.location.replace('/user');
+    API.put('/api/user', inputValue).then(res => {
+      setConfirm('회원정보를 변경했습니다.');
+      setConfirmModalOpen(true);
       })
       .catch(err => {
-        alert('다시 시도해 주세요.');
+        setConfirm('회원정보 변경에 실패했습니다.');
+        setConfirmModalOpen(true);
       });
+  };
+
+  //모달
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    borderRadius: '15px',
+    boxShadow: 20,
+    p: 4,
+  };
+
+
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [confirm, setConfirm] = useState('');
+  const handleConfirmModalOpen = () => setConfirmModalOpen(true);
+  const handleConfirmModalClose = () => {
+    setConfirmModalOpen(false);
+    window.location.replace('/user');
   };
 
   return (
     <UserInfo>
-      <ChangeInfoForm onSubmit={handleUpdateInfo}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-          }}
-        >
+        <ChangeInfoForm onSubmit={handleUpdateInfo}>
           <div>
-            <label htmlFor="email">이메일</label>
+            <label className="label" htmlFor="email">이메일</label>
             <div className="form-field">
               <Input
                 required
@@ -112,7 +128,6 @@ export default function MyInfoList({ datas }) {
               />
             </div>
           </div>
-
           <div>
             <label htmlFor="contact">연락처</label>
             <div className="form-field">
@@ -126,41 +141,60 @@ export default function MyInfoList({ datas }) {
               />
             </div>
           </div>
+          <Button type="submit">변경사항 저장하기</Button>
+        </ChangeInfoForm>
+        <Modal
+        open={confirmModalOpen}
+        onClose={handleConfirmModalOpen}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <Box sx={modalStyle}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {confirm}
+          </Typography>
+          <Button style={{margin: '20px 0 0 0'}} onClick={handleConfirmModalClose}>확인</Button>
         </Box>
-      </ChangeInfoForm>
-      <Box>
-        <Button type="submit">변경사항 저장하기</Button>
-      </Box>
+      </Modal>
     </UserInfo>
   );
 }
 
 const UserInfo = styled.div`
   width: 100%;
-  /* height: 70vmin; */
+  height: 50vmin;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `;
 
 const ChangeInfoForm = styled.form`
-  height: 450px;
-  width: 100%;
-  /* display: flex;
-  padding: 20px;
-  flex-direction: column;
-  justify-content: center; */
-  align-items: center;
+height: 100%;
+width: 75%;
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+align-items: center;
   div {
-    .form-field {
-      margin: 20px 0;
-    }
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  .form-field {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
   }
+}
+
+.error-msg {
+    color: red;
+    font-size: 10px;
+    padding-top: 5px;
+    }
 `;
 
 const Input = styled.input`
-  width: 300px;
+  width: 100%;
   height: 50px;
   font-size: 15px;
   background-color: inherit;

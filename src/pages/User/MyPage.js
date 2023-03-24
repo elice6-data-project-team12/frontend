@@ -6,10 +6,12 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import UserInfo from './components/UserInfo';
 import Button from '../../common/button';
 import Container from '@mui/material/Container';
-import { useDispatch } from 'react-redux';
-import { changeLogout } from 'store.js';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
+
 export default function MyPage() {
-  //   const [userInfo, setUserInfo] = useState([]);
   const [userInfo, setUserInfo] = useState({
     user_id: '',
     name: '',
@@ -26,7 +28,7 @@ export default function MyPage() {
   const navigate = useNavigate();
 
   const selectTabHandler = e => setCurrentTab(e.target.id);
-  const dispatch = useDispatch();
+
   useEffect(() => {
     API.get('/api/user').then(res =>
       setUserInfo(cur => {
@@ -46,7 +48,7 @@ export default function MyPage() {
       })
     );
 
-    API.get('/api/challenge/participation').then(res =>
+    API.get('/api/user/facility').then(res =>
       setMyChallenge(cur => {
         return res.data.data;
       })
@@ -54,15 +56,13 @@ export default function MyPage() {
   }, []);
 
   const { name, email } = userInfo;
+
   const pwHandler = e => {
     setPassword(e.target.value);
   };
 
   const logoutHandler = () => {
-    localStorage.clear();
-    dispatch(changeLogout());
-    alert('로그아웃 되었습니다.');
-    navigate('/');
+    setLogoutModalOpen(true);
   };
 
   const showInfoHandler = async e => {
@@ -82,9 +82,11 @@ export default function MyPage() {
       }
     } catch (err) {
       if (password.length === 0) {
-        alert('패스워드를 입력해주세요.');
+        setPwErr('패스워드를 입력해주세요.');
+        setErrModalOpen(true);
       } else {
-        alert('패스워드를 확인해주세요.');
+        setPwErr('패스워드를 확인해주세요.');
+        setErrModalOpen(true);
       }
     }
   };
@@ -97,12 +99,44 @@ export default function MyPage() {
     setVisibleChallenge(visibleChallenge + 2);
   };
 
+  //모달
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    borderRadius: '15px',
+    boxShadow: 20,
+    p: 4,
+  };
+
+
+  const [errModalOpen, setErrModalOpen] = useState(false);
+  const [pwErr, setPwErr] = useState('');
+  const handleErrModalOpen = () => setErrModalOpen(true);
+  const handleErrModalClose = () => {
+    setErrModalOpen(false);
+  };
+
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const handleLogoutModalOpen = () => setLogoutModalOpen(true);
+  const handleLogoutModalClose = e => {
+    setLogoutModalOpen(false);
+    if (e.target.id === "confirm") {
+      localStorage.clear();
+      navigate('/');
+    }
+  };
+
   return (
     <Container
       sx={{
+        bgcolor: 'white',
         height: 'max-content',
         maxWidth: '1200px',
-        marginTop: '15%',
+        marginTop: '10%',
         marginBottom: '5%',
         display: 'flex',
         flexDirection: 'column',
@@ -167,7 +201,9 @@ export default function MyPage() {
               </Button>
             </CheckUserForm>
           ))}
-        {currentTab === 'myplace' &&
+        {currentTab === 'myplace' && ( myFacility.length === 0 ? (
+          <div>북마크한 장소가 없습니다.</div>
+        ): (
           myFacility.slice(0, visiblePlace).map((i, idx) => {
             return (
               <MyPlaceList key={idx}>
@@ -181,7 +217,6 @@ export default function MyPage() {
                     e.preventDefault();
                     API.delete(`/api/user/facility/${i.facility_id}`)
                       .then(res => {
-                        alert('삭제 완료');
 
                         const newList = myFacility;
                         const datas = newList.filter(
@@ -198,34 +233,66 @@ export default function MyPage() {
                 </Button>
               </MyPlaceList>
             );
-          })}
+          })
+        ))
+          }
         {currentTab === 'myplace' && visiblePlace < myFacility.length && (
           <Button onClick={handleShowPlaceMore}>더 보기</Button>
         )}
-        {currentTab === 'mychallenge' &&
-          myChallenge.slice(0, visibleChallenge).map((i, idx) => {
-            return (
-              <MyChallengeList key={idx}>
-                <img src={i.image} alt={i.title} />
-                <div>
-                  <p onClick={() => navigate('/challenge')}>{i.title}</p>
-                  <p>{i.description}</p>
-                  <p>{i.content}</p>
-                  <p>
-                    {i.recruit_start} ~ {i.recruit_end}
-                  </p>
-                  <p>
-                    {i.progress_start} ~ {i.progress_end}
-                  </p>
-                </div>
-              </MyChallengeList>
-            );
-          })}
+        {currentTab === 'mychallenge' && (
+          myChallenge.length === 0 ? (
+            <div>참여중인 챌린지가 없습니다.</div>
+          ) : (
+            myChallenge.slice(0, visibleChallenge).map((i, idx) => {
+              return (
+                <MyChallengeList key={idx}>
+                  <img src={i.image} alt={i.title} onClick={() => navigate(`/challenge/detail/${i.challenge_id}`)}/>
+                  <div>
+                    <p className="link-to-challenge" onClick={() => navigate(`/challenge/detail/${i.challenge_id}`)}>{i.title}</p>
+                    <p>{i.description}</p>
+                    <p>
+                      {i.recruit_start} ~ {i.recruit_end}
+                    </p>
+                    <p>
+                      {i.progress_start} ~ {i.progress_end}
+                    </p>
+                  </div>
+                </MyChallengeList>
+              );
+            })
+          )
+        )
+          }
         {currentTab === 'mychallenge' &&
           visibleChallenge < myChallenge.length && (
             <Button onClick={handleShowChallengeMore}>더 보기</Button>
           )}
       </UserInputBox>
+      <Modal
+        open={errModalOpen}
+        onClose={handleErrModalOpen}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <Box sx={modalStyle}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {pwErr}
+          </Typography>
+          <Button style={{margin: '20px 0 0 0'}} onClick={handleErrModalClose}>확인</Button>
+        </Box>
+      </Modal>
+      <Modal
+        open={logoutModalOpen}
+        onClose={handleLogoutModalOpen}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <Box sx={modalStyle}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            로그아웃 하시겠습니까?
+          </Typography>
+          <Button id="confirm" style={{margin: '20px 10px 0 0'}} onClick={handleLogoutModalClose}>확인</Button>
+          <Button id="cancel" style={{margin: '20px 0 0 0'}} onClick={handleLogoutModalClose}>취소</Button>
+        </Box>
+      </Modal>
     </Container>
   );
 }
@@ -268,10 +335,10 @@ const UserInputBox = styled.div`
 const CheckUserForm = styled.form`
   height: 60%;
   width: 100%;
-  /* display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center; */
+  align-items: center;
   padding: 20px;
   font-size: 15px;
   div {
@@ -279,6 +346,7 @@ const CheckUserForm = styled.form`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* border: 4px groove pink; */
     .form-field {
       width: 70%;
       margin: 30px 0 30px 0;
@@ -291,6 +359,7 @@ const Input = styled.input`
   height: 50px;
   font-size: 15px;
   background-color: inherit;
+  border: 2px solid #757575;
   outline: none;
 `;
 
@@ -298,6 +367,7 @@ const MenuTab = styled.div`
   width: 50%;
   text-align: center;
   font-weight: 600;
+  /* border: 4px groove red; */
   .tabs {
     display: flex;
     li {
@@ -305,11 +375,11 @@ const MenuTab = styled.div`
       text-align: center;
       padding: 30px;
       cursor: pointer;
+      background-color: rgba(236, 233, 233, 1);
       color: gray;
       border-radius: 20px 20px 0 0;
       display: flex;
       justify-content: center;
-      border: 1px groove black;
 
       &:hover {
         font-weight: bold;
@@ -335,6 +405,7 @@ const MyPlaceList = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  border: 1px solid gray;
   border-top-style: none;
   border-right-style: none;
   border-left-style: none;
@@ -345,7 +416,7 @@ const MyPlaceList = styled.div`
   }
 
   div {
-    width: 60%;
+    width: 55%;
     display: flex;
     justify-content: space-between;
   }
@@ -363,21 +434,35 @@ const MyChallengeList = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  /* border: 4px groove red; */
 
   img {
     width: 14vmin;
     height: 14vmin;
     padding: 10px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   div {
     width: 80%;
     padding: 10px;
+    border: 1px solid gray;
     border-top-style: none;
     border-right-style: none;
     border-bottom-style: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .link-to-challenge {
+    font-size: 15px;
+    font-weight: 600;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
