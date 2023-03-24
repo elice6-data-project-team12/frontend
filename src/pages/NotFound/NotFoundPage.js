@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-
-
-
 export default function NotFoundPage() {
   return (
     <Box
@@ -24,7 +21,10 @@ export default function NotFoundPage() {
         페이지를 찾을 수 없습니다.
       </Typography>
       <Link to="/">
-        <Button variant="contained" style={{ marginTop: '30px', fontSize: "20px" }}>
+        <Button
+          variant="contained"
+          style={{ marginTop: '30px', fontSize: '20px' }}
+        >
           홈으로 돌아가기
         </Button>
       </Link>

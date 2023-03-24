@@ -12,7 +12,7 @@ const AlertBox = ({ isOpenAlert, setIsOpenAlert }) => {
 
   return (
     <Snackbar
-      sx={{ width: '100%' , mt:'100px'}}
+      sx={{ width: '100%', mt: '100px' }}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'center',

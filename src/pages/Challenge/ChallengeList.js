@@ -69,7 +69,7 @@ const ChallengeList = () => {
           <Link to="/challenge/create">
             <Chip
               label="챌린지 생성하기"
-              sx={{ backgroundColor: '#F2BE5B' , cursor:'pointer' }}
+              sx={{ backgroundColor: '#F2BE5B', cursor: 'pointer' }}
             />
           </Link>
         </Grid>

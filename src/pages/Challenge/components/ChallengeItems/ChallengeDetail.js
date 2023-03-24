@@ -15,7 +15,6 @@ import {
 import { Link } from 'react-router-dom';
 import ChallengeIsJoin from './ChallengeIsJoin';
 import ChallengeFormUD from './ChallengeFormUD';
-import LoginPage from 'pages/Login/LoginPage';
 
 const ChallengeDetail = challenge => {
   const {
@@ -27,18 +26,10 @@ const ChallengeDetail = challenge => {
     recruit_person,
     recruit_start,
     recruit_end,
-    isDeleted,
-    created_at,
-    updated_at,
+
     progress_start,
     progress_end,
   } = challenge || {};
-
-  const isLoggedIn = !!localStorage.getItem('userToken');
-
-  // if (!isLoggedIn) {
-  //   return <LoginPage />;
-  // }
 
   const [isEditing, setIsEditing] = useState(false);
 

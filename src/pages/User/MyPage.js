@@ -53,8 +53,7 @@ export default function MyPage() {
     );
   }, []);
 
-  const { user_id, name, email, phone } = userInfo;
-
+  const { name, email } = userInfo;
   const pwHandler = e => {
     setPassword(e.target.value);
   };
@@ -381,6 +380,4 @@ const MyChallengeList = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
-
-  
 `;
