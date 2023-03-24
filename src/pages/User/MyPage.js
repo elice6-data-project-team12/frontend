@@ -6,7 +6,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import UserInfo from './components/UserInfo';
 import Button from '../../common/button';
 import Container from '@mui/material/Container';
-
+import { useDispatch } from 'react-redux';
+import { changeLogout } from 'store.js';
 export default function MyPage() {
   //   const [userInfo, setUserInfo] = useState([]);
   const [userInfo, setUserInfo] = useState({
@@ -25,7 +26,7 @@ export default function MyPage() {
   const navigate = useNavigate();
 
   const selectTabHandler = e => setCurrentTab(e.target.id);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     API.get('/api/user').then(res =>
       setUserInfo(cur => {
@@ -60,6 +61,7 @@ export default function MyPage() {
 
   const logoutHandler = () => {
     localStorage.clear();
+    dispatch(changeLogout());
     alert('로그아웃 되었습니다.');
     navigate('/');
   };

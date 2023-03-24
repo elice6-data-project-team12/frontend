@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
 import NavTitleIcon from './images/navTitle.png';
+import { useSelector } from 'react-redux';
 
 import { NavLink } from 'react-router-dom';
 
@@ -12,6 +13,10 @@ const Nav = () => {
   const menuClick = e => {
     setSelectedId(e.target.id);
   };
+
+  let loginInfo = useSelector(state => {
+    return state.userLogin;
+  });
 
   return (
     <div>
@@ -61,9 +66,7 @@ const Nav = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink
-              to={localStorage.getItem('userToken') ? '/user' : '/user/login'}
-            >
+            <NavLink to={loginInfo.token ? '/user' : '/user/login'}>
               <PersonIcon id="profile" onClick={menuClick} fontSize="large" />
             </NavLink>
           </NavItem>
