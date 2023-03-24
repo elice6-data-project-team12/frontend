@@ -1,79 +1,67 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignupForm from './components/SignupForm'
+import Container from '@mui/material/Container';
 
 
 function SignupPage() {
 
-    const navigate = useNavigate();
-
     return(
-    <Container>
+    <Container sx={{ 
+      bgcolor: 'white', 
+      height: 'max-content', 
+      maxWidth: '1200px',
+      marginTop: '10%',
+      marginBottom: '5%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      }}>
       <MainTitle>
-        <span>회원가입</span>
+        회원가입
       </MainTitle>
-      <UserInputBox>
+      <SignupBox>
+        <UpperColor><p>이메일로 회원가입</p></UpperColor>
+        <TextBox>
       <SignupForm />
-        <button
-          onClick={() => {
-            navigate('/user/login');
-          }}
-        >
-          로그인하러 가기
-        </button>
-        <Link className="link-to-home" to="/">
-          {'>'} 홈으로 이동
-        </Link>
-      </UserInputBox>
+        </TextBox>
+      </SignupBox>
     </Container>
     )
 }
 
-const Container = styled.div`
-  margin: 15% 0 5% 0;
-  width: 100%;
-  height: max-content;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 4px groove red;
-`;
 
 const MainTitle = styled.div`
   width: 35%;
-  font-weight: 600;
-  font-size: 25px;
+  font-weight: 700;
+  font-size: 4vmin;
+  margin: 0 0 2% 0;
   display: flex;
   justify-content: center;
-  border: 4px groove red;
 `;
 
-const UserInputBox = styled.div`
-  width: 50%;
+const SignupBox = styled.div`
   height: 75vh;
-  background-color: rgba(217, 217, 217, 1);
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  width: 50%;
+  text-align: center;
+  border-radius: 15px;
+  background: rgba(236, 233, 233, 1);
 
   .error-msg {
     color: red;
     font-size: 12px;
-    padding-top: 0px;
-    border: 4px groove red;
+    padding-top: 5px;
   }
+
   form {
-    height: 60%;
+    height: 85%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    border: 4px groove red;
+
      div {
       width: 80%;
       display: flex;
@@ -89,6 +77,42 @@ const UserInputBox = styled.div`
       }
     }
   }
+
+  .link-to-login, .link-to-home{
+    font-size: 15px;
+  }
+`;
+
+const UpperColor = styled.div`
+  width: 100%;
+  height: 50px;
+  border-radius: 15px 15px 0 0;
+  background: rgba(242, 190, 91, 1);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+    p {
+      font-size: 15px;
+      font-weight: 600;
+    }
+`;
+
+const TextBox = styled.div`
+  height: 87%;
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  margin: 0px 0 0 0px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+    span {
+      &:hover {
+        cursor: pointer;
+      }
+    }
 `;
 
 

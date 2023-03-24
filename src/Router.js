@@ -12,6 +12,7 @@ import SignupPage from './pages/signup/signupPage';
 import LoginPage from './pages/Login/LoginPage';
 import ItemPage from './pages/Board/ItemPage';
 import MyPage from './pages/User/MyPage';
+import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 function Router() {
   return (
@@ -32,6 +33,7 @@ function Router() {
           <Route path="/user/login" element={<LoginPage />} />
           <Route path="/item" element={<ItemPage />} />
           <Route path="/user" element={<MyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

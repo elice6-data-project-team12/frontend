@@ -1,38 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/system';
 import {
   TextField,
   Button,
   Box,
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Container,
   Typography,
   Grid,
   Card,
   CardMedia,
+  Chip,
 } from '@mui/material';
-// import DatePicker from "react-datepicker";
 import { Link } from 'react-router-dom';
 import ImageUpload from './ImageUpload';
 import API from 'API';
 
-const ChallengeForm = ({ actionType }) => {
-  const currentDate = new Date().toISOString().slice(0, 10);
+const ChallengeFormUD = ({ actionType, challenge }) => {
+  const {
+    challenge_id,
+    title,
+    description,
+    content,
+    image,
+    recruit_person,
+    recruit_start,
+    recruit_end,
+    isDeleted,
+    progress_start,
+    progress_end,
+  } = challenge || {};
+
   const [formFields, setFormFields] = useState({
-    title: '',
-    description: '',
-    content: '',
-    image: '',
-    recruit_person: 1,
-    recruit_start: currentDate,
-    recruit_end: currentDate,
-    isDeleted: 0,
-    progress_start: currentDate,
-    progress_end: currentDate,
+    title: challenge?.title || '',
+    description: description || '',
+    content: content || '',
+    image: image || '',
+    recruit_person: recruit_person || '',
+    recruit_start: recruit_start || '',
+    recruit_end: recruit_end || '',
+    progress_start: progress_start || '',
+    progress_end: progress_end || '',
   });
+
+  const [isImageUploadActive, setIsImageUploadActive] = useState(false);
 
   const handleFormChange = event => {
     const { name, value, files } = event.target;
@@ -51,25 +62,49 @@ const ChallengeForm = ({ actionType }) => {
       ...prevChallenge,
       image: image,
     }));
+    console.log('000image.type', image.type);
   };
 
   const handleSubmitForm = async event => {
     event.preventDefault();
 
+    console.log('111image.type', image.type);
+
+    if (!image.type || !image.type.startsWith('image/')) {
+      alert('※ 수정시 이미지파일을 다시 업로드해주세요!');
+      return;
+    }
+
     try {
       const headers = {
         'Content-Type': 'multipart/form-data',
       };
-
-      const response = await API.post('/api/challenge/', formFields, {
-        headers,
-      });
-      alert(
-        '챌린지가 정상적으로 등록되었습니다!\n 참여중인 챌린지에서 확인하세요!'
+      console.log('Challenge update:', formFields);
+      const response = await API.put(
+        `/api/challenge/${challenge_id}`,
+        formFields,
+        {
+          headers,
+        }
       );
-      window.location.href = '/challenge';
+      console.log('Data update:', response.data);
+      alert('챌린지 수정이 완료되었습니다!');
+      window.location.href = `/challenge/detail/${challenge_id}`;
     } catch (error) {
-      alert('챌린지 등록이 정상적으로 처리되지 않았습니다!');
+      alert('챌린지 수정이 정상적으로 수행되지 않았습니다.');
+      console.log('Error update data:', error);
+    }
+  };
+
+  const handleDeleteForm = async event => {
+    event.preventDefault();
+
+    try {
+      const response = await API.delete(`/api/challenge/${challenge_id}`);
+      alert('챌린지 삭제가 완료되었습니다!');
+      window.location.href = `/challenge/detail/${challenge_id}`;
+    } catch (error) {
+      alert('챌린지 삭제가 제대로 이루어지지 않았습니다.');
       console.log('Error creating data:', error);
     }
   };
@@ -78,7 +113,7 @@ const ChallengeForm = ({ actionType }) => {
     <StyledContainer maxWidth="md">
       <Box sx={{ mb: 4, mt: 4, my: 4, marginTop: '100px' }}>
         <Typography variant="h4" component="h1" align="center">
-          부모님과 함께 소중한 추억을 만들어요.
+          {formFields.title}
         </Typography>
         <Typography variant="subtitle1" component="p" align="center">
           Register your challenge and start your journey today!
@@ -87,7 +122,40 @@ const ChallengeForm = ({ actionType }) => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Card sx={{ maxWidth: 400 }}>
-            <ImageUpload onChange={handleImageChange} />
+            {!isImageUploadActive && (
+              <CardMedia
+                id="image"
+                name="image"
+                component="img"
+                height="auto"
+                width="100%"
+                image={formFields.image}
+                alt={formFields.title}
+              />
+            )}
+            <Grid container spacing={1} alignItems="center">
+              <Grid item>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => setIsImageUploadActive(true)}
+                  sx={{
+                    borderRadius: '10px',
+                    height: '20px',
+                  }}
+                >
+                  이미지 업로드
+                </Button>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" color="text.secondary">
+                  ※ 수정시 이미지파일을 다시 업로드하세요.
+                </Typography>
+              </Grid>
+            </Grid>
+            {isImageUploadActive && (
+              <ImageUpload onChange={handleImageChange} />
+            )}
           </Card>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -99,7 +167,7 @@ const ChallengeForm = ({ actionType }) => {
                 label="챌린지명"
                 fullWidth
                 required
-                value={formFields.title}
+                value={title}
                 onChange={handleFormChange}
                 sx={{ mt: 1 }}
               />
@@ -210,6 +278,7 @@ const ChallengeForm = ({ actionType }) => {
           </Box>
         </Grid>
       </Grid>
+
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12}>
           <TextField
@@ -227,24 +296,40 @@ const ChallengeForm = ({ actionType }) => {
       </Grid>
       <Grid container spacing={1} justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={12} sx={{ textAlign: 'center' }}>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 2, width: '180px' }}
-            color="primary"
-            onClick={handleSubmitForm}
-          >
-            등 록
-          </Button>
-          <Link to="/challenge" sx={{ mr: 1 }}>
+          <Grid item xs>
             <Button
+              type="submit"
+              variant="contained"
+              sx={{ mt: 2, width: '180px' }}
               color="primary"
-              variant="outlined"
-              sx={{ mt: 2, ml: 1, width: '180px' }}
+              onClick={handleSubmitForm}
             >
-              챌린지목록
+              수 정
             </Button>
-          </Link>
+
+            <Link to="/challenge" sx={{ mr: 1 }}>
+              <Button
+                color="primary"
+                variant="outlined"
+                sx={{ mt: 2, ml: 1, width: '180px' }}
+              >
+                챌린지목록
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item xs>
+            <Link to="/challenge/create" sx={{ ml: 'auto' }}>
+              <Chip
+                label="챌린지 삭제"
+                sx={{
+                  mt: 2,
+                  width: '180px',
+                  backgroundColor: '#F2BE5B',
+                }}
+                onClick={handleDeleteForm}
+              />
+            </Link>
+          </Grid>
         </Grid>
       </Grid>
     </StyledContainer>
@@ -256,4 +341,4 @@ const StyledContainer = styled(Container)`
   padding: 24px;
 `;
 
-export default ChallengeForm;
+export default ChallengeFormUD;

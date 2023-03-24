@@ -2,17 +2,27 @@ import API from 'API';
 import { useState } from 'react';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Box from '@mui/material/Box';
-function BookMarkButton({ info }) {
+
+function BookMarkButton({ info, setIsOpenAlert }) {
   const [isClicked, setIsClicked] = useState(false);
   // 북마크 추가/제거 함수
   function toggleBookmark(info) {
     API.post(`/api/user/facility/${info}`)
       .then(res => {
-        alert('북마크 추가');
+        setIsOpenAlert({
+          open: true,
+          type: 'success',
+          message: '내 장소에 추가 되었습니다.',
+        });
       })
-      .catch(err => alert('로그인 필요', err));
+      .catch(err => {
+        setIsOpenAlert({
+          open: true,
+          type: 'error',
+          message: '로그인이 필요한 서비스 입니다.',
+        });
+      });
   }
-
   const handleClick = () => {
     setIsClicked(!isClicked);
 
@@ -20,7 +30,14 @@ function BookMarkButton({ info }) {
   };
 
   return (
-    <Box sx={{ color: '#F2BE5B', display: 'flex', alignItems: 'center' }}>
+    <Box
+      sx={{
+        color: '#F2BE5B',
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+      }}
+    >
       <BookmarkIcon sx={{ color: '#F2BE5B' }} onClick={handleClick}>
         북마크
       </BookmarkIcon>

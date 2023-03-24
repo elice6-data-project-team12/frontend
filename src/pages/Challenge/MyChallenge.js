@@ -4,91 +4,76 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Box, Typography, Grid } from '@mui/material';
 import API from 'API';
 
-//TODO 진행률60%
-// Backend 연동테스트
-// 로그인일 경우만 보이도록 변경
-// CSS 작업
-
-// MyChallenge 컴포넌트
 const MyChallenge = () => {
   const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
-    //userid
-    //challenge_id
-    const requestData = {
-      //userid: 123,
-    };
     const fetchChallenges = async () => {
       try {
         const response = await API.get(`/api/challenge/participation`);
         setChallenges(response.data.data);
-        console.log('MyData selecting data :', response.data);
-      } catch (error) {
-        console.log('Error MyData selecting data:', error);
-      }
+      } catch (error) {}
     };
     fetchChallenges();
   }, []);
-  console.log(challenges);
+
+  if (challenges.length === 0 || challenges.length === null)
+    return <div>Loading...</div>;
 
   return (
-    <div>
-      <RowContainer>
-        <ColumnTitle>
-          <Title>진행중 챌린지</Title>
-        </ColumnTitle>
-      </RowContainer>
+    <Box sx={{ marginTop: '7rem' }}>
+      <Grid container spacing={3} justify="center" alignItems="center">
+        <Grid item xs sx={{ textAlign: 'right' }}>
+          <Typography style={{ fontSize: '32px' }}>참여중 챌린지</Typography>
+        </Grid>
+        <Grid item xs={5}></Grid>
+      </Grid>
+
       <SliderChallenge joinedChallenge={challenges} />
-    </div>
+    </Box>
   );
 };
 
-// Slider 컴포넌트
-// const SliderChallenge = ({ data }) => {
-const SliderChallenge = ({ joinedChallenge }) => {
-  //코드리뷰 20230319
+export const SliderChallenge = ({ joinedChallenge }) => {
+  const sliderSettings = {
+    dots: true,
+    speed: 500,
+    infinite: true,
+    slidesMargin: 10,
+    centerMode: true,
+    slidesToShow: joinedChallenge.length >= 3 ? 3 : joinedChallenge.length,
+    slidesToScroll: joinedChallenge.length >= 3 ? 3 : joinedChallenge.length,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 600, settings: { slidesToShow: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 1 } },
+    ],
+  };
 
   return (
-    <StyledSlider {...sliderSettings}>
-      {joinedChallenge.map((item, index) => (
-        <SlideContainer key={index}>
-          <ImageWrapper>
-            <Link to={`/challenge/detail/${item.challenge_id}`}>
-              {/* <Image src={item.image} alt="" /> */}
-              <Image src={item.image} alt={item.title} />
-              {/*코드리뷰 20230319 */}
-              <Overlay>
-                <ImgTitle>{item.title}</ImgTitle>
-                <Subtitle>
-                  {item.progress_start}-{item.progress_end}
-                </Subtitle>
-              </Overlay>
-            </Link>
-          </ImageWrapper>
-        </SlideContainer>
-      ))}
-    </StyledSlider>
+    joinedChallenge.length && (
+      <StyledSlider {...sliderSettings}>
+        {joinedChallenge.map((item, index) => (
+          <SlideContainer key={index}>
+            <ImageWrapper>
+              <Link to={`/challenge/detail/${item.challenge_id}`}>
+                <Image src={item.image} alt={item.title} />
+                <Overlay>
+                  <ImgTitle>{item.title}</ImgTitle>
+                  <Subtitle>
+                    {item.progress_start}-{item.progress_end}
+                  </Subtitle>
+                </Overlay>
+              </Link>
+            </ImageWrapper>
+          </SlideContainer>
+        ))}
+      </StyledSlider>
+    )
   );
-};
-
-// 슬라이더의 설정값을 상수로 정의
-const sliderSettings = {
-  dots: true,
-  speed: 500,
-  infinite: true,
-  slidesToShow: 3,
-  //slidesToScroll: 3, 코드리뷰 20230319
-  slidesMargin: 10,
-  centerMode: true,
-  responsive: [
-    { breakpoint: 1024, settings: { slidesToShow: 3 } },
-    { breakpoint: 600, settings: { slidesToShow: 1 } },
-    { breakpoint: 480, settings: { slidesToShow: 1 } },
-  ],
 };
 
 const StyledSlider = styled(Slider)`
@@ -164,31 +149,6 @@ const ImgTitle = styled.h2`
 const Subtitle = styled.p`
   margin: 0;
   font-size: 14px;
-`;
-
-const RowContainer = styled.div`
-  display: flex;
-  gap: 24px;
-  width: 80%;
-  margin-top: 150px;
-  margin-left: 150px;
-  margin-bottom: 24px;
-  //border: 5px solid blue;
-  top: 50%;
-  left: 50%;
-`;
-
-const ColumnTitle = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  //border: 5px solid red;
-`;
-
-const Title = styled.h2`
-  font-size: 32px;
-  color: #333;
-  margin-bottom: 20px;
 `;
 
 export default MyChallenge;

@@ -1,57 +1,99 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Box, Grid } from '@mui/material';
 import API from 'API';
 
-const ChallengeIsJoin = () => {
-  const { id } = useParams();
-  const [isJoined, setIsJoined] = useState(false);
+const ChallengeIsJoin = ({ title, challenge_id }) => {
+  const [isJoined, setIsJoined] = useState('');
+  const [myChallenge, setMychallenge] = useState('');
+  const apiUrl = `/api/challenge/participation`;
 
-  console.log('ChallengeDetailPage params: ', id);
+  // 참여중이 아니면 myChallenge 값 0
+  useEffect(() => {
+    const getJoinStatus = async () => {
+      try {
+        const response = await API.get(apiUrl);
+        const list = response.data.data.filter(list => {
+          return list.title === title;
+        });
+        setMychallenge(list.length);
+      } catch (error) {
+        console.log('Error JoinedStatus', error);
+      }
+    };
+    getJoinStatus();
+  }, []);
 
-  // 참여하기 : 참여테이블 POST
-  // 참여취소 : 참여테이블 DELECT
-  const handleClickJoined = () => {
-    setIsJoined(prevIsJoined => !prevIsJoined);
+  const handleJoinClick = () => {
+    setIsJoined(true);
+  };
+  const handleDelClick = () => {
+    setIsJoined(false);
   };
 
   useEffect(() => {
-    const apiUrl = `/api/challenge/participation`;
-    const requestData = {
-      chellengeid: id,
-    };
+    const sendJoinStatus = async () => {
+      const method = isJoined ? 'POST' : 'DELETE';
 
-    console.log('requestData: ', requestData);
-    const method = isJoined ? 'POST' : 'DELETE';
-
-    API({
-      method: method,
-      url: apiUrl,
-      data: requestData,
-    })
-      .then(response => {
-        console.log('isJoined API request succeeded:', response.data);
-      })
-      .catch(error => {
+      try {
+        const response = await API({
+          method: method,
+          url: apiUrl,
+          data: {
+            challenge_id: String(challenge_id),
+          },
+        });
+      } catch (error) {
         console.error('isJoined API request failed:', error);
-      });
+      }
+    };
+    sendJoinStatus();
   }, [isJoined]);
 
   return (
-    <ChallengeJoinBox>
-      <Button
-        variant="contained"
-        color={isJoined ? 'secondary' : 'primary'}
-        onClick={handleClickJoined}
-        sx={{ mt: 2 }} // 버튼과 제목 사이 간격 조정
+    <Grid container spacing={2}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        sx={{
+          width: '100%',
+        }}
       >
-        {isJoined ? '참여취소' : '참여하기'}
-      </Button>
-    </ChallengeJoinBox>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            height: '100%',
+          }}
+        >
+          <Button
+            variant="contained"
+            value={isJoined}
+            color={isJoined ? 'secondary' : 'primary'}
+            onClick={handleJoinClick}
+            sx={{
+              mt: 2,
+              width: '100%',
+            }}
+          >
+            챌린지 참여하기
+          </Button>
+          <Button
+            variant="contained"
+            value={isJoined}
+            color={isJoined ? 'secondary' : 'primary'}
+            onClick={handleDelClick}
+            sx={{
+              mt: 2,
+              width: '100%',
+            }}
+          >
+            챌린지 취소하기
+          </Button>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
-
-const ChallengeJoinBox = styled.div``;
 
 export default ChallengeIsJoin;

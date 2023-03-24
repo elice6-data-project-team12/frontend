@@ -6,18 +6,21 @@ const SearchNameInput = ({
   setSearchName,
   searchName,
   handleFilterNameSearch,
+  handleFilterNameKeyDown,
 }) => {
   return (
     <Stack sx={{ mb: '20px' }} direction="row">
       <TextField
         id="standard-basic"
         label="시설명"
-        xs={{}}
         variant="standard"
         onChange={e => {
           setSearchName(e.target.value);
         }}
         value={searchName}
+        onKeyDown={e => {
+          handleFilterNameKeyDown(e);
+        }}
       />
 
       <Box xs={{ position: 'relative' }}>

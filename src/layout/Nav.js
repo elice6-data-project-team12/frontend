@@ -1,32 +1,26 @@
-import React, { Link, useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
 import NavTitleIcon from './images/navTitle.png';
-
-import { NavLink } from 'react-router-dom';
-
-export const Dropdown = () => {
-  return (
-    <DropdownBox className="dropMenu">
-      <NavLink to="/challenge">
-        <li>효도챌린지</li>
-      </NavLink>
-    </DropdownBox>
-  );
-};
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Nav = () => {
   const [selectedId, setSelectedId] = useState('');
-  const [view, setView] = useState(false);
+
+  const navigate = useNavigate();
 
   const menuClick = e => {
     setSelectedId(e.target.id);
   };
 
-  const menuDrop = e => {
-    e.stopPropagation();
-    setView(!view);
-  };
+  const navigateHandle = () => {
+    if (localStorage.getItem('userToken')) {
+      navigate('/user');
+    } 
+    if (!localStorage.getItem('userToken')) {
+      navigate('/user/login');
+    }
+  }
 
   return (
     <div>
@@ -37,7 +31,9 @@ const Nav = () => {
               HYODORI
             </p>
           </NavLink>
-          <img src={NavTitleIcon} alt="NavTitle" />
+          <div className="wrap">
+            <div className="circle" />
+          </div>
         </NavTitle>
         <NavItems>
           <NavItem>
@@ -63,23 +59,22 @@ const Nav = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/">
+            <NavLink to="/challenge">
               <LinkStyle
                 id="channel"
                 onClick={menuClick}
-                onMouseEnter={menuDrop}
-                onMouseLeave={menuDrop}
                 className={selectedId === 'channel' ? 'activated' : ''}
               >
-                효도채널
-                {view && <Dropdown />}
+                효도챌린지
               </LinkStyle>
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/">
+            <span
+              onClick={navigateHandle}
+            >
               <PersonIcon id="profile" onClick={menuClick} fontSize="large" />
-            </NavLink>
+            </span>
           </NavItem>
         </NavItems>
       </NavWrap>
@@ -92,26 +87,29 @@ const NavWrap = styled.div`
   height: 100px;
   display: flex;
   justify-content: space-between;
-  position: sticky;
+  position: fixed;
   top: 0;
-  background-color: lightgray;
+  background-color: #f2be5b;
   opacity: 0.8;
   z-index: 5;
 
   .activated {
-    color: rgba(188, 135, 33, 1);
+    color: rgba(140, 101, 27, 1);
+    font-weight: bold;
   }
 `;
 
 const NavTitle = styled.div`
-  width: 20%;
+  width: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  /* border: 2px solid red; */
+
   p {
     font-size: 4.5vh;
     font-weight: bold;
+    /* border: 2px solid red; */
   }
 
   img {
@@ -121,6 +119,25 @@ const NavTitle = styled.div`
     position: absolute;
     right: 10%;
     top: 15%;
+  }
+
+  .wrap {
+    /* border: 2px solid blue; */
+    top: -15%;
+    left: -8%;
+    position: relative;
+  }
+
+  .circle {
+    margin: 0;
+    width: 6vmin;
+    height: 6vmin;
+    background-color: white;
+    border-radius: 50%;
+    z-index: -1;
+    transform: rotate(45deg);
+    position: relative;
+    /* border: 2px solid blue; */
   }
 `;
 
@@ -135,6 +152,12 @@ const NavItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  span {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 const LinkStyle = styled.span`
@@ -156,19 +179,5 @@ const LinkStyle = styled.span`
   }
 `;
 
-const DropdownBox = styled.div`
-  width: 15vmin;
-  height: 15vmin;
-  background-color: rgba(188, 135, 33, 1);
-  /* margin: 2vmin 0 0 77%; */
-  margin: 0 0 0 0;
-  position: fixed;
-  z-index: 999;
-  opacity: 0.8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  display: none;
-`;
 
 export default Nav;
