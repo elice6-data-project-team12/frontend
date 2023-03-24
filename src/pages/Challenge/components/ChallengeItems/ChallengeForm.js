@@ -60,7 +60,7 @@ const ChallengeForm = ({ actionType }) => {
       const headers = {
         'Content-Type': 'multipart/form-data',
       };
-      console.log('Challenge object:', formFields);
+
       const response = await API.post('/api/challenge/', formFields, {
         headers,
       });

@@ -6,7 +6,7 @@ import API from 'API';
 const ChallengeIsJoin = () => {
   const { id } = useParams();
   const [isJoined, setIsJoined] = useState('');
-
+  const [myChallenge, setMychallenge] = useState({});
   const apiUrl = `/api/challenge/participation`;
 
   useEffect(() => {
@@ -47,7 +47,33 @@ const ChallengeIsJoin = () => {
     } catch (error) {
       console.error('isJoined API request failed:', error);
     }
+    // setIsJoined(prevIsJoined => !prevIsJoined);
+    // sendJoinStatus();
   };
+
+  useEffect(() => {
+    const sendJoinStatus = async () => {
+      const requestData = {
+        challenge_id: id,
+      };
+      console.log(id);
+      const method = isJoined ? 'POST' : 'DELETE';
+
+      try {
+        const response = await API({
+          method: method,
+          url: apiUrl,
+          data: {
+            challenge_id: '66',
+          },
+        });
+        console.log('isJoined API request succeeded:', response.data);
+      } catch (error) {
+        console.error('isJoined API request failed:', error);
+      }
+    };
+    sendJoinStatus();
+  }, [isJoined]);
 
   return (
     <Grid container spacing={2}>

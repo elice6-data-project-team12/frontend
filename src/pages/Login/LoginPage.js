@@ -4,10 +4,14 @@ import styled from 'styled-components';
 import API from '../../API';
 import jwt_decode from 'jwt-decode';
 import Button from '../../common/button';
+import { useDispatch } from 'react-redux';
+import { changeLogin } from 'store.js';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -35,11 +39,11 @@ function LoginPage() {
 
       localStorage.setItem('userId', decodedToken.userId);
 
+      dispatch(changeLogin(token));
       if (!localStorage.getItem('userId')) {
         navigate('/signup');
       }
       navigate('/');
-  
     } catch (err) {
       alert(err.response.data.message);
     }
@@ -49,32 +53,39 @@ function LoginPage() {
     <Container>
       <MainTitle>로그인</MainTitle>
       <LoginBox>
-        <UpperColor><p>이메일로 로그인</p></UpperColor>
+        <UpperColor>
+          <p>이메일로 로그인</p>
+        </UpperColor>
         <TextBox>
-        <LoginForm onSubmit={handleSubmit}>
-          <div>
-            <label>이메일</label>
-            <div className="form-field">
-              <Input
-                type="email"
-                placeholder="EMAIL"
-                onChange={onEmailHandler}
-              />
+          <LoginForm onSubmit={handleSubmit}>
+            <div>
+              <label>이메일</label>
+              <div className="form-field">
+                <Input
+                  type="email"
+                  placeholder="EMAIL"
+                  onChange={onEmailHandler}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <label>패스워드</label>
-            <div className="form-field">
-              <Input
-                type="password"
-                placeholder="PASSWORD"
-                onChange={onPasswordHandler}
-              />
+            <div>
+              <label>패스워드</label>
+              <div className="form-field">
+                <Input
+                  type="password"
+                  placeholder="PASSWORD"
+                  onChange={onPasswordHandler}
+                />
+              </div>
             </div>
-          </div>
-          <Button title="로그인" type="submit">로그인하기</Button>
-        </LoginForm>
-          <span onClick={()=> navigate('/user/signup')}> &gt; 회원가입하러 가기</span>
+            <Button title="로그인" type="submit">
+              로그인하기
+            </Button>
+          </LoginForm>
+          <span onClick={() => navigate('/user/signup')}>
+            {' '}
+            &gt; 회원가입하러 가기
+          </span>
         </TextBox>
       </LoginBox>
     </Container>
@@ -167,10 +178,10 @@ const UpperColor = styled.div`
   flex-direction: column;
   /* border: 4px groove red; */
 
-    p {
-      font-size: 15px;
-      font-weight: 600;
-    }
+  p {
+    font-size: 15px;
+    font-weight: 600;
+  }
 `;
 
 const TextBox = styled.div`
@@ -184,11 +195,11 @@ const TextBox = styled.div`
   align-items: center;
   /* border: 4px groove red; */
 
-    span {
-      &:hover {
-        cursor: pointer;
-      }
+  span {
+    &:hover {
+      cursor: pointer;
     }
+  }
 `;
 
 export default LoginPage;

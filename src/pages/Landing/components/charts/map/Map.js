@@ -57,7 +57,10 @@ const Map = ({ currentState }) => {
                         data => data.region === name
                       );
                       setTooltipName(
-                        `${name} 1인 가구수: ${population.population}명`
+                        `${name}:
+                        ${population.population
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}명`
                       );
                     }}
                     onMouseLeave={() => {
@@ -82,6 +85,17 @@ const Map = ({ currentState }) => {
               </Marker>
             );
           })}
+
+          <Marker coordinates={[126.8357158, 37.6759954]} fill="black">
+            <text fontSize="15px" textAnchor="middle" fill="black">
+              2021년 서울시 
+            </text>
+          </Marker>
+          <Marker coordinates={[126.8357158, 37.6559954]} fill="black">
+            <text fontSize="15px" textAnchor="middle" fill="black">
+            자치구별 1인 가구수
+            </text>
+          </Marker>
         </ZoomableGroup>
       </ComposableMap>
     </>

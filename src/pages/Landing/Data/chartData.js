@@ -26,6 +26,14 @@ export const communication = [
   { id: 5, age: 60, ratio: 0.16 },
 ];
 
+// 1인가구 혼인상태
+export const isMarried = [
+  { label: '20대~30대', notMarried: 96.5, isMarried: 2.2, diedDivorce: 1.3 },
+  { label: '40대', notMarried: 73.3, isMarried: 11.7, diedDivorce: 15.0 },
+  { label: '50대', notMarried: 33.7, isMarried: 18.0, diedDivorce: 48.3 },
+  { label: '60대 이상', notMarried: 7.3, isMarried: 12.0, diedDivorce: 80.6 },
+];
+
 // 서울시 지역별 1인 가구수
 
 export const populationRegion = [

@@ -65,23 +65,25 @@ const SliderChallenge = ({ joinedChallenge }) => {
   };
 
   return (
-    <StyledSlider {...sliderSettings}>
-      {joinedChallenge.map((item, index) => (
-        <SlideContainer key={index}>
-          <ImageWrapper>
-            <Link to={`/challenge/detail/${item.challenge_id}`}>
-              <Image src={item.image} alt={item.title} />
-              <Overlay>
-                <ImgTitle>{item.title}</ImgTitle>
-                <Subtitle>
-                  {item.progress_start}-{item.progress_end}
-                </Subtitle>
-              </Overlay>
-            </Link>
-          </ImageWrapper>
-        </SlideContainer>
-      ))}
-    </StyledSlider>
+    joinedChallenge.length && (
+      <StyledSlider {...sliderSettings}>
+        {joinedChallenge.map((item, index) => (
+          <SlideContainer key={index}>
+            <ImageWrapper>
+              <Link to={`/challenge/detail/${item.challenge_id}`}>
+                <Image src={item.image} alt={item.title} />
+                <Overlay>
+                  <ImgTitle>{item.title}</ImgTitle>
+                  <Subtitle>
+                    {item.progress_start}-{item.progress_end}
+                  </Subtitle>
+                </Overlay>
+              </Link>
+            </ImageWrapper>
+          </SlideContainer>
+        ))}
+      </StyledSlider>
+    )
   );
 };
 

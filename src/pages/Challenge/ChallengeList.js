@@ -155,25 +155,26 @@ const RowContainer = styled('div')({
 
 const ColumnList = styled.div`
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   //border: 5px solid yellow;
 
   &:first-child {
     flex: 1;
-    //justify-content: flex-start; 
-    justify-content: center; 
-    align-items: center; 
+    //justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
   }
 
   &:last-child {
     flex: 2;
-    //justify-content: flex-end; 
-    justify-content: center; 
-    align-items: left; 
+    //justify-content: flex-end;
+    justify-content: center;
+    align-items: left;
     border-radius: 25px;
     background: #f2eee3;
     //border: 5px solid orange;
-    padding-left: 20px; 
+    padding-left: 20px;
+  }
 `;
 
 const Title = styled.h2`
