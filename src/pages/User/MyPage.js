@@ -9,6 +9,9 @@ import Container from '@mui/material/Container';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { useDispatch } from 'react-redux';
+import { changeLogout } from 'store.js';
+
 
 
 export default function MyPage() {
@@ -28,6 +31,8 @@ export default function MyPage() {
   const navigate = useNavigate();
 
   const selectTabHandler = e => setCurrentTab(e.target.id);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     API.get('/api/user').then(res =>
@@ -62,6 +67,7 @@ export default function MyPage() {
   };
 
   const logoutHandler = () => {
+    dispatch(changeLogout());
     setLogoutModalOpen(true);
   };
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
-import NavTitleIcon from './images/navTitle.png';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Nav = () => {
   const [selectedId, setSelectedId] = useState('');
@@ -12,6 +12,10 @@ const Nav = () => {
   const menuClick = e => {
     setSelectedId(e.target.id);
   };
+
+  let loginInfo = useSelector(state => {
+    return state.userLogin;
+  });
 
   const navigateHandle = () => {
     if (localStorage.getItem('userToken')) {
@@ -67,9 +71,9 @@ const Nav = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <span onClick={navigateHandle}>
+            <NavLink to={loginInfo.token ? '/user' : '/user/login'}>
               <PersonIcon id="profile" onClick={menuClick} fontSize="large" />
-            </span>
+            </NavLink>
           </NavItem>
         </NavItems>
       </NavWrap>
