@@ -7,8 +7,6 @@ import CultureDetailModal from './components/modal/CultureDetailModal';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import AlertBox from 'common/AlertBox';
-
 //주제분류 아이콘
 import {
   ico_picker01_on,
@@ -34,13 +32,13 @@ const CulturePage = () => {
 
   // 지도 아이콘 state
   const [icons, setIcons] = useState([
-    { img: ico_picker01_on, value: '공연장', name: 'subject' },
-    { img: ico_picker02_on, value: '미술관', name: 'subject' },
-    { img: ico_picker03_on, value: '박물관/기념관', name: 'subject' },
-    { img: ico_picker04_on, value: '도서관', name: 'subject' },
-    { img: ico_picker05_on, value: '문화예술회관', name: 'subject' },
-    { img: ico_picker06_on, value: '문화원', name: 'subject' },
-    { img: ico_picker07_on, value: '기타', name: 'subject' },
+    { img: ico_picker01_on, value: '공연장' },
+    { img: ico_picker02_on, value: '미술관' },
+    { img: ico_picker03_on, value: '박물관/기념관' },
+    { img: ico_picker04_on, value: '도서관' },
+    { img: ico_picker05_on, value: '문화예술회관' },
+    { img: ico_picker06_on, value: '문화원' },
+    { img: ico_picker07_on, value: '기타' },
   ]);
 
   // 상세정보 모달 show state
@@ -53,24 +51,21 @@ const CulturePage = () => {
   // 상세정보 모달 info state
   const [infoModal, setInfoModal] = useState(null);
 
-  //Alert open state
-  const [isOpenAlert, setIsOpenAlert] = useState({
-    open: false,
-    type: 'error',
-    message: 'Alert 메세지를 입력 하세요.',
-  });
   return (
-    <Container fixed sx={{ mt: '100px' }}>
-      <AlertBox isOpenAlert={isOpenAlert} setIsOpenAlert={setIsOpenAlert} />
-
-      <Box
-        sx={{
-          height: '200px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+    <Container fixed>
+      <Box sx={{ height: '100px', mb: '20px' }}>
+        <Location>소개-&gt; 문화여가시설 찾기</Location>
+      </Box>
+      <Box>
+        {showModal && (
+          <CultureDetailModal
+            showModal={showModal}
+            closable={true}
+            maskClosable={true}
+            infoModal={infoModal}
+            onClose={closeModal}
+          />
+        )}
         <SectionHeader>
           <div className="section-inner">
             <div className="title-area">
@@ -83,25 +78,14 @@ const CulturePage = () => {
             </div>
           </div>
         </SectionHeader>
-      </Box>
-      <Box>
-        {showModal && (
-          <CultureDetailModal
-            showModal={showModal}
-            closable={true}
-            maskClosable={true}
-            infoModal={infoModal}
-            onClose={closeModal}
-            setIsOpenAlert={setIsOpenAlert}
-          />
-        )}
-
         <SectionMap>
+          {/* <AreaFacility> */}
           <Paper
             elevation={3}
             sx={{
               height: '600px',
               display: 'flex',
+              marginTop: '20px',
               justifyContent: 'center',
               border: '5px solid #f2be5b',
               overflow: 'hidden',
@@ -119,22 +103,27 @@ const CulturePage = () => {
               showModal={showModal}
               setShowModal={setShowModal}
               setInfoModal={setInfoModal}
-              setIsOpenAlert={setIsOpenAlert}
             />
           </Paper>
+          {/* </AreaFacility> */}
         </SectionMap>
       </Box>
-      <Box sx={{ mt: '20px' }}>
+      <Box sx={{ mt: '50px' }}>
         <CultureTable
           showModal={showModal}
           setShowModal={setShowModal}
           setInfoModal={setInfoModal}
-          setIsOpenAlert={setIsOpenAlert}
         />
       </Box>
     </Container>
   );
 };
+
+// 소개 페이지 기준 현재 페이지 상대 위치
+const Location = styled.div`
+  height: 84px;
+  padding: 32px 0;
+`;
 
 // content의 header
 const SectionHeader = styled.div`
@@ -167,7 +156,6 @@ const SectionHeader = styled.div`
         display: flex;
         font-size: 18px;
         justify-content: center;
-        align-items: center;
       }
     }
   }

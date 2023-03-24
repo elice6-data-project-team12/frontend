@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+// import styled from 'styled-components';
 import API from 'API';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -17,29 +18,23 @@ import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
+
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Chip from '@mui/material/Chip';
-const CultureTable = ({
-  showModal,
-  setShowModal,
-  setInfoModal,
-  setIsOpenAlert,
-}) => {
+const CultureTable = ({ showModal, setShowModal, setInfoModal }) => {
   // 컬럼명과 컬럼명에 해당하는 값들 연결
 
   const [data, setData] = useState([]); //
   const [pageCount, setPageCount] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState('page=1');
   const [nameInput, setNameInput] = useState(null);
   const [nameSearch, setNameSearch] = useState('');
 
   useEffect(() => {
     // 이름 검색
     if (nameSearch.length > 0) {
-      API.get(`/api/facility/list/search?query=${nameSearch}&page=${index}`)
+      API.get(`/api/facility/list/search?query=${nameSearch}&${index}`)
         .then(res => {
           setPageCount(res.data.maxPage);
           setData(res.data.data);
@@ -49,7 +44,7 @@ const CultureTable = ({
         });
       // 전체 검색
     } else {
-      API.get(`/api/facility?page=${index}&pageSize=${pageSize}`)
+      API.get(`/api/facility?${index}&pageSize=${pageSize}`) // 백앤드 API (정상작동)
         .then(res => {
           setPageCount(res.data.maxPage);
           setData(res.data.data);
@@ -61,7 +56,7 @@ const CultureTable = ({
   }, [index, pageSize, nameSearch]);
 
   useEffect(() => {
-    setIndex(1);
+    setIndex('page=1');
   }, [pageSize]);
 
   // Table
@@ -86,7 +81,7 @@ const CultureTable = ({
     },
   }));
   const handlePageChange = (event, value) => {
-    setIndex(Number(value));
+    setIndex(`page=${value}`);
   };
 
   const openModal = e => {
@@ -98,24 +93,6 @@ const CultureTable = ({
     setShowModal(true);
   };
 
-  // 엔터키로 이름 검색
-  const handleFilterNameKeyDown = e => {
-    e.preventDefault();
-    setNameInput(e.target.value);
-    if (e.key === 'Enter') {
-      setNameInput('');
-      return setNameSearch(e.target.value);
-    }
-  };
-
-  // 필터 정보 초기화 함수 (초기화 Btn)
-  const handleFilterReset = e => {
-    e.preventDefault();
-    setNameSearch('');
-    setIndex(1);
-    setPageSize(10);
-  };
-
   return (
     <div>
       <TableContainer component={Paper}>
@@ -124,18 +101,15 @@ const CultureTable = ({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            p: '10px',
           }}
         >
-          <Box sx={{ minWidth: 120, display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
-              <InputLabel id="show-count-label">개수</InputLabel>
-
               <Select
-                labelId="show-count-label"
-                id="show-count"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
                 value={pageSize}
-                label="count"
+                label="Age"
                 onChange={e => {
                   setPageSize(Number(e.target.value));
                 }}
@@ -143,36 +117,27 @@ const CultureTable = ({
                 {[10, 20, 30, 40, 50].map(pageSize => {
                   return (
                     <MenuItem key={pageSize} value={pageSize}>
-                      {pageSize}개
+                      Show {pageSize}
                     </MenuItem>
                   );
                 })}
               </Select>
             </FormControl>
-            <Chip
-              label="초기화"
-              name="reset"
-              sx={{ backgroundColor: '#F2BE5B', ml: '10px' }}
-              onClick={handleFilterReset}
-            />
           </Box>
           <h2 style={{ fontSize: '30px' }}>목록 리스트</h2>
           <Stack sx={{ mb: '20px' }} direction="row">
             <TextField
               id="standard-basic"
               label="시설명"
-              sx={{ display: 'flex', alignItems: 'center' }}
+              xs={{}}
               variant="standard"
               onChange={e => {
                 setNameInput(e.target.value);
               }}
-              onKeyDown={e => {
-                handleFilterNameKeyDown(e);
-              }}
               value={nameInput || ''}
             />
 
-            <Box sx={{ display: 'flex', alignItems: 'end' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <SearchIcon
                 name="name"
                 variant="outlined"
@@ -194,12 +159,10 @@ const CultureTable = ({
           <TableHead>
             <TableRow>
               <StyledTableCell>시설명</StyledTableCell>
-              <StyledTableCell align="center">시설분류</StyledTableCell>
+              <StyledTableCell align="right">시설분류</StyledTableCell>
               <StyledTableCell align="right">지역&nbsp;</StyledTableCell>
               <StyledTableCell align="right">전화번호&nbsp;</StyledTableCell>
-              <StyledTableCell align="right">
-                상세정보&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </StyledTableCell>
+              <StyledTableCell align="right">상세정보&nbsp;</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -208,7 +171,7 @@ const CultureTable = ({
                 <StyledTableCell component="th" scope="row">
                   {row.fac_name}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.subjcode}</StyledTableCell>
+                <StyledTableCell align="right">{row.subjcode}</StyledTableCell>
                 <StyledTableCell align="right">{row.district}</StyledTableCell>
                 <StyledTableCell align="right">{row.phne}</StyledTableCell>
                 <StyledTableCell align="right">
@@ -222,14 +185,10 @@ const CultureTable = ({
                         setInfoModal(row.facility_id);
                         openModal(e);
                       }}
-                      sx={{ mr: '5px' }}
                     >
                       자세히보기
                     </Button>
-                    <BookMarkButton
-                      info={row.facility_id}
-                      setIsOpenAlert={setIsOpenAlert}
-                    />
+                    <BookMarkButton info={row.facility_id} />
                   </ButtonGroup>
                 </StyledTableCell>
               </StyledTableRow>
@@ -249,7 +208,6 @@ const CultureTable = ({
         variant="text"
         shape="rounded"
         onChange={handlePageChange}
-        page={index}
       />
     </div>
   );

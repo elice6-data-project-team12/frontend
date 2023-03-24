@@ -1,259 +1,379 @@
 import React, { useState, useEffect } from 'react';
-import { styled } from '@mui/system';
-import {
-  TextField,
-  Button,
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Container,
-  Typography,
-  Grid,
-  Card,
-  CardMedia,
-} from '@mui/material';
+import styled from 'styled-components';
+import { InputLabel, TextField, Button } from '@mui/material';
 // import DatePicker from "react-datepicker";
 import { Link } from 'react-router-dom';
 import ImageUpload from './ImageUpload';
 import API from 'API';
 
+// onCreate, onUpdate, onDelete, challenge (챌린지정보) props
 const ChallengeForm = ({ actionType }) => {
   const currentDate = new Date().toISOString().slice(0, 10);
-  const [formFields, setFormFields] = useState({
+  const [errors, setErrors] = useState({});
+  const [challenge, setChallenge] = useState({
     title: '',
     description: '',
     content: '',
     image: '',
-    recruit_person: 1,
+    recruitment_personnel: '',
     recruit_start: currentDate,
     recruit_end: currentDate,
-    isDeleted: 0,
+    delete: 'N',
     progress_start: currentDate,
     progress_end: currentDate,
   });
 
-  const handleFormChange = event => {
-    const { name, value, files } = event.target;
+  const handleChange = e => {
+    const { name, value, files } = e.target;
     let newValue = files ? files[0] : value;
 
     // 유효성 검사 테스트중
+    validate();
 
-    setFormFields(prevFormFields => ({
-      ...prevFormFields,
+    setChallenge(prevChallenge => ({
+      ...prevChallenge,
       [name]: newValue,
     }));
   };
 
   const handleImageChange = image => {
-    setFormFields(prevChallenge => ({
+    setChallenge(prevChallenge => ({
       ...prevChallenge,
       image: image,
     }));
   };
 
-  const handleSubmitForm = async event => {
-    event.preventDefault();
+  const handleSubmitForm = async e => {
+    e.preventDefault();
 
     try {
       const headers = {
         'Content-Type': 'multipart/form-data',
       };
-
-      const response = await API.post('/api/challenge/', formFields, {
+      console.log('Challenge object:', challenge);
+      const response = await API.post('/api/challenge/', challenge, {
         headers,
       });
-      alert(
-        '챌린지가 정상적으로 등록되었습니다!\n 참여중인 챌린지에서 확인하세요!'
-      );
-      window.location.href = '/challenge';
+      console.log('Data created:', response.data);
     } catch (error) {
-      alert('챌린지 등록이 정상적으로 처리되지 않았습니다!');
       console.log('Error creating data:', error);
     }
+
+    // 등록 코드 추가
+    // setChallenge('');
+
+    alert('등록이 완료되었습니다!');
+  };
+
+  const validate = () => {
+    const errors = {};
+
+    if (!challenge.title) {
+      errors.title = '챌린지명을 입력해주세요.';
+    }
+
+    if (!challenge.description) {
+      errors.description = '간략한 설명을 입력해주세요.';
+    }
+
+    if (!challenge.recruit_start) {
+      errors.recruit_start = '모집 시작일을 선택해주세요.';
+    }
+
+    if (!challenge.recruit_end) {
+      errors.recruit_end = '모집 종료일을 선택해주세요.';
+    } else if (
+      challenge.recruit_start &&
+      challenge.recruit_start > challenge.recruit_end
+    ) {
+      errors.recruit_end = '모집 종료일은 모집 시작일 이후로 선택해주세요.';
+    }
+
+    if (!challenge.progress_start) {
+      errors.progress_start = '참여 시작일을 선택해주세요.';
+    } else if (
+      challenge.recruit_start &&
+      challenge.progress_start < challenge.recruit_start
+    ) {
+      errors.progress_start = '참여 시작일은 모집 시작일 이후로 선택해주세요.';
+    }
+
+    if (!challenge.progress_end) {
+      errors.progress_end = '참여 종료일을 선택해주세요.';
+    } else if (
+      challenge.progress_start &&
+      challenge.progress_start > challenge.progress_end
+    ) {
+      errors.progress_end = '참여 종료일은 참여 시작일 이후로 선택해주세요.';
+    } else if (
+      challenge.recruit_end &&
+      challenge.progress_end > challenge.recruit_end
+    ) {
+      errors.progress_end = '참여 종료일은 모집 종료일 이전으로 선택해주세요.';
+    }
+
+    setErrors(errors);
+
+    return errors;
   };
 
   return (
-    <StyledContainer maxWidth="md">
-      <Box sx={{ mb: 4, mt: 4, my: 4, marginTop: '100px' }}>
-        <Typography variant="h4" component="h1" align="center">
-          부모님과 함께 소중한 추억을 만들어요.
-        </Typography>
-        <Typography variant="subtitle1" component="p" align="center">
-          Register your challenge and start your journey today!
-        </Typography>
-      </Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Card sx={{ maxWidth: 400 }}>
+    <div>
+      <RowContainer>
+        <ColumnTitle>
+          <Title>챌린지 생성</Title>
+        </ColumnTitle>
+      </RowContainer>
+      <FormWrapper onSubmit={handleSubmitForm}>
+        <RowWrapper>
+          <ColumnWrapper>
             <ImageUpload onChange={handleImageChange} />
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-            <FormControl onSubmit={handleSubmitForm} style={{ width: '100%' }}>
+          </ColumnWrapper>
+          <ColumnWrapper>
+            <RowWrapper>
+              <InputLabel htmlFor="title">챌린지명</InputLabel>
+            </RowWrapper>
+            <RowWrapper>
               <TextField
+                label=""
+                variant="outlined"
                 id="title"
                 name="title"
-                label="챌린지명"
+                value={challenge.title}
+                onChange={handleChange}
+                // onChange={(event) => setTitle(event.target.value)}
+                size="small"
                 fullWidth
                 required
-                value={formFields.title}
-                onChange={handleFormChange}
-                sx={{ mt: 1 }}
               />
+            </RowWrapper>
+            <br />
+            <RowWrapper>
+              <InputLabel htmlFor="description">간략설명</InputLabel>
+            </RowWrapper>
+            <RowWrapper>
               <TextField
+                label=""
                 id="description"
                 name="description"
-                label="간략소개"
+                value={challenge.description}
+                onChange={handleChange}
+                // onChange={(event) => setDescription(event.target.value)}
+                fullWidth
                 multiline
-                fullWidth
-                required
-                value={formFields.description}
-                onChange={handleFormChange}
-                sx={{ mt: 2 }}
               />
-
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <TextField
-                    id="recruit_start"
-                    name="recruit_start"
-                    label="모집시작일"
-                    type="date"
-                    fullWidth
-                    required
-                    value={formFields.recruit_start}
-                    onChange={handleFormChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    sx={{ mt: 2 }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="recruit_end"
-                    name="recruit_end"
-                    label="모집종료일"
-                    type="date"
-                    fullWidth
-                    required
-                    value={formFields.recruit_end}
-                    onChange={handleFormChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    sx={{ mt: 2 }}
-                  />
-                </Grid>
-              </Grid>
+            </RowWrapper>
+            <br />
+            <RowWrapper>
+              <div>
+                <InputLabel htmlFor="recruit_start">모집기간</InputLabel>
+                <TextField
+                  label=""
+                  type="date"
+                  variant="outlined"
+                  id="recruit_start"
+                  name="recruit_start"
+                  value={challenge.recruit_start}
+                  onChange={handleChange}
+                  size="small"
+                />
+                ~
+                <TextField
+                  label=""
+                  type="date"
+                  variant="outlined"
+                  id="recruit_end"
+                  name="recruit_end"
+                  value={challenge.recruit_end}
+                  onChange={handleChange}
+                  error={!!errors.recruit_end}
+                  helperText={errors.recruit_end}
+                  size="small"
+                />
+              </div>
+              <br />
+              <div>
+                <InputLabel htmlFor="recruitment_personnel">
+                  모집인원
+                </InputLabel>
+                <TextField
+                  label=""
+                  type="number"
+                  id="recruitment_personnel"
+                  name="recruitment_personnel"
+                  value={challenge.recruitment_personnel}
+                  onChange={handleChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="standard"
+                  inputProps={{ min: 0 }}
+                />
+              </div>
+            </RowWrapper>
+            <br />
+            <RowWrapper>
+              <div>
+                <InputLabel htmlFor="progress_start">참여기간</InputLabel>
+                <TextField
+                  label=""
+                  type="date"
+                  variant="outlined"
+                  id="progress_start"
+                  name="progress_start"
+                  value={challenge.progress_start}
+                  onChange={handleChange}
+                  size="small"
+                />
+                ~
+                <TextField
+                  label=""
+                  type="date"
+                  variant="outlined"
+                  id="progress_end"
+                  name="progress_end"
+                  value={challenge.progress_end}
+                  onChange={handleChange}
+                  size="small"
+                />
+              </div>
+            </RowWrapper>
+            <br />
+            <RowWrapper>
+              <InputLabel htmlFor="content">소개</InputLabel>
+            </RowWrapper>
+            <RowWrapper>
               <TextField
-                id="recruit_person"
-                name="recruit_person"
-                label="모집인원"
-                type="number"
+                label=""
+                variant="outlined"
+                id="content"
+                name="content"
+                value={challenge.content}
+                onChange={handleChange}
+                size="small"
+                row={10}
                 fullWidth
-                required
-                value={Math.max(1, formFields.recruit_person)}
-                onChange={event =>
-                  handleFormChange({
-                    target: {
-                      name: 'recruit_person',
-                      value: Math.max(1, parseInt(event.target.value)) || 0,
-                    },
-                  })
-                }
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="standard"
-                inputProps={{ min: 1 }}
-                sx={{ mt: 2, width: '150px' }}
+                multiline
               />
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <TextField
-                    id="progress_start"
-                    name="progress_start"
-                    label="참여시작일"
-                    type="date"
-                    fullWidth
-                    required
-                    value={formFields.progress_start}
-                    onChange={handleFormChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    sx={{ mt: 2 }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="progress_end"
-                    name="progress_end"
-                    label="참여종료일"
-                    type="date"
-                    fullWidth
-                    required
-                    value={formFields.progress_end}
-                    onChange={handleFormChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    sx={{ mt: 2 }}
-                  />
-                </Grid>
-              </Grid>
-            </FormControl>
-          </Box>
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12} sm={12}>
-          <TextField
-            id="content"
-            name="content"
-            label="챌린지설명"
-            multiline
-            fullWidth
-            required
-            value={formFields.content}
-            onChange={handleFormChange}
-            sx={{ mt: 4 }}
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item xs={12} sm={12} sx={{ textAlign: 'center' }}>
+            </RowWrapper>
+          </ColumnWrapper>
+        </RowWrapper>
+
+        <RowButtonWrapper>
+          <Link to="/challenge">
+            <Button variant="contained" color="primary">
+              취소
+            </Button>
+          </Link>
           <Button
-            type="submit"
             variant="contained"
-            sx={{ mt: 2, width: '180px' }}
             color="primary"
             onClick={handleSubmitForm}
           >
-            등 록
+            등록
           </Button>
-          <Link to="/challenge" sx={{ mr: 1 }}>
-            <Button
-              color="primary"
-              variant="outlined"
-              sx={{ mt: 2, ml: 1, width: '180px' }}
-            >
-              챌린지목록
-            </Button>
-          </Link>
-        </Grid>
-      </Grid>
-    </StyledContainer>
+        </RowButtonWrapper>
+
+        <button type="submit">
+          {actionType === 'create' ? 'Create' : 'Update'}
+        </button>
+      </FormWrapper>
+    </div>
   );
 };
 
-const StyledContainer = styled(Container)`
-  background-color: #f5f5f5;
-  padding: 24px;
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+// `;
+
+// const Container = styled.div`
+//   position: relative;
+// `;
+
+const RowContainer = styled.div`
+  //position: relative;
+  display: flex;
+  gap: 24px;
+  width: 80%;
+  margin-top: 150px;
+  margin-left: 150px;
+  margin-bottom: 24px;
+  //border: 5px solid blue;
+  top: 50%;
+  left: 50%;
+`;
+
+const ColumnTitle = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  //border: 5px solid red;
+`;
+
+const FormWrapper = styled.form`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  max-width: 1200px;
+  gap: 24px;
+  margin-top: 80px;
+  margin-left: 30px;
+  //border: 5px solid yellow;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const RowWrapper = styled.div`
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+  //border: 5px solid red;
+`;
+
+const ColumnWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  //border: 5px solid yellow;
+
+  &:first-child {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    //justify-content: flex-start;
+  }
+
+  &:last-child {
+    flex: 2;
+    justify-content: center;
+    align-items: left;
+    padding-left: 10px;
+    //border-radius: 25px;
+    //background: #f2eee3;
+  }
+`;
+
+const RowButtonWrapper = styled.div`
+  display: flex;
+  width: 80%;
+  max-width: 1200px;
+  gap: 24px;
+  //justify-content: space-between;
+  justify-content: center;
+  align-items: left;
+  //border: 5px solid green;
+`;
+
+const Title = styled.h1`
+  font-size: 32px;
+  color: #333;
+  // margin-bottom: 1rem;
 `;
 
 export default ChallengeForm;

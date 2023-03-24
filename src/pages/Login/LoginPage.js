@@ -3,12 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import API from '../../API';
 import jwt_decode from 'jwt-decode';
-import Button from '../../common/button';
-import Container from '@mui/material/Container';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -28,65 +22,31 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await API.post('/api/user/login', {
+      const res = await API.post('http://localhost:4000/api/user/login', {
         email: email,
         password: password,
       });
-      const token = res.data.data;
-      localStorage.setItem('userToken', token);
+      const user = res.data.data;
 
-      const decodedToken = jwt_decode(token);
-      localStorage.setItem('decodedToken', JSON.stringify(decodedToken));
+      const jwtToken = jwt_decode(user);
 
-      localStorage.setItem('userId', decodedToken.userId);
+      console.log(jwtToken, 'jwt');
 
-      if (!localStorage.getItem('userId')) {
+      localStorage.setItem('userId', jwtToken.userId);
+      localStorage.setItem('userToken', user);
+      if (!localStorage.getItem('userToken')) {
         navigate('/signup');
       }
       navigate('/');
-  
     } catch (err) {
-      setErrModalOpen(true);
+      alert(err.response.data.message);
     }
   };
 
-  //모달
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    borderRadius: '15px',
-    boxShadow: 20,
-    p: 4,
-  };
-
-
-  const [errModalOpen, setErrModalOpen] = useState(false);
-  const handleErrModalOpen = () => setErrModalOpen(true);
-  const handleErrModalClose = () => {
-    setErrModalOpen(false);
-  };
-
-
   return (
-    <Container sx={{ 
-      bgcolor: 'white', 
-      height: 'max-content', 
-      maxWidth: '1200px',
-      marginTop: '10%',
-      marginBottom: '5%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      }}>
+    <Container>
       <MainTitle>로그인</MainTitle>
       <LoginBox>
-        <UpperColor><p>이메일로 로그인</p></UpperColor>
-        <TextBox>
         <LoginForm onSubmit={handleSubmit}>
           <div>
             <label>이메일</label>
@@ -108,40 +68,47 @@ function LoginPage() {
               />
             </div>
           </div>
-          <Button title="로그인" type="submit">로그인하기</Button>
+          <button title="로그인" type="submit" padding="100px">
+            로그인
+          </button>
         </LoginForm>
-          <span onClick={()=> navigate('/user/signup')}> &gt; 회원가입하러 가기</span>
-        </TextBox>
       </LoginBox>
-      <Modal
-        open={errModalOpen}
-        onClose={handleErrModalOpen}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
-        <Box sx={modalStyle}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            로그인 실패
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            회원정보를 확인해 주세요.
-          </Typography>
-          <Button style={{margin: '20px 0 0 0'}} onClick={handleErrModalClose}>확인</Button>
-        </Box>
-      </Modal>
     </Container>
   );
 }
 
+const Container = styled.div`
+  margin: 15% 0 5% 0;
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 4px groove red;
+`;
 
 const MainTitle = styled.div`
   width: 35%;
-  font-weight: 700;
-  font-size: 4vmin;
-  margin: 0 0 2% 0;
+  font-weight: 600;
+  font-size: 25px;
   display: flex;
   justify-content: center;
+  border: 4px groove red;
 `;
 
+const LoginBox = styled.div`
+  background-color: rgba(217, 217, 217, 1);
+  height: 50vh;
+  width: 50%;
+  border-radius: 20px;
+  margin: 0px 0 0 0px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border: 4px groove red;
+`;
 
 const LoginForm = styled.form`
   height: 60%;
@@ -150,65 +117,27 @@ const LoginForm = styled.form`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-
+  border: 4px groove blue;
   div {
     width: 80%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 4px groove red;
     .form-field {
       width: 80%;
+      input {
+        width: 100%;
+        background-color: inherit;
+      }
     }
   }
 `;
 
 const Input = styled.input`
   width: 100%;
-  height: 50px;
-  font-size: 15px;
   background-color: inherit;
-  border: 2px solid #757575;
-  outline: none;
-`;
-
-const LoginBox = styled.div`
-  height: 50vh;
-  width: 50%;
-  text-align: center;
-  border-radius: 15px;
-  background: rgba(236, 233, 233, 1);
-`;
-
-const UpperColor = styled.div`
-  width: 100%;
-  height: 50px;
-  border-radius: 15px 15px 0 0;
-  background: rgba(242, 190, 91, 1);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-
-    p {
-      font-size: 15px;
-      font-weight: 600;
-    }
-`;
-
-const TextBox = styled.div`
-  height: 87%;
-  width: 100%;
-  border-radius: 0 0 15px 15px;
-  margin: 0px 0 0 0px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-
-    span {
-      &:hover {
-        cursor: pointer;
-      }
-    }
+  border: 4px groove red;
 `;
 
 export default LoginPage;

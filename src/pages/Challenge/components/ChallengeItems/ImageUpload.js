@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Button } from '@mui/material';
+import { InputLabel, TextField, Button } from '@mui/material';
+// import DatePicker from "react-datepicker";
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const ImageUpload = ({ onChange }) => {
   const [previewImage, setPreviewImage] = useState(null);
@@ -27,7 +30,7 @@ const ImageUpload = ({ onChange }) => {
   };
   return (
     <>
-      <div style={{ backgroundColor: '#FBF7F2', padding: 10 }}>
+      <div style={{ backgroundColor: 'lightgrey', padding: 10 }}>
         <div
           style={{
             display: 'flex',
@@ -41,12 +44,12 @@ const ImageUpload = ({ onChange }) => {
               <img
                 src={previewImage}
                 alt="Preview of selected image"
-                style={{ width: '380px', height: '280px' }}
+                style={{ maxWidth: '100%', maxHeight: '100%' }}
               />
               <button onClick={handleRemoveImage}>Remove Image</button>
             </div>
           ) : (
-            <div style={{ color: 'white' }}>미 리 보 기</div>
+            <div style={{ color: 'white' }}>No Image Selected</div>
           )}
         </div>
         <input
@@ -57,9 +60,61 @@ const ImageUpload = ({ onChange }) => {
           onChange={handleImageChange}
           ref={fileElementRef}
         />
+        <Button>이미지등록</Button>
       </div>
     </>
   );
 };
+
+const UploadImageBox = styled.div`
+  width: 360px;
+  height: 100%;
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4efe5;
+  border: 5px solid red;
+`;
+
+const UploadFile = styled.input`
+  display: none;
+  border: 5px solid green;
+`;
+
+const PreviewImageBox = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border: 5px solid blue;
+  &:hover div {
+    filter: blur(8px);
+  }
+  &:hover label {
+    opacity: 1;
+  }
+`;
+
+const ReImageUploadLabel = styled.label`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 20px;
+  background: no-repeat 50% 50% / contain;
+`;
+
+const PreviewImage = styled.div`
+  background-position: center center;
+  background-size: 100% 100%;
+  width: 100%;
+  height: 100%;
+  border: 5px solid green;
+`;
 
 export default ImageUpload;

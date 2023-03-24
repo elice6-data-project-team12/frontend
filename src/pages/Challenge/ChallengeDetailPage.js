@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { Link, useParams } from 'react-router-dom';
+import { Button, Box, Tabs, Tab } from '@mui/material';
+import axios from 'axios';
 import API from 'API';
+import ChallengeIsJoin from './components/ChallengeItems/ChallengeIsJoin';
 import ChallengeDetail from './components/ChallengeItems/ChallengeDetail';
+import ChallengeForm from './components/ChallengeItems/ChallengeForm';
 
 const ChallengeDetailPage = () => {
   const { id } = useParams();
   const [challenge, setChallenge] = useState(null);
+
+  console.log('ChallengeDetail params: ', id);
 
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
         const response = await API.get(`/api/challenge/${id}`);
         setChallenge(response.data.data[0]);
+        console.log('DataPage selecting detail:', response.data);
       } catch (error) {
         console.log('Error selecting data:', error);
       }
@@ -19,11 +27,15 @@ const ChallengeDetailPage = () => {
     fetchChallenge();
   }, [id]);
 
+  // challenge 객체가 정의되어 있는지 확인
+  // if (!challenge) return <div>Loading...</div>;
   if (challenge === null) return <div>Loading...</div>;
 
   return (
     <div>
-      <ChallengeDetail {...challenge} />
+      <div>
+        <ChallengeDetail {...challenge} />
+      </div>
     </div>
   );
 };

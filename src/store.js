@@ -1,25 +1,21 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-let userLogin = createSlice({
-  name: 'userLogin',
-  initialState: {
-    type: '',
-    token: '',
-  },
+let cultureSpace = createSlice({
+  name: 'cultureSpace',
+  initialState: [],
   reducers: {
-    changeLogin(state, action) {
-      return { type: 'login', token: action.payload };
-    },
-    changeLogout(state, action) {
-      return { type: 'logout', token: '' };
+    updateData(state, action) {
+      action.payload.map(data => {
+        return state.push(data);
+      });
     },
   },
 });
 
-export let { changeLogin, changeLogout } = userLogin.actions;
+export let { updateData } = cultureSpace.actions;
 
 export default configureStore({
   reducer: {
-    userLogin: userLogin.reducer,
+    cultureSpace: cultureSpace.reducer,
   },
 });
