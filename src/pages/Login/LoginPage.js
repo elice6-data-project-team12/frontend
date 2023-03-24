@@ -4,14 +4,15 @@ import styled from 'styled-components';
 import API from '../../API';
 import jwt_decode from 'jwt-decode';
 import Button from '../../common/button';
-import { useDispatch } from 'react-redux';
-import { changeLogin } from 'store.js';
+import Container from '@mui/material/Container';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -39,69 +40,98 @@ function LoginPage() {
 
       localStorage.setItem('userId', decodedToken.userId);
 
-      dispatch(changeLogin(token));
       if (!localStorage.getItem('userId')) {
         navigate('/signup');
       }
       navigate('/');
+  
     } catch (err) {
-      alert(err.response.data.message);
+      setErrModalOpen(true);
     }
   };
 
+  //모달
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    borderRadius: '15px',
+    boxShadow: 20,
+    p: 4,
+  };
+
+
+  const [errModalOpen, setErrModalOpen] = useState(false);
+  const handleErrModalOpen = () => setErrModalOpen(true);
+  const handleErrModalClose = () => {
+    setErrModalOpen(false);
+  };
+
+
   return (
-    <Container>
+    <Container sx={{ 
+      bgcolor: 'white', 
+      height: 'max-content', 
+      maxWidth: '1200px',
+      marginTop: '10%',
+      marginBottom: '5%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      }}>
       <MainTitle>로그인</MainTitle>
       <LoginBox>
-        <UpperColor>
-          <p>이메일로 로그인</p>
-        </UpperColor>
+        <UpperColor><p>이메일로 로그인</p></UpperColor>
         <TextBox>
-          <LoginForm onSubmit={handleSubmit}>
-            <div>
-              <label>이메일</label>
-              <div className="form-field">
-                <Input
-                  type="email"
-                  placeholder="EMAIL"
-                  onChange={onEmailHandler}
-                />
-              </div>
+        <LoginForm onSubmit={handleSubmit}>
+          <div>
+            <label>이메일</label>
+            <div className="form-field">
+              <Input
+                type="email"
+                placeholder="EMAIL"
+                onChange={onEmailHandler}
+              />
             </div>
-            <div>
-              <label>패스워드</label>
-              <div className="form-field">
-                <Input
-                  type="password"
-                  placeholder="PASSWORD"
-                  onChange={onPasswordHandler}
-                />
-              </div>
+          </div>
+          <div>
+            <label>패스워드</label>
+            <div className="form-field">
+              <Input
+                type="password"
+                placeholder="PASSWORD"
+                onChange={onPasswordHandler}
+              />
             </div>
-            <Button title="로그인" type="submit">
-              로그인하기
-            </Button>
-          </LoginForm>
-          <span onClick={() => navigate('/user/signup')}>
-            {' '}
-            &gt; 회원가입하러 가기
-          </span>
+          </div>
+          <Button title="로그인" type="submit">로그인하기</Button>
+        </LoginForm>
+          <span onClick={()=> navigate('/user/signup')}> &gt; 회원가입하러 가기</span>
         </TextBox>
       </LoginBox>
+      <Modal
+        open={errModalOpen}
+        onClose={handleErrModalOpen}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <Box sx={modalStyle}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            로그인 실패
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            회원정보를 확인해 주세요.
+          </Typography>
+          <Button style={{margin: '20px 0 0 0'}} onClick={handleErrModalClose}>확인</Button>
+        </Box>
+      </Modal>
     </Container>
   );
 }
 
-const Container = styled.div`
-  margin: 15% 0 5% 0;
-  width: 100%;
-  height: max-content;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* border: 4px groove red; */
-`;
 
 const MainTitle = styled.div`
   width: 35%;
@@ -110,21 +140,8 @@ const MainTitle = styled.div`
   margin: 0 0 2% 0;
   display: flex;
   justify-content: center;
-  /* border: 4px groove red; */
 `;
 
-// const LoginBox = styled.div`
-//   background-color: rgba(217, 217, 217, 1);
-//   height: 50vh;
-//   width: 50%;
-//   border-radius: 20px;
-//   margin: 0px 0 0 0px;
-//   display: flex;
-//   justify-content: center;
-//   flex-direction: column;
-//   align-items: center;
-//   border: 4px groove red;
-// `;
 
 const LoginForm = styled.form`
   height: 60%;
@@ -133,7 +150,7 @@ const LoginForm = styled.form`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  /* border: 4px groove blue; */
+
   div {
     width: 80%;
     display: flex;
@@ -141,11 +158,6 @@ const LoginForm = styled.form`
     align-items: center;
     .form-field {
       width: 80%;
-      /* input {
-        width: 100%;
-        background-color: inherit;
-        
-      } */
     }
   }
 `;
@@ -165,7 +177,6 @@ const LoginBox = styled.div`
   text-align: center;
   border-radius: 15px;
   background: rgba(236, 233, 233, 1);
-  /* border: 4px groove green; */
 `;
 
 const UpperColor = styled.div`
@@ -176,12 +187,11 @@ const UpperColor = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  /* border: 4px groove red; */
 
-  p {
-    font-size: 15px;
-    font-weight: 600;
-  }
+    p {
+      font-size: 15px;
+      font-weight: 600;
+    }
 `;
 
 const TextBox = styled.div`
@@ -193,13 +203,12 @@ const TextBox = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  /* border: 4px groove red; */
 
-  span {
-    &:hover {
-      cursor: pointer;
+    span {
+      &:hover {
+        cursor: pointer;
+      }
     }
-  }
 `;
 
 export default LoginPage;
