@@ -62,13 +62,16 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
       ...prevChallenge,
       image: image,
     }));
+    console.log('000image.type', image.type);
   };
 
   const handleSubmitForm = async event => {
     event.preventDefault();
 
-    if (!image || !image.type.startsWith('image/')) {
-      alert('이미지 파일을 변경하여 저장해주세요!');
+    console.log('111image.type', image.type);
+
+    if (!image.type || !image.type.startsWith('image/')) {
+      alert('※ 수정시 이미지파일을 다시 업로드해주세요!');
       return;
     }
 
@@ -130,9 +133,26 @@ const ChallengeFormUD = ({ actionType, challenge }) => {
                 alt={formFields.title}
               />
             )}
-            <Button onClick={() => setIsImageUploadActive(true)}>
-              이미지 업로드
-            </Button>
+            <Grid container spacing={1} alignItems="center">
+              <Grid item>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => setIsImageUploadActive(true)}
+                  sx={{
+                    borderRadius: '10px',
+                    height: '20px',
+                  }}
+                >
+                  이미지 업로드
+                </Button>
+              </Grid>
+              <Grid item>
+                <Typography variant="body2" color="text.secondary">
+                  ※ 수정시 이미지파일을 다시 업로드하세요.
+                </Typography>
+              </Grid>
+            </Grid>
             {isImageUploadActive && (
               <ImageUpload onChange={handleImageChange} />
             )}
