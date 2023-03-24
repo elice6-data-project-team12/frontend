@@ -12,8 +12,6 @@ import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { changeLogout } from 'store.js';
 
-
-
 export default function MyPage() {
   const [userInfo, setUserInfo] = useState({
     user_id: '',
@@ -53,7 +51,7 @@ export default function MyPage() {
       })
     );
 
-    API.get('/api/user/facility').then(res =>
+    API.get('/api/challenge/participation').then(res =>
       setMyChallenge(cur => {
         return res.data.data;
       })
@@ -118,7 +116,6 @@ export default function MyPage() {
     p: 4,
   };
 
-
   const [errModalOpen, setErrModalOpen] = useState(false);
   const [pwErr, setPwErr] = useState('');
   const handleErrModalOpen = () => setErrModalOpen(true);
@@ -130,7 +127,7 @@ export default function MyPage() {
   const handleLogoutModalOpen = () => setLogoutModalOpen(true);
   const handleLogoutModalClose = e => {
     setLogoutModalOpen(false);
-    if (e.target.id === "confirm") {
+    if (e.target.id === 'confirm') {
       localStorage.clear();
       navigate('/');
     }
@@ -207,54 +204,66 @@ export default function MyPage() {
               </Button>
             </CheckUserForm>
           ))}
-        {currentTab === 'myplace' && ( myFacility.length === 0 ? (
-          <div>북마크한 장소가 없습니다.</div>
-        ): (
-          myFacility.slice(0, visiblePlace).map((i, idx) => {
-            return (
-              <MyPlaceList key={idx}>
-                <img src={i.main_img} alt={i.fac_name} />
-                <div>
-                  <p>{i.fac_name}</p>
-                  <p>{i.district}</p>
-                </div>
-                <Button
-                  onClick={e => {
-                    e.preventDefault();
-                    API.delete(`/api/user/facility/${i.facility_id}`)
-                      .then(res => {
-
-                        const newList = myFacility;
-                        const datas = newList.filter(
-                          list => list.facility_id !== i.facility_id
-                        );
-                        return setMyFacility(datas);
-                      })
-                      .catch(err => {
-                        alert('실패');
-                      });
-                  }}
-                >
-                  삭제
-                </Button>
-              </MyPlaceList>
-            );
-          })
-        ))
-          }
+        {currentTab === 'myplace' &&
+          (myFacility.length === 0 ? (
+            <div>북마크한 장소가 없습니다.</div>
+          ) : (
+            myFacility.slice(0, visiblePlace).map((i, idx) => {
+              return (
+                <MyPlaceList key={idx}>
+                  <img src={i.main_img} alt={i.fac_name} />
+                  <div>
+                    <p>{i.fac_name}</p>
+                    <p>{i.district}</p>
+                  </div>
+                  <Button
+                    onClick={e => {
+                      e.preventDefault();
+                      API.delete(`/api/user/facility/${i.facility_id}`)
+                        .then(res => {
+                          const newList = myFacility;
+                          const datas = newList.filter(
+                            list => list.facility_id !== i.facility_id
+                          );
+                          return setMyFacility(datas);
+                        })
+                        .catch(err => {
+                          alert('실패');
+                        });
+                    }}
+                  >
+                    삭제
+                  </Button>
+                </MyPlaceList>
+              );
+            })
+          ))}
         {currentTab === 'myplace' && visiblePlace < myFacility.length && (
           <Button onClick={handleShowPlaceMore}>더 보기</Button>
         )}
-        {currentTab === 'mychallenge' && (
-          myChallenge.length === 0 ? (
+        {currentTab === 'mychallenge' &&
+          (myChallenge.length === 0 ? (
             <div>참여중인 챌린지가 없습니다.</div>
           ) : (
             myChallenge.slice(0, visibleChallenge).map((i, idx) => {
               return (
                 <MyChallengeList key={idx}>
-                  <img src={i.image} alt={i.title} onClick={() => navigate(`/challenge/detail/${i.challenge_id}`)}/>
+                  <img
+                    src={i.image}
+                    alt={i.title}
+                    onClick={() =>
+                      navigate(`/challenge/detail/${i.challenge_id}`)
+                    }
+                  />
                   <div>
-                    <p className="link-to-challenge" onClick={() => navigate(`/challenge/detail/${i.challenge_id}`)}>{i.title}</p>
+                    <p
+                      className="link-to-challenge"
+                      onClick={() =>
+                        navigate(`/challenge/detail/${i.challenge_id}`)
+                      }
+                    >
+                      {i.title}
+                    </p>
                     <p>{i.description}</p>
                     <p>
                       {i.recruit_start} ~ {i.recruit_end}
@@ -266,9 +275,7 @@ export default function MyPage() {
                 </MyChallengeList>
               );
             })
-          )
-        )
-          }
+          ))}
         {currentTab === 'mychallenge' &&
           visibleChallenge < myChallenge.length && (
             <Button onClick={handleShowChallengeMore}>더 보기</Button>
@@ -278,25 +285,44 @@ export default function MyPage() {
         open={errModalOpen}
         onClose={handleErrModalOpen}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={modalStyle}>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {pwErr}
           </Typography>
-          <Button style={{margin: '20px 0 0 0'}} onClick={handleErrModalClose}>확인</Button>
+          <Button
+            style={{ margin: '20px 0 0 0' }}
+            onClick={handleErrModalClose}
+          >
+            확인
+          </Button>
         </Box>
       </Modal>
       <Modal
         open={logoutModalOpen}
         onClose={handleLogoutModalOpen}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={modalStyle}>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             로그아웃 하시겠습니까?
           </Typography>
-          <Button id="confirm" style={{margin: '20px 10px 0 0'}} onClick={handleLogoutModalClose}>확인</Button>
-          <Button id="cancel" style={{margin: '20px 0 0 0'}} onClick={handleLogoutModalClose}>취소</Button>
+          <Button
+            id="confirm"
+            style={{ margin: '20px 10px 0 0' }}
+            onClick={handleLogoutModalClose}
+          >
+            확인
+          </Button>
+          <Button
+            id="cancel"
+            style={{ margin: '20px 0 0 0' }}
+            onClick={handleLogoutModalClose}
+          >
+            취소
+          </Button>
         </Box>
       </Modal>
     </Container>

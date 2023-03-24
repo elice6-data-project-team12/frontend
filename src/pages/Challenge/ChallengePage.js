@@ -18,10 +18,10 @@ const ChallengePage = () => {
   useEffect(() => {
     setLogined(loginInfo.type);
   }, [loginInfo]);
-
+  <MyChallenge />;
   return (
     <StyledContainer maxWidth="lg">
-      {logined !== 'login' ? (
+      {/* {logined !== 'login' ? (
         <MyChallenge />
       ) : (
         <Box
@@ -41,6 +41,9 @@ const ChallengePage = () => {
           </NavLink>
         </Box>
       )}
+       */}
+      <MyChallenge />
+
       <ChallengeList />
     </StyledContainer>
   );
