@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import API from '../../../API';
 import styled from 'styled-components';
 import Button from '../../../common/button';
-
+import Box from '@mui/material/Box';
 export default function MyInfoList({ datas }) {
   const navigate = useNavigate();
 
@@ -43,9 +43,10 @@ export default function MyInfoList({ datas }) {
   // 회원정보 업데이트
   const handleUpdateInfo = e => {
     e.preventDefault();
-    API.put('/api/user', inputValue).then(res => {
-      alert('성공');
-      window.location.replace('/user');
+    API.put('/api/user', inputValue)
+      .then(res => {
+        alert('성공');
+        window.location.replace('/user');
       })
       .catch(err => {
         alert('다시 시도해 주세요.');
@@ -55,99 +56,111 @@ export default function MyInfoList({ datas }) {
   return (
     <UserInfo>
       <ChangeInfoForm onSubmit={handleUpdateInfo}>
-        <div>
-          <label htmlFor="email">이메일</label>
-          <div className="form-field">
-            <Input
-              required
-              id="email"
-              type="email"
-              name="email"
-              value={inputValue.email}
-              onChange={emailValidation}
-              onBlur={() => {
-                setEmailErr('');
-              }}
-            />
-            {emailErr && <p className="error-msg">{emailErr}</p>}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
+        >
+          <div>
+            <label htmlFor="email">이메일</label>
+            <div className="form-field">
+              <Input
+                required
+                id="email"
+                type="email"
+                name="email"
+                value={inputValue.email}
+                onChange={emailValidation}
+                onBlur={() => {
+                  setEmailErr('');
+                }}
+              />
+              {emailErr && <p className="error-msg">{emailErr}</p>}
+            </div>
           </div>
-        </div>
-        <div>
-          <label htmlFor="password">비밀번호</label>
-          <div className="form-field">
-            <Input
-              required
-              id="password"
-              type="password"
-              name="password"
-              value={inputValue.password}
-              onChange={pwValidation}
-              onBlur={() => {
-                setPwErr('');
-              }}
-            />
-            {pwErr && <p className="error-msg">{pwErr}</p>}
+          <div>
+            <label htmlFor="password">비밀번호</label>
+            <div className="form-field">
+              <Input
+                required
+                id="password"
+                type="password"
+                name="password"
+                value={inputValue.password}
+                onChange={pwValidation}
+                onBlur={() => {
+                  setPwErr('');
+                }}
+              />
+              {pwErr && <p className="error-msg">{pwErr}</p>}
+            </div>
           </div>
-        </div>
 
-        <div>
-          <label htmlFor="name">이름</label>
-          <div className="form-field">
-            <Input
-              required
-              id="name"
-              type="text"
-              name="name"
-              value={inputValue.name}
-              onChange={inputhandler}
-            />
+          <div>
+            <label htmlFor="name">이름</label>
+            <div className="form-field">
+              <Input
+                required
+                id="name"
+                type="text"
+                name="name"
+                value={inputValue.name}
+                onChange={inputhandler}
+              />
+            </div>
           </div>
-        </div>
-        <div>
-          <label htmlFor="contact">연락처</label>
-          <div className="form-field">
-            <Input
-              required
-              id="contact"
-              type="text"
-              name="phone"
-              value={inputValue.phone}
-              onChange={inputhandler}
-            />
+
+          <div>
+            <label htmlFor="contact">연락처</label>
+            <div className="form-field">
+              <Input
+                required
+                id="contact"
+                type="text"
+                name="phone"
+                value={inputValue.phone}
+                onChange={inputhandler}
+              />
+            </div>
           </div>
-        </div>
-        <Button type="submit">변경사항 저장하기</Button>
+        </Box>
       </ChangeInfoForm>
+      <Box>
+        <Button type="submit">변경사항 저장하기</Button>
+      </Box>
     </UserInfo>
   );
 }
 
 const UserInfo = styled.div`
   width: 100%;
-  height: 70vmin;
+  /* height: 70vmin; */
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  border: 4px groove red;
 `;
 
 const ChangeInfoForm = styled.form`
-  height: 100%;
+  height: 450px;
   width: 100%;
-  border: 4px groove pink;
+  /* display: flex;
+  padding: 20px;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center; */
   align-items: center;
   div {
-    border: 4px groove blue;
     .form-field {
-      width: 70%;
+      margin: 20px 0;
     }
   }
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 300px;
   height: 50px;
   font-size: 15px;
   background-color: inherit;

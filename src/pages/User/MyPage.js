@@ -101,7 +101,6 @@ export default function MyPage() {
   return (
     <Container
       sx={{
-        bgcolor: '#cfe8fc',
         height: 'max-content',
         maxWidth: '1200px',
         marginTop: '15%',
@@ -110,7 +109,6 @@ export default function MyPage() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        border: '4px groove red',
       }}
     >
       <WelcomeMsg>
@@ -239,7 +237,6 @@ const WelcomeMsg = styled.div`
   align-items: center;
   justify-content: space-between;
   height: max-content;
-  border: 4px groove red;
   p {
     font-weight: 600;
     font-size: 20px;
@@ -267,7 +264,6 @@ const UserInputBox = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  border: 4px groove red;
 `;
 
 const CheckUserForm = styled.form`
@@ -279,13 +275,11 @@ const CheckUserForm = styled.form`
   align-items: center; */
   padding: 20px;
   font-size: 15px;
-  border: 4px groove blue;
   div {
     width: 70%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* border: 4px groove pink; */
     .form-field {
       width: 70%;
       margin: 30px 0 30px 0;
@@ -298,7 +292,6 @@ const Input = styled.input`
   height: 50px;
   font-size: 15px;
   background-color: inherit;
-  border: 2px solid #757575;
   outline: none;
 `;
 
@@ -306,7 +299,6 @@ const MenuTab = styled.div`
   width: 50%;
   text-align: center;
   font-weight: 600;
-  /* border: 4px groove red; */
   .tabs {
     display: flex;
     li {
@@ -314,12 +306,11 @@ const MenuTab = styled.div`
       text-align: center;
       padding: 30px;
       cursor: pointer;
-      background-color: rgba(236, 233, 233, 1);
       color: gray;
       border-radius: 20px 20px 0 0;
       display: flex;
       justify-content: center;
-      border: 4px groove red;
+      border: 1px groove black;
 
       &:hover {
         font-weight: bold;
@@ -345,7 +336,6 @@ const MyPlaceList = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border: 1px solid gray;
   border-top-style: none;
   border-right-style: none;
   border-left-style: none;
@@ -357,7 +347,6 @@ const MyPlaceList = styled.div`
 
   div {
     width: 60%;
-    /* border: 4px groove green; */
     display: flex;
     justify-content: space-between;
   }
@@ -375,7 +364,6 @@ const MyChallengeList = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  /* border: 4px groove red; */
 
   img {
     width: 14vmin;
@@ -386,7 +374,6 @@ const MyChallengeList = styled.div`
   div {
     width: 80%;
     padding: 10px;
-    border: 1px solid gray;
     border-top-style: none;
     border-right-style: none;
     border-bottom-style: none;
@@ -395,7 +382,5 @@ const MyChallengeList = styled.div`
     justify-content: space-between;
   }
 
-  p {
-    /* border: 4px groove pink; */
-  }
+  
 `;
