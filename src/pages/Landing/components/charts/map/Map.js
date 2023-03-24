@@ -88,12 +88,12 @@ const Map = ({ currentState }) => {
 
           <Marker coordinates={[126.8357158, 37.6759954]} fill="black">
             <text fontSize="15px" textAnchor="middle" fill="black">
-              2021년 서울시 
+              2021년 서울시
             </text>
           </Marker>
           <Marker coordinates={[126.8357158, 37.6559954]} fill="black">
             <text fontSize="15px" textAnchor="middle" fill="black">
-            자치구별 1인 가구수
+              자치구별 1인 가구수
             </text>
           </Marker>
         </ZoomableGroup>

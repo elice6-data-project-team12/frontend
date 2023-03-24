@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { Button, Box, Grid } from '@mui/material';
 import API from 'API';
 
 const ChallengeIsJoin = ({ title, challenge_id }) => {
   const [isJoined, setIsJoined] = useState('');
-  const [isDeleted, setDeleted] = useState('');
   const [myChallenge, setMychallenge] = useState('');
   const apiUrl = `/api/challenge/participation`;
 
@@ -27,30 +25,10 @@ const ChallengeIsJoin = ({ title, challenge_id }) => {
 
   const handleJoinClick = () => {
     setIsJoined(true);
-    // sendJoinStatus();
   };
   const handleDelClick = () => {
     setIsJoined(false);
-    // sendJoinStatus();
   };
-
-  // const sendJoinStatus = async () => {
-  //   const requestData = {
-  //     challenge_id: String(challenge_id),
-  //   };
-
-  //   const method = isJoined ? 'DELETE' : 'POST';
-
-  //   try {
-  //     const response = await API({
-  //       method: method,
-  //       url: apiUrl,
-  //       data: requestData,
-  //     });
-  //   } catch (error) {
-  //     console.error('isJoined API request failed:', error);
-  //   }
-  // };
 
   useEffect(() => {
     const sendJoinStatus = async () => {
@@ -64,7 +42,6 @@ const ChallengeIsJoin = ({ title, challenge_id }) => {
             challenge_id: String(challenge_id),
           },
         });
-        console.log('isJoined API request succeeded:', response.data);
       } catch (error) {
         console.error('isJoined API request failed:', error);
       }

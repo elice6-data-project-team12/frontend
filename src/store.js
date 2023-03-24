@@ -4,9 +4,7 @@ let userLogin = createSlice({
   name: 'userLogin',
   initialState: {
     type: '',
-    decodedToken: '',
     token: '',
-    userId: '',
   },
   reducers: {
     changeLogin(state, action) {
