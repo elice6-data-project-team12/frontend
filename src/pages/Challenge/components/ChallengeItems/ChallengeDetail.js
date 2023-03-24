@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/system';
 import {
   TextField,
@@ -15,6 +15,7 @@ import {
 import { Link } from 'react-router-dom';
 import ChallengeIsJoin from './ChallengeIsJoin';
 import ChallengeFormUD from './ChallengeFormUD';
+import LoginPage from 'pages/Login/LoginPage';
 
 const ChallengeDetail = challenge => {
   const {
@@ -33,6 +34,12 @@ const ChallengeDetail = challenge => {
     progress_end,
   } = challenge || {};
 
+  const isLoggedIn = !!localStorage.getItem('userToken');
+
+  // if (!isLoggedIn) {
+  //   return <LoginPage />;
+  // }
+
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) {
@@ -45,7 +52,7 @@ const ChallengeDetail = challenge => {
 
   return (
     <StyledContainer maxWidth="md">
-      <Box sx={{ mb: 4, mt: 4, my: 4, marginTop: '150px' }}>
+      <Box sx={{ mb: 4, mt: 4, my: 4, marginTop: '100px' }}>
         <Typography variant="h4" component="h1" align="center">
           {title}
         </Typography>
@@ -150,9 +157,6 @@ const ChallengeDetail = challenge => {
                   />
                 </Grid>
               </Grid>
-              {/* <Button variant="contained" sx={{ mt: 2 }}>
-                참여하기
-              </Button> */}
               <ChallengeIsJoin />
             </FormControl>
           </Box>
@@ -168,30 +172,30 @@ const ChallengeDetail = challenge => {
             fullWidth
             required
             value={content}
-            // sx={{ mt: 4, minHeight: '200px' }}
             sx={{ mt: 4 }}
           />
         </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <Link to="/challenge">
-            <Button variant="contained" sx={{ mt: 2 }} color="primary">
-              목록으로
+      </Grid>
+      <Grid container spacing={1} justifyContent="center" alignItems="center">
+        <Grid item xs={12} sm={12} sx={{ textAlign: 'center' }}>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 2, width: '180px' }}
+            color="primary"
+            onClick={handleEditClick}
+          >
+            수정 페이지로 이동
+          </Button>
+          <Link to="/challenge" sx={{ mr: 1 }}>
+            <Button
+              color="primary"
+              variant="outlined"
+              sx={{ mt: 2, ml: 1, width: '180px' }}
+            >
+              챌린지목록
             </Button>
           </Link>
-          {localStorage.getItem('userToken') ? (
-            // <Link to={`/challenge/update/${challenge_id}`}>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ mt: 2 }}
-              color="primary"
-              onClick={handleEditClick}
-            >
-              수정{challenge_id}
-            </Button>
-          ) : // </Link>
-          null}
         </Grid>
       </Grid>
     </StyledContainer>

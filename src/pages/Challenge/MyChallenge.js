@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid, Chip } from '@mui/material';
 import API from 'API';
 
 const MyChallenge = () => {
@@ -15,26 +15,36 @@ const MyChallenge = () => {
       try {
         const response = await API.get(`/api/challenge/participation`);
         setChallenges(response.data.data);
+        console.log('MyChanllenge', response.data.data);
       } catch (error) {
-        //alert('로그인');
-        console.log('Error MyData selecting data:', error);
+        console.log('Error MyChallenge', error);
       }
     };
     fetchChallenges();
   }, []);
 
+  if (challenges.length === 0 || challenges.length === null)
+    return <div>Loading...</div>;
+
   return (
-    <>
-      <Box sx={{ mb: 4, mt: 2, my: 4, marginTop: '50px' }}>
-        <Typography variant="h4" component="h1" align="center">
-          참여중 챌린지
-        </Typography>
-      </Box>
+    <Box sx={{ marginTop: '7rem' }}>
+      <Grid container spacing={3} justify="center" alignItems="center">
+        <Grid item xs sx={{ textAlign: 'right' }}>
+          <Typography style={{ fontSize: '32px' }}>참여중 챌린지</Typography>
+        </Grid>
+        <Grid item xs={5}></Grid>
+        <Grid item xs sx={{ textAlign: 'center' }}>
+          <Link to="/challenge/create">
+            <Chip
+              label="새 챌린지 생성하기"
+              sx={{ backgroundColor: '#F2BE5B' }}
+            />
+          </Link>
+        </Grid>
+      </Grid>
+
       <SliderChallenge joinedChallenge={challenges} />
-    </>
-    // <>
-    //   <Title>참여중 챌린지</Title>
-    // </>
+    </Box>
   );
 };
 
@@ -150,31 +160,6 @@ const ImgTitle = styled.h2`
 const Subtitle = styled.p`
   margin: 0;
   font-size: 14px;
-`;
-
-const RowContainer = styled.div`
-  display: flex;
-  gap: 24px;
-  width: 80%;
-  margin-top: 150px;
-  margin-left: 150px;
-  margin-bottom: 24px;
-  //border: 5px solid blue;
-  top: 50%;
-  left: 50%;
-`;
-
-const ColumnTitle = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  //border: 5px solid red;
-`;
-
-const Title = styled.h2`
-  font-size: 32px;
-  color: #333;
-  margin-bottom: 20px;
 `;
 
 export default MyChallenge;

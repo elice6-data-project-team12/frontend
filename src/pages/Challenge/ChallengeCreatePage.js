@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import ChallengeForm from './components/ChallengeItems/ChallengeForm';
 import LoginPage from 'pages/Login/LoginPage';
 
