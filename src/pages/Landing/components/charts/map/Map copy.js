@@ -35,7 +35,10 @@ const Map = ({ currentState }) => {
         projectionConfig={{ rotate: [-60, 0, 5], scale: 45000 }}
         data-tip=""
       >
-        <ZoomableGroup center={currentState.center} zoom={currentState.zoom}>
+        <ZoomableGroup
+          center={currentState.center}
+          zoom={currentState.zoom}
+        >
           <Geographies geography={currentState.map}>
             {({ geographies }) =>
               geographies.map(geo => {

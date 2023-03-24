@@ -1,57 +1,34 @@
-import React from 'react';
-import {
-  Chart as ChartJS,
-  LinearScale,
-  CategoryScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Legend,
-  Tooltip,
-  LineController,
-  BarController,
-} from 'chart.js';
-import { Chart } from 'react-chartjs-2';
+import styled from 'styled-components';
+import { Line } from 'react-chartjs-2';
 import { outing, communication } from 'pages/Landing/Data/chartData.js';
-ChartJS.register(
-  LinearScale,
-  CategoryScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Legend,
-  Tooltip,
-  LineController,
-  BarController
-);
-
-const labels = ['20대', '30대', '40대', '50대', '60대'];
 
 const data = {
-  labels,
+  labels: outing.map(data => data.age + '대'),
   datasets: [
     {
       type: 'line',
-      label: '커뮤니케이션 활동 지수',
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      borderWidth: 2,
-      fill: false,
+      label: '커뮤니케이션 지수',
+      backgroundColor: 'rgb(255, 99, 132)',
       data: communication.map(data => data.ratio),
+
+      borderColor: 'red',
+      borderWidth: 2,
     },
     {
       type: 'bar',
-      label: '외출이 많은 집단 지수',
+      label: '외출이 많은 집단',
       backgroundColor: 'rgb(75, 192, 192)',
       data: outing.map(data => data.ratio),
-      borderColor: 'white',
-      borderWidth: 2,
+
+      yAxisID: 'y_sub',
     },
   ],
 };
 
 const options = {
-  maxBarThickness: 45,
+  spanGaps: true,
+  maxBarThickness: 30,
+  grouped: true,
   interaction: {
     mode: 'index',
   },
@@ -67,7 +44,7 @@ const options = {
       },
     },
     tooltip: {
-      backgroundColor: '#F4C979',
+      backgroundColor: 'rgba(124, 35, 35, 0.4)',
       padding: 10,
       bodySpacing: 5,
       bodyFont: {
@@ -78,33 +55,52 @@ const options = {
       usePointStyle: true,
       filter: item => item.parsed.y !== null,
       callbacks: {
-        title: context => `${context[0].label}`,
+        title: context => `${context[0].label}💙`,
         label: context => {
           let label = `${context.dataset.label}||`;
 
           return context.parsed.y !== null
-            ? `${label}: ${context.parsed.y}`
+            ? `${label}: ${context.parsed.y}'배'`
             : null;
         },
       },
     },
   },
-
   scales: {
     x: {
+      afterTickToLabelConversion: function (scaleInstance) {
+        const ticks = scaleInstance.ticks;
+
+        const newTicks = ticks.map(tick => {
+          return {
+            ...tick,
+            label: `${tick.label}🎵`,
+          };
+        });
+
+        scaleInstance.ticks = newTicks;
+      },
       grid: {
         display: false,
         drawTicks: true,
         tickLength: 4,
+        color: '#E2E2E230',
       },
       axis: 'x',
       position: 'bottom',
       ticks: {
+        minRotation: 45,
         padding: 5,
       },
     },
     y: {
       type: 'linear',
+      grid: {
+        color: '#E2E2E230',
+      },
+      afterDataLimits: scale => {
+        scale.max = scale.max * 1.2;
+      },
       axis: 'y',
       display: true,
       position: 'left',
@@ -117,14 +113,31 @@ const options = {
           family: "'Noto Sans KR', sans-serif",
           weight: 300,
         },
-        text: '단위: 지수',
+        text: '단위: 배',
+      },
+    },
+    y_sub: {
+      position: 'right',
+      title: {
+        display: true,
+        align: 'end',
+        color: '#808080',
+        font: {
+          size: 12,
+          family: "'Noto Sans KR', sans-serif",
+          weight: 300,
+        },
+        text: '서울시',
+      },
+      afterDataLimits: scale => {
+        scale.max = scale.max * 1.2;
       },
     },
   },
 };
 
-const TwoChart = () => {
-  return <Chart type="bar" data={data} options={options} />;
+const Chart = () => {
+  return <Line type="line" data={data} options={options} />;
 };
 
-export default TwoChart;
+export default Chart;
