@@ -228,49 +228,6 @@ const LandingPage = () => {
         </Container>
       </Box>
 
-      {/* <Box sx={{ bgcolor: '#F8F9FA' }}>
-        <Container maxWidth="lg">
-          <Box sx={{ flexGrow: 1, display: 'flex' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginLeft: '50px',
-              }}
-            >
-              <Typography
-                sx={{ color: 'black', textAlign: 'center' }}
-                variant="h5"
-                gutterBottom
-              >
-                <br />
-                문화시설 정보를 찾고 부모님과 함께 외출해요.
-              </Typography>
-              <Typography
-                sx={{ color: 'grey', textAlign: 'center' }}
-                variant="body1"
-                gutterBottom
-              >
-                “매일 외출하는 노인은 건강 상태나 기능적 능력과 상관없이
-                외출하지 않는 노인보다 오래 사는 것으로 나타났다”
-                <br />
-                제레미 제이콥스 박사 - 하다사 메디컬 센터(Hadassah Medical
-                Center)
-              </Typography>
-              <Button sx={{ maxWidth: '200px' }} variant="contained">
-                문화여가시설 찾기
-              </Button>
-            </Box>
-            <img
-              src="https://i.ibb.co/sJYLz25/20230322-141751.png"
-              alt="20230322-141751"
-              border="0"
-            />
-          </Box>
-        </Container>
-      </Box> */}
       <Box sx={{ bgcolor: '#F8F9FA', m: 0 }}>
         <ImgWrap>
           <img
@@ -286,7 +243,69 @@ const LandingPage = () => {
                   flexGrow: 1,
                   display: 'flex',
                   position: 'absolute',
-                  top: 0,
+                  bottom: 60,
+                  marginLeft: '200px',
+                  // marginLeft: '250px',
+                  bgcolor: '#F8F9FA',
+                  borderTopLeftRadius: '50px',
+                  borderBottomLeftRadius: '50px',
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: '10px',
+                  }}
+                >
+                  <Typography
+                    sx={{ color: 'black', textAlign: 'center' }}
+                    variant="h5"
+                    gutterBottom
+                  >
+                    다양한 챌린지 활동으로
+                    <br />
+                    부모님과 함께 소중한 추억들을 만들어요.
+                  </Typography>
+                  <Typography
+                    sx={{ color: 'grey', textAlign: 'center' }}
+                    variant="body1"
+                    gutterBottom
+                  >
+                    “부모님께 효도하는 것은 매우 중요한 일입니다.
+                    <br />
+                    그러나 현대사회에서는 바쁜 일상과 다양한 유혹들로 인해 이를
+                    실천하기 어려울 수 있습니다.
+                    <br />
+                    이에 대해 여러 가지 챌린지를 만들어 참여해 서로의 소식을
+                    <br />
+                    나누고, 상담하며, 애정을 나누는 시간을 가질 수 있습니다.
+                  </Typography>
+                  <Link to="/culture">
+                    <Button sx={{ maxWidth: '200px' }} variant="contained">
+                      효도챌린지 도전
+                    </Button>
+                  </Link>
+                </Box>
+
+                <img
+                  src="https://i.ibb.co/K5tJWPY/20230324-155136.png"
+                  alt="20230322-141752"
+                  border="0"
+                />
+              </Box>
+            </Container>
+          </Box>
+          <Box sx={{ bgcolor: '#F8F9FA', mb: '50px', zIndex: 1000 }}>
+            <Container maxWidth="xl" sx={{ bgcolor: '#F8F9FA', opacity: 0.9 }}>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: 'flex',
+                  position: 'absolute',
+                  top: 60,
                   paddingRight: '20px',
                   bgcolor: '#F8F9FA',
                   borderRadius: '50px',

@@ -12,7 +12,7 @@ import SignupPage from './pages/signup/signupPage';
 import LoginPage from './pages/Login/LoginPage';
 import ItemPage from './pages/Board/ItemPage';
 import MyPage from './pages/User/MyPage';
-import NotFoundPage  from './pages/NotFound/NotFoundPage';
+import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 function Router() {
   return (

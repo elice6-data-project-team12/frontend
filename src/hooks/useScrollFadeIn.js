@@ -13,7 +13,7 @@ import { useRef, useEffect, useCallback } from 'react';
 
 const useScrollFadeIn = (direction = 'up', duration = 1, delay = 0) => {
   const element = useRef();
-  
+
   const handleDirection = name => {
     switch (name) {
       case 'up':
