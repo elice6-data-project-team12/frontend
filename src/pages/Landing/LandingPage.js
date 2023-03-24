@@ -10,7 +10,9 @@ import { Link } from 'react-router-dom';
 import PieChart from '../Landing/components/charts/PieChart';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import { display } from '@mui/system';
+
+import footerImg from 'layout/images/footerImg.jpg';
+import styled from 'styled-components';
 const LandingPage = () => {
   const animatedFadeInItem = {
     0: useScrollFadeIn('down', 1, 0),
@@ -23,13 +25,13 @@ const LandingPage = () => {
     0: useScrollFadeIn('up', 1, 0),
     1: useScrollFadeIn('left', 1, 0.2),
     2: useScrollFadeIn('left', 1, 0.3),
-    3: useScrollFadeIn('left', 1, 1),
+    3: useScrollFadeIn('left', 1, 0.5),
     4: useScrollFadeIn('up', 1, 3),
   };
 
   return (
     <Box sx={{ width: '100%', marginTop: '100px' }}>
-      <Box sx={{ bgcolor: '#FBF7F2', p: '50px' }} {...animatedFadeInItem[0]}>
+      <Box sx={{ bgcolor: '#FBF7F2', p: '40px' }} {...animatedFadeInItem[0]}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -43,8 +45,13 @@ const LandingPage = () => {
             <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
               1인가구 증가에 따른 사회적 고립 문제
             </Typography>
+            <br />
             <Typography
-              sx={{ color: 'grey', textAlign: 'center', fontSize: '20px' }}
+              sx={{
+                color: 'grey',
+                textAlign: 'center',
+                fontSize: '20px',
+              }}
               variant="body1"
               gutterBottom
             >
@@ -115,6 +122,7 @@ const LandingPage = () => {
               flexWrap: 'wrap',
               alignItems: 'center',
               justifyContent: 'center',
+              mb: '20px',
             }}
           >
             <PieChart />
@@ -124,13 +132,14 @@ const LandingPage = () => {
             variant="body1"
             gutterBottom
           >
-            50대 이후 연령대는 성인이 된 자녀를 모두 출가시키고, 배우자를 먼저
-            하늘나라로 보낸 이들이 있습니다. 위의 그래프를 보면, 연령대가 높아질
-            수록 혼인상태가 사별/이혼인 비율이 증가합니다.
+            50대 이후 연령대는 성인이 된 자녀를 모두 출가시키고, <br /> 배우자를
+            먼저 하늘나라로 보낸 이들이 있습니다. <br />
+            위의 그래프를 보면, 연령대가 높아질 수록 혼인상태가 사별/이혼인
+            비율이 증가합니다.
           </Typography>
         </Container>
       </Box>
-      <Box sx={{ bgcolor: '#FFFFFF', p: '50px' }} {...animatedPathItem[1]}>
+      <Box sx={{ bgcolor: '#FFFFFF', p: '20px' }} {...animatedPathItem[1]}>
         <Container maxWidth="md">
           <Box
             sx={{
@@ -153,7 +162,7 @@ const LandingPage = () => {
           </Box>
         </Container>
       </Box>
-      <Box sx={{ bgcolor: '#FBF7F2' }} {...animatedFadeInItem[3]}>
+      <Box sx={{ bgcolor: '#FBF7F2' }}>
         <Container maxWidth="md">
           <Box
             sx={{
@@ -161,8 +170,9 @@ const LandingPage = () => {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              p: '50px',
+              p: '20px',
             }}
+            {...animatedFadeInItem[3]}
           >
             <Typography sx={{ color: '#F2BE5B' }} variant="h4" gutterBottom>
               중장년층 이후 사회적 활동 감소
@@ -188,8 +198,8 @@ const LandingPage = () => {
               variant="body1"
               gutterBottom
             >
-              실제로 *커뮤니케이션 지수, *외출 지수와 같은 사회적 접촉량을
-              연령대 별로 살펴본 결과, <br />
+              커뮤니케이션 지수, 외출 지수와 같은 사회적 접촉량을 연령대 별로
+              살펴본 결과, <br />
               다른 연령대에 비해 수치가 현저히 낮은 것을 확인하였습니다.
             </Typography>
           </Box>
@@ -217,53 +227,8 @@ const LandingPage = () => {
           </Box>
         </Container>
       </Box>
-      <Box sx={{ bgcolor: '#F8F9FA' }}>
-        <Container maxWidth="lg">
-          <Box sx={{ flexGrow: 1, display: 'flex' }}>
-            <img
-              src="https://i.ibb.co/sJYLz25/20230322-141751.png"
-              alt="20230322-141751"
-              border="0"
-            />
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginLeft: '50px',
-              }}
-            >
-              <Typography
-                sx={{ color: 'black', textAlign: 'center' }}
-                variant="h5"
-                gutterBottom
-              >
-                문화시설 정보를 찾고
-                <br />
-                부모님과 함께 외출해요.
-              </Typography>
-              <Typography
-                sx={{ color: 'grey', textAlign: 'center' }}
-                variant="body1"
-                gutterBottom
-              >
-                “매일 외출하는 노인은 건강 상태나 기능적 능력과 상관없이
-                외출하지 않는 노인보다 오래 사는 것으로 나타났다”
-                <br />
-                <br />
-                제레미 제이콥스 박사 - Hadassah Medical Center
-              </Typography>
-              <Link to="/culture">
-                <Button sx={{ maxWidth: '200px' }} variant="contained">
-                  문화여가시설 찾기
-                </Button>
-              </Link>
-            </Box>
-          </Box>
-        </Container>
-      </Box>
-      <Box sx={{ bgcolor: '#F8F9FA' }}>
+
+      {/* <Box sx={{ bgcolor: '#F8F9FA' }}>
         <Container maxWidth="lg">
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
             <Box
@@ -305,9 +270,89 @@ const LandingPage = () => {
             />
           </Box>
         </Container>
+      </Box> */}
+      <Box sx={{ bgcolor: '#F8F9FA', m: 0 }}>
+        <ImgWrap>
+          <img
+            className="image-thumbnail"
+            src={footerImg}
+            alt="20230322-141751"
+            border="0"
+          />
+          <Box sx={{ bgcolor: '#F8F9FA', mb: '50px', zIndex: 1000 }}>
+            <Container maxWidth="xl" sx={{ bgcolor: '#F8F9FA', opacity: 0.9 }}>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: 'flex',
+                  position: 'absolute',
+                  top: 0,
+                  paddingRight: '20px',
+                  bgcolor: '#F8F9FA',
+                  borderRadius: '50px',
+                }}
+              >
+                <img
+                  src="https://i.ibb.co/sJYLz25/20230322-141751.png"
+                  alt="20230322-141751"
+                  border="0"
+                />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: '50px',
+                  }}
+                >
+                  <Typography
+                    sx={{ color: 'black', textAlign: 'center' }}
+                    variant="h5"
+                    gutterBottom
+                  >
+                    문화시설 정보를 찾고
+                    <br />
+                    부모님과 함께 외출해요.
+                  </Typography>
+                  <Typography
+                    sx={{ color: 'grey', textAlign: 'center' }}
+                    variant="body1"
+                    gutterBottom
+                  >
+                    “매일 외출하는 노인은 건강 상태나 기능적 능력과 상관없이
+                    <br />
+                    외출하지 않는 노인보다 오래 사는 것으로 나타났다”
+                    <br />
+                    <br />
+                    제레미 제이콥스 박사 - Hadassah Medical Center
+                  </Typography>
+                  <Link to="/culture">
+                    <Button sx={{ maxWidth: '200px' }} variant="contained">
+                      문화여가시설 찾기
+                    </Button>
+                  </Link>
+                </Box>
+              </Box>
+            </Container>
+          </Box>
+        </ImgWrap>
       </Box>
     </Box>
   );
 };
+
+const ImgWrap = styled.div`
+  display: 'flex';
+  position: relative;
+  height: 1000px;
+  width: 100%;
+  .image-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+  }
+`;
 
 export default LandingPage;
