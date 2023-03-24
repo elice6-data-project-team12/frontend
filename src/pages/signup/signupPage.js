@@ -1,33 +1,30 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import SignupForm from './components/SignupForm'
-import Button from '../../common/button';
-
+import SignupForm from './components/SignupForm';
 
 function SignupPage() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-
-    return(
+  return (
     <Container>
-      <MainTitle>
-        회원가입
-      </MainTitle>
+      <MainTitle>회원가입</MainTitle>
       <SignupBox>
-        <UpperColor><p>이메일로 회원가입</p></UpperColor>
+        <UpperColor>
+          <p>이메일로 회원가입</p>
+        </UpperColor>
         <TextBox>
-      <SignupForm />
-        <Link className="link-to-login" to="/user/login">
-          {'>'} 로그인하러 가기
-        </Link>
-        <Link className="link-to-home" to="/">
-          {'>'} 홈으로 이동
-        </Link>
+          <SignupForm />
+          <Link className="link-to-login" to="/user/login">
+            {'>'} 로그인하러 가기
+          </Link>
+          <Link className="link-to-home" to="/">
+            {'>'} 홈으로 이동
+          </Link>
         </TextBox>
       </SignupBox>
     </Container>
-    )
+  );
 }
 
 const Container = styled.div`
@@ -38,7 +35,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 4px groove red;
 `;
 
 const MainTitle = styled.div`
@@ -48,7 +44,6 @@ const MainTitle = styled.div`
   margin: 0 0 2% 0;
   display: flex;
   justify-content: center;
-  /* border: 4px groove red; */
 `;
 
 const SignupBox = styled.div`
@@ -57,13 +52,11 @@ const SignupBox = styled.div`
   text-align: center;
   border-radius: 15px;
   background: rgba(236, 233, 233, 1);
-  /* border: 4px groove green; */
 
   .error-msg {
     color: red;
     font-size: 12px;
     padding-top: 0px;
-    border: 4px groove red;
   }
   form {
     height: 75%;
@@ -72,16 +65,15 @@ const SignupBox = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    border: 4px groove red;
-     div {
+    div {
       width: 80%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      
-       .form-field {
+
+      .form-field {
         width: 70%;
-         input {
+        input {
           width: 100%;
           background-color: inherit;
         }
@@ -89,7 +81,8 @@ const SignupBox = styled.div`
     }
   }
 
-  .link-to-login, .link-to-home{
+  .link-to-login,
+  .link-to-home {
     font-size: 15px;
     margin: 10px 0 0 0;
   }
@@ -105,10 +98,10 @@ const UpperColor = styled.div`
   flex-direction: column;
   /* border: 4px groove red; */
 
-    p {
-      font-size: 15px;
-      font-weight: 600;
-    }
+  p {
+    font-size: 15px;
+    font-weight: 600;
+  }
 `;
 
 const TextBox = styled.div`
@@ -120,14 +113,12 @@ const TextBox = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  /* border: 4px groove red; */
 
-    span {
-      &:hover {
-        cursor: pointer;
-      }
+  span {
+    &:hover {
+      cursor: pointer;
     }
+  }
 `;
-
 
 export default SignupPage;

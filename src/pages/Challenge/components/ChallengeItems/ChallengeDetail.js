@@ -157,7 +157,10 @@ const ChallengeDetail = challenge => {
                   />
                 </Grid>
               </Grid>
-              <ChallengeIsJoin />
+              {/* <Button variant="contained" sx={{ mt: 2 }}>
+                참여하기
+              </Button> */}
+              <ChallengeIsJoin title={title} challenge_id={challenge_id} />
             </FormControl>
           </Box>
         </Grid>

@@ -170,7 +170,6 @@ function SignupForm() {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    border: 4px groove blue;
       div {
         width: 80%;
         display: flex;

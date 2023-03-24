@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
-import { Box, Typography, Grid, Chip } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import API from 'API';
 
 const MyChallenge = () => {
@@ -15,10 +15,7 @@ const MyChallenge = () => {
       try {
         const response = await API.get(`/api/challenge/participation`);
         setChallenges(response.data.data);
-        console.log('MyChanllenge', response.data.data);
-      } catch (error) {
-        console.log('Error MyChallenge', error);
-      }
+      } catch (error) {}
     };
     fetchChallenges();
   }, []);
@@ -33,14 +30,6 @@ const MyChallenge = () => {
           <Typography style={{ fontSize: '32px' }}>참여중 챌린지</Typography>
         </Grid>
         <Grid item xs={5}></Grid>
-        <Grid item xs sx={{ textAlign: 'center' }}>
-          <Link to="/challenge/create">
-            <Chip
-              label="새 챌린지 생성하기"
-              sx={{ backgroundColor: '#F2BE5B' }}
-            />
-          </Link>
-        </Grid>
       </Grid>
 
       <SliderChallenge joinedChallenge={challenges} />
@@ -48,7 +37,7 @@ const MyChallenge = () => {
   );
 };
 
-const SliderChallenge = ({ joinedChallenge }) => {
+export const SliderChallenge = ({ joinedChallenge }) => {
   const sliderSettings = {
     dots: true,
     speed: 500,
