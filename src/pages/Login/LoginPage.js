@@ -8,7 +8,10 @@ import Container from '@mui/material/Container';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { useDispatch } from 'react-redux';
+import { changeLogin } from 'store.js';
 
+const dispatch = useDispatch();
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -39,6 +42,8 @@ function LoginPage() {
       localStorage.setItem('decodedToken', JSON.stringify(decodedToken));
 
       localStorage.setItem('userId', decodedToken.userId);
+
+      dispatch(changeLogin(token));
 
       if (!localStorage.getItem('userId')) {
         navigate('/signup');
